@@ -12,6 +12,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -27,6 +28,7 @@ import java.util.Calendar;
 
 public class AddActivity extends AppCompatActivity {
 
+    public static final String TAG = "AddActivity";
     EditText etAddName;
     RadioGroup rgAdd;
     Switch sAddCoating;
@@ -65,6 +67,22 @@ public class AddActivity extends AppCompatActivity {
         }else if(tvAddDateChanged.getText().equals("")){
             Toast.makeText(this, "When were the strings last changed?", Toast.LENGTH_SHORT).show();
         }else{
+//            Log.d(TAG, "radio: " + rgAdd.getCheckedRadioButtonId());
+            int radioButtonID = rgAdd.getCheckedRadioButtonId();
+            View radioButton = rgAdd.findViewById(radioButtonID);
+            int idx = rgAdd.indexOfChild(radioButton);
+            Log.d(TAG, "radio: " + idx);
+            String blah = null;
+            if(idx == 0){
+                blah = InstrumentTypeStrings.ELECTRIC;
+            }else if(idx == 1){
+                blah = InstrumentTypeStrings.ACOUSTIC;
+            }else if(idx == 2){
+                blah = InstrumentTypeStrings.BASS;
+            }
+            Instrument instrument = new Instrument(etAddName.getText().toString(), sAddCoating.isChecked(), 123456789, blah);
+            InstrumentViewModel instrumentViewModel = new InstrumentViewModel(getApplication());
+            instrumentViewModel.insert(instrument);
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         }
