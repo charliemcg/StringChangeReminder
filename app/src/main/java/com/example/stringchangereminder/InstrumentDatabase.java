@@ -33,25 +33,25 @@ public abstract class InstrumentDatabase extends RoomDatabase {
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db){
             super.onCreate(db);
-            new PopulateDbAsyncTask(dbInstance).execute();
+//            new PopulateDbAsyncTask(dbInstance).execute();
         }
     };
 
-    private static class PopulateDbAsyncTask extends AsyncTask<Void, Void, Void>{
-        private InstrumentDao instrumentDao;
-        private PopulateDbAsyncTask(InstrumentDatabase db){
-            instrumentDao = db.instrumentDao();
-        }
-        @Override
-        protected Void doInBackground(Void... voids) {
-            Calendar calendar = Calendar.getInstance();
-            long sampleTime = calendar.getTimeInMillis() - 86400000;
-            instrumentDao.insert(new Instrument("Stratocaster", false, sampleTime, InstrumentTypeStrings.ELECTRIC));
-            instrumentDao.insert(new Instrument("Les Paul", false, sampleTime, InstrumentTypeStrings.ELECTRIC));
-            instrumentDao.insert(new Instrument("Maton", true, sampleTime, InstrumentTypeStrings.ACOUSTIC));
-            instrumentDao.insert(new Instrument("Rickenbacker", false, sampleTime, InstrumentTypeStrings.BASS));
-            return null;
-        }
-    }
+//    private static class PopulateDbAsyncTask extends AsyncTask<Void, Void, Void>{
+//        private InstrumentDao instrumentDao;
+//        private PopulateDbAsyncTask(InstrumentDatabase db){
+//            instrumentDao = db.instrumentDao();
+//        }
+//        @Override
+//        protected Void doInBackground(Void... voids) {
+//            Calendar calendar = Calendar.getInstance();
+//            long sampleTime = calendar.getTimeInMillis() - 86400000;
+//            instrumentDao.insert(new Instrument("Stratocaster", false, sampleTime, InstrumentTypeStrings.ELECTRIC));
+//            instrumentDao.insert(new Instrument("Les Paul", false, sampleTime, InstrumentTypeStrings.ELECTRIC));
+//            instrumentDao.insert(new Instrument("Maton", true, sampleTime, InstrumentTypeStrings.ACOUSTIC));
+//            instrumentDao.insert(new Instrument("Rickenbacker", false, sampleTime, InstrumentTypeStrings.BASS));
+//            return null;
+//        }
+//    }
 
 }

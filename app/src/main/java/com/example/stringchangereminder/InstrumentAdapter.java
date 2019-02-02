@@ -60,6 +60,10 @@ public class InstrumentAdapter extends RecyclerView.Adapter<InstrumentAdapter.In
         return instruments.size();
     }
 
+    public Instrument getInstrumentAt(int position) {
+        return instruments.get(position);
+    }
+
     void setInstruments(List<Instrument> instruments){
         this.instruments = instruments;
         notifyDataSetChanged();

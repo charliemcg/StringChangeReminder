@@ -1,5 +1,6 @@
 package com.example.stringchangereminder;
 
+import android.app.Dialog;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,10 +17,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    InstrumentAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +50,7 @@ public class MainActivity extends AppCompatActivity
         recyclerView.setHasFixedSize(true);
 
         //setting up the adapter
-        InstrumentAdapter adapter = new InstrumentAdapter(this);
+        adapter = new InstrumentAdapter(this);
         recyclerView.setAdapter(adapter);
 
         //observing the recycler view items for changes
@@ -51,7 +58,7 @@ public class MainActivity extends AppCompatActivity
         instrumentViewModel.getAllInstruments().observe(this, instruments -> {
             adapter.setInstruments(instruments);
             if (adapter.getItemCount() == 0) {
-                Toast.makeText(this, "No instruments", Toast.LENGTH_SHORT).show();
+                //TODO actions to occur when empty
             }
         });
 
@@ -77,7 +84,7 @@ public class MainActivity extends AppCompatActivity
             intent = new Intent(this, AddActivity.class);
             startActivity(intent);
         } else if (id == R.id.miEdit) {
-
+            showInstrumentPicker();
         } else if (id == R.id.miShare) {
 
         } else if (id == R.id.miSend) {
@@ -87,5 +94,32 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void showInstrumentPicker() {
+        final Dialog dialog = new Dialog(MainActivity.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+
+        dialog.setContentView(R.layout.dialog_instrument_picker);
+
+        RadioGroup radioGroup = dialog.findViewById(R.id.rgInstrumentPicker);
+        for(int i = 0; i < adapter.getItemCount(); i++){
+            RadioButton rb = new RadioButton(this);
+            rb.setText(adapter.getInstrumentAt(i).getName());
+            radioGroup.addView(rb);
+            int finalI = i;
+            rb.setOnClickListener(view -> {
+                Intent intent = new Intent(this, EditActivity.class);
+                intent.putExtra("ID_KEY", adapter.getInstrumentAt(finalI).getId());
+                startActivity(intent);
+                dialog.cancel();
+            });
+        }
+
+        Button btnBack = dialog.findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(view -> dialog.cancel());
+
+        dialog.show();
     }
 }

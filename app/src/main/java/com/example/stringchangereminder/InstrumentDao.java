@@ -24,4 +24,6 @@ public interface InstrumentDao {
     @Query("SELECT * FROM instrument_table")
     LiveData<List<Instrument>> getAllInstruments();
 
+    @Query("SELECT * FROM instrument_table WHERE id= :id")
+    Instrument getInstrument(Integer id);
 }

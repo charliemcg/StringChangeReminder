@@ -5,49 +5,37 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".AddActivity"
-    tools:showIn="@layout/activity_add">
-
-    <TextView
-        android:id="@+id/tvAddName"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_margin="10dp"
-        android:text="Name"
-        android:gravity="center_vertical"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/etAddName"/>
+    tools:context=".EditActivity"
+    tools:showIn="@layout/activity_edit">
 
     <EditText
-        android:id="@+id/etAddName"
-        android:layout_width="450dp"
+        android:id="@+id/etUpdateName"
+        android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_margin="10dp"
         android:hint="Add name"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@id/tvAddName"/>
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <RadioGroup
-        android:id="@+id/rgAdd"
+        android:id="@+id/rgUpdate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/etAddName">
+        app:layout_constraintTop_toBottomOf="@id/etUpdateName">
         <RadioButton
-            android:id="@+id/rbAddElectric"
+            android:id="@+id/rbUpdateElectric"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:text="Electric"/>
         <RadioButton
-            android:id="@+id/rbAddAcoustic"
+            android:id="@+id/rbUpdateAcoustic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:text="Acoustic"/>
         <RadioButton
-            android:id="@+id/rbAddBass"
+            android:id="@+id/rbUpdateBass"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -55,54 +43,55 @@
     </RadioGroup>
 
     <TextView
-        android:id="@+id/tvAddCoatingLabel"
+        android:id="@+id/tvUpdateCoatingLabel"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_margin="10dp"
         android:text="Coated?"
         android:gravity="center_vertical"
-        app:layout_constraintTop_toBottomOf="@id/rgAdd"
+        app:layout_constraintTop_toBottomOf="@id/rgUpdate"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/sAddCoating"/>
+        app:layout_constraintEnd_toStartOf="@id/sUpdateCoating"/>
 
     <Switch
-        android:id="@+id/sAddCoating"
+        android:id="@+id/sUpdateCoating"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_margin="10dp"
         android:gravity="center_vertical"
-        app:layout_constraintTop_toBottomOf="@+id/rgAdd"
-        app:layout_constraintStart_toEndOf="@id/tvAddCoatingLabel"/>
+        app:layout_constraintTop_toBottomOf="@+id/rgUpdate"
+        app:layout_constraintStart_toEndOf="@id/tvUpdateCoatingLabel"/>
 
     <TextView
-        android:id="@+id/tvAddDateChangedLabel"
+        android:id="@+id/tvUpdateDateChangedLabel"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_margin="10dp"
         android:text="Time Last Changed"
         android:gravity="center_vertical"
-        app:layout_constraintTop_toBottomOf="@id/tvAddCoatingLabel"
+        app:layout_constraintTop_toBottomOf="@id/tvUpdateCoatingLabel"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/tvAddDateChanged"/>
+        app:layout_constraintEnd_toStartOf="@id/tvUpdateDateChanged"/>
 
     <TextView
-        android:id="@+id/tvAddDateChanged"
+        android:id="@+id/tvUpdateDateChanged"
         android:layout_width="250dp"
         android:layout_height="50dp"
         android:layout_margin="10dp"
         android:gravity="center"
         android:background="@drawable/text_view_background"
         android:onClick="showCalendarDialog"
-        app:layout_constraintTop_toBottomOf="@id/sAddCoating"
-        app:layout_constraintStart_toEndOf="@id/tvAddDateChangedLabel"/>
+        app:layout_constraintTop_toBottomOf="@id/sUpdateCoating"
+        app:layout_constraintStart_toEndOf="@id/tvUpdateDateChangedLabel"/>
 
     <Button
-        android:id="@+id/btnSubmit"
+        android:id="@+id/btnUpdate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="Submit"
-        android:onClick="submit"
-        app:layout_constraintTop_toBottomOf="@id/tvAddDateChanged"/>
+        android:text="Update"
+        android:onClick="update"
+        app:layout_constraintTop_toBottomOf="@id/tvUpdateDateChanged"/>
+
 
 </android.support.constraint.ConstraintLayout>

@@ -29,11 +29,12 @@ import java.util.Calendar;
 public class AddActivity extends AppCompatActivity {
 
     public static final String TAG = "AddActivity";
-    EditText etAddName;
-    RadioGroup rgAdd;
-    Switch sAddCoating;
-    static TextView tvAddDateChanged;
-    Button btnSubmit;
+    private EditText etAddName;
+    private RadioGroup rgAdd;
+    private Switch sAddCoating;
+    private static TextView tvAddDateChanged;
+    private Button btnSubmit;
+    private static long stamp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +61,7 @@ public class AddActivity extends AppCompatActivity {
     }
 
     public void submit(View view) {
+        //validating that there are no nulls
         if(etAddName.getText().toString().equals("")){
             Toast.makeText(this, "Your instrument needs a name", Toast.LENGTH_SHORT).show();
         }else if(rgAdd.getCheckedRadioButtonId() == -1){
@@ -67,20 +69,8 @@ public class AddActivity extends AppCompatActivity {
         }else if(tvAddDateChanged.getText().equals("")){
             Toast.makeText(this, "When were the strings last changed?", Toast.LENGTH_SHORT).show();
         }else{
-//            Log.d(TAG, "radio: " + rgAdd.getCheckedRadioButtonId());
-            int radioButtonID = rgAdd.getCheckedRadioButtonId();
-            View radioButton = rgAdd.findViewById(radioButtonID);
-            int idx = rgAdd.indexOfChild(radioButton);
-            Log.d(TAG, "radio: " + idx);
-            String blah = null;
-            if(idx == 0){
-                blah = InstrumentTypeStrings.ELECTRIC;
-            }else if(idx == 1){
-                blah = InstrumentTypeStrings.ACOUSTIC;
-            }else if(idx == 2){
-                blah = InstrumentTypeStrings.BASS;
-            }
-            Instrument instrument = new Instrument(etAddName.getText().toString(), sAddCoating.isChecked(), 123456789, blah);
+            String instrumentType = getRadioValue();
+            Instrument instrument = new Instrument(etAddName.getText().toString(), sAddCoating.isChecked(), stamp, instrumentType);
             InstrumentViewModel instrumentViewModel = new InstrumentViewModel(getApplication());
             instrumentViewModel.insert(instrument);
             Intent intent = new Intent(this, MainActivity.class);
@@ -88,6 +78,19 @@ public class AddActivity extends AppCompatActivity {
         }
     }
 
+    private String getRadioValue() {
+        int radioButtonID = rgAdd.getCheckedRadioButtonId();
+        View radioButton = rgAdd.findViewById(radioButtonID);
+        int idx = rgAdd.indexOfChild(radioButton);
+        if(idx == 0){
+            return InstrumentTypeStrings.ELECTRIC;
+        }else if(idx == 1){
+            return InstrumentTypeStrings.ACOUSTIC;
+        }else if(idx == 2){
+            return InstrumentTypeStrings.BASS;
+        }
+        return null;
+    }
 
     public static class DatePickerDialogFrag extends DialogFragment
             implements DatePickerDialog.OnDateSetListener {
@@ -103,72 +106,34 @@ public class AddActivity extends AppCompatActivity {
 
             DatePickerDialog datePickerDialog;
 
-//            if(task.getTimestamp() != 0){
-//                Calendar cal = Calendar.getInstance();
-//                cal.setTimeInMillis(task.getTimestamp());
-//                year = cal.get(Calendar.YEAR);
-//                month = cal.get(Calendar.MONTH);
-//                day = cal.get(Calendar.DAY_OF_MONTH);
-//            }else if(tempDay != -1) {
-//                year = tempYear;
-//                month = tempMonth;
-//                day = tempDay;
-//            }else{
-//                year = calendar.get(Calendar.YEAR);
-//                month = calendar.get(Calendar.MONTH);
-//                day = calendar.get(Calendar.DAY_OF_MONTH);
-//            }
-
             //Initialise date picker
             datePickerDialog = new DatePickerDialog(getActivity(),
                     AlertDialog.THEME_DEVICE_DEFAULT_LIGHT, this, year, month, day);
 
-            //Make so all previous dates are inactive.
-            //User shouldn't be able to set due date to in the past
-//            datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+            //Make so all future dates are inactive
+            datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
 
             return datePickerDialog;
         }
 
         public void onDateSet(DatePicker view, int year, int month, int day) {
 
-//            if (!boolMute) {
-//                mpBlip.start();
-//            }
-//
-//            TextView tvDate = getActivity().findViewById(R.id.tvDate);
-//
-//            vibrate.vibrate(50);
-//
-//            ImageView calendarFadedLight = getActivity().findViewById(R.id.imgCalendarFaded);
-//            calendarFadedLight.setVisibility(View.INVISIBLE);
-//
-//            ImageView calendar = getActivity().findViewById(R.id.imgCalendar);
-//            calendar.setVisibility(View.VISIBLE);
-//
-//            if (screenSize == 3) {
-//                tvDate.setTextSize(65);
-//            } else if (screenSize == 4) {
-//                tvDate.setTextSize(85);
-//            } else {
-//                tvDate.setTextSize(25);
-//            }
-//
-//            killReminder.setVisible(true);
-//
-//            reminderPresenter.setYear(year);
-//            reminderPresenter.setMonth(month);
-//            reminderPresenter.setDay(day);
-//
-//            tempDay = day;
-//            tempMonth = month;
-//            tempYear = year;
-//
-//            dateSet = true;
-//
-//            tvDate.setText(reminderPresenter.getFormattedDate());
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.YEAR, year);
+            calendar.set(Calendar.MONTH, month);
+            calendar.set(Calendar.DAY_OF_MONTH, day);
+            stamp = calendar.getTimeInMillis();
 
-            tvAddDateChanged.setText("Blah");
+            long timeNow = Calendar.getInstance().getTimeInMillis();
+            long age = (timeNow - stamp) / 86400000;
+            String strAge;
+            if(age == 1){
+                strAge = age + " day ago";
+            }else{
+                strAge = age + " days ago";
+            }
+
+            tvAddDateChanged.setText(strAge);
 
         }
 

@@ -24,4 +24,7 @@ public class InstrumentViewModel extends AndroidViewModel {
 
     public LiveData<List<Instrument>> getAllInstruments(){return allInstruments;}
 
+    public Instrument getInstrument(int id) {
+        return repository.getInstrument(id);
+    }
 }

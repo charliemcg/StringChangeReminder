@@ -5,6 +5,7 @@ import android.arch.lifecycle.LiveData;
 import android.os.AsyncTask;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class InstrumentRepository {
 
@@ -23,6 +24,16 @@ public class InstrumentRepository {
     void delete(Instrument instrument){new DeleteInstrumentAsyncTask(instrumentDao).execute(instrument);}
 
     LiveData<List<Instrument>> getAllInstruments(){return allInstruments;}
+
+    public Instrument getInstrument(int id) {
+        AsyncTask<Integer, Void, Instrument> result = new GetInstrumentAsyncTask(instrumentDao).execute(id);
+        try{
+            return result.get();
+        }catch (InterruptedException | ExecutionException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     //Performing these tasks off of the UI thread
     private static class InsertInstrumentAsyncTask extends AsyncTask<Instrument, Void, Void> {
@@ -67,4 +78,13 @@ public class InstrumentRepository {
         }
     }
 
+    private static class GetInstrumentAsyncTask extends AsyncTask<Integer, Void, Instrument> {
+        private InstrumentDao instrumentDao;
+        GetInstrumentAsyncTask(InstrumentDao instrumentDao) {this.instrumentDao = instrumentDao;}
+
+        @Override
+        protected Instrument doInBackground(Integer... integers) {
+            return instrumentDao.getInstrument(integers[0]);
+        }
+    }
 }
