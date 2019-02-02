@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".AddActivity"
+    tools:showIn="@layout/activity_add">
+
+    <TextView
+        android:id="@+id/tvAddName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Name"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/etAddName"/>
+
+    <EditText
+        android:id="@+id/etAddName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Add name"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tvAddName"/>
+
+    <RadioGroup
+        android:id="@+id/rgAdd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/etAddName">
+        <RadioButton
+            android:id="@+id/rbAddElectric"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Electric"/>
+        <RadioButton
+            android:id="@+id/rbAddAcoustic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Acoustic"/>
+        <RadioButton
+            android:id="@+id/rbAddBass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Bass"/>
+    </RadioGroup>
+
+    <Switch
+        android:id="@+id/sAddCoating"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Coated?"
+        app:layout_constraintTop_toBottomOf="@+id/rgAdd"/>
+
+    <TextView
+        android:id="@+id/tvAddDateChanged"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Time last changed"
+        android:onClick="showCalendarDialog"
+        app:layout_constraintTop_toBottomOf="@id/sAddCoating"/>
+
+    <Button
+        android:id="@+id/btnSubmit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Submit"
+        android:onClick="submit"
+        app:layout_constraintTop_toBottomOf="@id/tvAddDateChanged"/>
+
+</android.support.constraint.ConstraintLayout>

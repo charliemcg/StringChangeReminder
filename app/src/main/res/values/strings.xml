@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">String Change Reminder</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_subtitle">violenthoboenterprises@gmail.com</string>
+    <string name="nav_header_desc">App icon</string>
+    <string name="title_activity_add">AddActivity</string>
+</resources>
