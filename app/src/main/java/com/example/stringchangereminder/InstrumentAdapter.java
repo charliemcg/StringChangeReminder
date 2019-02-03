@@ -26,6 +26,7 @@ public class InstrumentAdapter extends RecyclerView.Adapter<InstrumentAdapter.In
     @NonNull
     @Override
     public InstrumentAdapter.InstrumentHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        //inflating the view
         View itemView = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.item_layout, viewGroup, false);
         return new InstrumentHolder(itemView);
@@ -34,6 +35,7 @@ public class InstrumentAdapter extends RecyclerView.Adapter<InstrumentAdapter.In
     @Override
     public void onBindViewHolder(@NonNull InstrumentAdapter.InstrumentHolder instrumentHolder, int i) {
         final Instrument instrument = instruments.get(i);
+        //showing correct image that represents the instrument type
         if(instrument.getType().matches(InstrumentTypeStrings.ELECTRIC)){
             instrumentHolder.imgInstrument.setImageDrawable(context.getDrawable(R.drawable.electric_guitar));
         }else if(instrument.getType().matches(InstrumentTypeStrings.BASS)){
@@ -42,6 +44,7 @@ public class InstrumentAdapter extends RecyclerView.Adapter<InstrumentAdapter.In
             instrumentHolder.imgInstrument.setImageDrawable(context.getDrawable(R.drawable.acoustic_guitar));
         }
         instrumentHolder.tvName.setText(instrument.getName());
+        //calculating age of strings
         long changedStamp = instrument.getLastChanged();
         long timeNow = Calendar.getInstance().getTimeInMillis();
         long age = (timeNow - changedStamp) / 86400000;
@@ -53,6 +56,7 @@ public class InstrumentAdapter extends RecyclerView.Adapter<InstrumentAdapter.In
         }
         instrumentHolder.tvAge.setText(strAge);
         instrumentHolder.tvCoated.setText("Coated: " + instrument.isCoated());
+        //indicates the quality of the strings
         String strStatus;
         if(age < 15){
             strStatus = "Status: Good";

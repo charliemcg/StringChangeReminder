@@ -30,7 +30,6 @@ public class EditActivity extends AppCompatActivity {
     private RadioButton rbUpdateBass;
     private Switch sUpdateCoating;
     private static TextView tvUpdateDateChanged;
-    private Button btnUpdate;
     private static long stamp;
     private Instrument instrument;
     private InstrumentViewModel instrumentViewModel;
@@ -49,16 +48,16 @@ public class EditActivity extends AppCompatActivity {
         rbUpdateBass = findViewById(R.id.rbUpdateBass);
         sUpdateCoating = findViewById(R.id.sUpdateCoating);
         tvUpdateDateChanged = findViewById(R.id.tvUpdateDateChanged);
-        btnUpdate = findViewById(R.id.btnUpdate);
         int id = getIntent().getIntExtra("ID_KEY", 0);
         InstrumentViewModel instrumentViewModel = new InstrumentViewModel(getApplication());
+        //getting the instrument that's being edited
         instrument = instrumentViewModel.getInstrument(id);
-        instrumentViewModel = new InstrumentViewModel(getApplication());
 
         populateFields();
 
     }
 
+    //setting existing values into the fields
     private void populateFields() {
         etUpdateName.setText(instrument.getName());
         setRadio();
@@ -67,6 +66,7 @@ public class EditActivity extends AppCompatActivity {
         tvUpdateDateChanged.setText(getAge());
     }
 
+    //getting age of strings
     private String getAge() {
         long timeNow = Calendar.getInstance().getTimeInMillis();
         long age = (timeNow - stamp) / 86400000;
@@ -77,6 +77,7 @@ public class EditActivity extends AppCompatActivity {
         }
     }
 
+    //setting radio button relative to instrument type
     private void setRadio() {
         if(instrument.getType().matches(InstrumentTypeStrings.ELECTRIC)){
             rbUpdateElectric.toggle();
@@ -87,6 +88,7 @@ public class EditActivity extends AppCompatActivity {
         }
     }
 
+    //show date picker if user selects to edit string age
     public void showCalendarDialog(View view) {
 
         //TODO deal with this deprecation
@@ -106,9 +108,11 @@ public class EditActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
+        //remove record of this instrument from the database
         if (id == R.id.miDelete) {
             instrumentViewModel = new InstrumentViewModel(getApplication());
             instrumentViewModel.delete(instrument);
+            //return to main activity after deleting instrument
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
             return true;
@@ -116,6 +120,7 @@ public class EditActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    //updating the instrument in the database when 'update' clicked
     public void update(View view) {
         instrumentViewModel = new InstrumentViewModel(getApplication());
         instrument.setName(etUpdateName.getText().toString());
@@ -127,15 +132,16 @@ public class EditActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    //getting the instrument type as indicated view the radiogroup
     private String getRadioValue() {
         int radioButtonID = rgUpdate.getCheckedRadioButtonId();
         View radioButton = rgUpdate.findViewById(radioButtonID);
-        int idx = rgUpdate.indexOfChild(radioButton);
-        if(idx == 0){
+        int index = rgUpdate.indexOfChild(radioButton);
+        if(index == 0){
             return InstrumentTypeStrings.ELECTRIC;
-        }else if(idx == 1){
+        }else if(index == 1){
             return InstrumentTypeStrings.ACOUSTIC;
-        }else if(idx == 2){
+        }else if(index == 2){
             return InstrumentTypeStrings.BASS;
         }
         return null;

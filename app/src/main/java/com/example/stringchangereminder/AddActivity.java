@@ -39,9 +39,7 @@ public class AddActivity extends AppCompatActivity {
     private RadioGroup rgAdd;
     private Switch sAddCoating;
     private static TextView tvAddDateChanged;
-    private Button btnSubmit;
     private static long stamp;
-    private long THIRTY_DAYS = 2592000000L;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,10 +52,9 @@ public class AddActivity extends AppCompatActivity {
         rgAdd = findViewById(R.id.rgAdd);
         sAddCoating = findViewById(R.id.sAddCoating);
         tvAddDateChanged = findViewById(R.id.tvAddDateChanged);
-        btnSubmit = findViewById(R.id.btnSubmit);
-
     }
 
+    //Show date picker when user clicks on the date changed field
     public void showCalendarDialog(View view) {
 
         //TODO deal with this deprecation
@@ -67,6 +64,7 @@ public class AddActivity extends AppCompatActivity {
 
     }
 
+    //actions to occur when user clicks 'submit'
     public void submit(View view) {
         //validating that there are no nulls
         if(etAddName.getText().toString().equals("")){
@@ -76,67 +74,27 @@ public class AddActivity extends AppCompatActivity {
         }else if(tvAddDateChanged.getText().equals("")){
             Toast.makeText(this, "When were the strings last changed?", Toast.LENGTH_SHORT).show();
         }else{
+            //creating the new instrument
             String instrumentType = getRadioValue();
             Instrument instrument = new Instrument(etAddName.getText().toString(), sAddCoating.isChecked(), stamp, instrumentType);
             InstrumentViewModel instrumentViewModel = new InstrumentViewModel(getApplication());
             instrumentViewModel.insert(instrument);
+            //returning to the main activity
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
-//            scheduleStart(instrument);
-//            createNotification(instrument);
-
         }
     }
 
-    private void createNotification(Instrument instrument) {
-        Intent alertIntent = new Intent(getApplicationContext(), TheJobService.class);
-
-        //Setting alarm
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(
-                getApplicationContext(), instrument.getId(), alertIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT);
-
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-
-        alarmManager.cancel(pendingIntent);
-
-        alarmManager.set(AlarmManager.RTC,
-                THIRTY_DAYS,
-                pendingIntent);
-    }
-
-    private void scheduleStart(Instrument instrument) {
-//        ComponentName componentName = new ComponentName(this, TheJobService.class);
-//        JobInfo info = new JobInfo.Builder(instrument.getId(), componentName)
-//                .setRequiresCharging(false)
-//                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED)
-//                .setPersisted(true)
-//                .build();
-//
-//        JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
-//        int resultCode = scheduler.schedule(info);
-//        if (resultCode == JobScheduler.RESULT_SUCCESS) {
-//            Log.d(TAG, "Job scheduled");
-//        } else {
-//            Log.d(TAG, "Job scheduling failed");
-//        }
-        JobScheduler jobScheduler =
-                (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
-        jobScheduler.schedule(new JobInfo.Builder(instrument.getId(),
-                new ComponentName(this, TheJobService.class))
-                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
-                .build());
-    }
-
+    //getting the instrument type
     private String getRadioValue() {
         int radioButtonID = rgAdd.getCheckedRadioButtonId();
         View radioButton = rgAdd.findViewById(radioButtonID);
-        int idx = rgAdd.indexOfChild(radioButton);
-        if(idx == 0){
+        int index = rgAdd.indexOfChild(radioButton);
+        if(index == 0){
             return InstrumentTypeStrings.ELECTRIC;
-        }else if(idx == 1){
+        }else if(index == 1){
             return InstrumentTypeStrings.ACOUSTIC;
-        }else if(idx == 2){
+        }else if(index == 2){
             return InstrumentTypeStrings.BASS;
         }
         return null;
@@ -174,6 +132,7 @@ public class AddActivity extends AppCompatActivity {
             calendar.set(Calendar.DAY_OF_MONTH, day);
             stamp = calendar.getTimeInMillis();
 
+            //calculating age of string
             long timeNow = Calendar.getInstance().getTimeInMillis();
             long age = (timeNow - stamp) / 86400000;
             String strAge;

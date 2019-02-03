@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //setting up the navigation drawer
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -84,16 +85,19 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
 
+        //detecting clicks on nav menu items
         int id = item.getItemId();
         Intent intent;
 
+        //go to Add activity
         if (id == R.id.miAdd) {
             intent = new Intent(this, AddActivity.class);
             startActivity(intent);
+        //prompt user to pick instrument to edit
         } else if (id == R.id.miEdit) {
             showInstrumentPicker();
         } else if (id == R.id.miShare) {
-//            scheduleStart();
+
         } else if (id == R.id.miSend) {
 
         }
@@ -104,12 +108,15 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void showInstrumentPicker() {
+
+        //creating a dialog
         final Dialog dialog = new Dialog(MainActivity.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(false);
 
         dialog.setContentView(R.layout.dialog_instrument_picker);
 
+        //creating a radio button for each instrument
         RadioGroup radioGroup = dialog.findViewById(R.id.rgInstrumentPicker);
         for(int i = 0; i < adapter.getItemCount(); i++){
             RadioButton rb = new RadioButton(this);
@@ -117,19 +124,23 @@ public class MainActivity extends AppCompatActivity
             radioGroup.addView(rb);
             int finalI = i;
             rb.setOnClickListener(view -> {
+                //go to Edit activity
                 Intent intent = new Intent(this, EditActivity.class);
+                //pass the ID of the instrument to edit
                 intent.putExtra("ID_KEY", adapter.getInstrumentAt(finalI).getId());
                 startActivity(intent);
                 dialog.cancel();
             });
         }
 
+        //creating a back button
         Button btnBack = dialog.findViewById(R.id.btnBack);
         btnBack.setOnClickListener(view -> dialog.cancel());
 
         dialog.show();
     }
 
+    //building a job that runs everyday. it checks for any instruments that need to be restrung
     private void scheduleStart() {
         JobScheduler jobScheduler =
                 (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
