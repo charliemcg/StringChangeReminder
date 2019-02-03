@@ -1,10 +1,16 @@
 package com.example.stringchangereminder;
 
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -35,6 +41,7 @@ public class AddActivity extends AppCompatActivity {
     private static TextView tvAddDateChanged;
     private Button btnSubmit;
     private static long stamp;
+    private long THIRTY_DAYS = 2592000000L;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +82,50 @@ public class AddActivity extends AppCompatActivity {
             instrumentViewModel.insert(instrument);
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
+//            scheduleStart(instrument);
+//            createNotification(instrument);
+
         }
+    }
+
+    private void createNotification(Instrument instrument) {
+        Intent alertIntent = new Intent(getApplicationContext(), TheJobService.class);
+
+        //Setting alarm
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                getApplicationContext(), instrument.getId(), alertIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+        alarmManager.cancel(pendingIntent);
+
+        alarmManager.set(AlarmManager.RTC,
+                THIRTY_DAYS,
+                pendingIntent);
+    }
+
+    private void scheduleStart(Instrument instrument) {
+//        ComponentName componentName = new ComponentName(this, TheJobService.class);
+//        JobInfo info = new JobInfo.Builder(instrument.getId(), componentName)
+//                .setRequiresCharging(false)
+//                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED)
+//                .setPersisted(true)
+//                .build();
+//
+//        JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
+//        int resultCode = scheduler.schedule(info);
+//        if (resultCode == JobScheduler.RESULT_SUCCESS) {
+//            Log.d(TAG, "Job scheduled");
+//        } else {
+//            Log.d(TAG, "Job scheduling failed");
+//        }
+        JobScheduler jobScheduler =
+                (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
+        jobScheduler.schedule(new JobInfo.Builder(instrument.getId(),
+                new ComponentName(this, TheJobService.class))
+                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+                .build());
     }
 
     private String getRadioValue() {

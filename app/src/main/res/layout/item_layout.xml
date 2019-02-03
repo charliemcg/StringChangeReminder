@@ -37,6 +37,15 @@
         android:textSize="20sp"
         app:layout_constraintTop_toBottomOf="@id/tvName"
         app:layout_constraintStart_toEndOf="@id/tvAge"
+        app:layout_constraintEnd_toStartOf="@id/tvStatus"/>
+
+    <TextView
+        android:id="@+id/tvStatus"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        app:layout_constraintTop_toBottomOf="@id/tvName"
+        app:layout_constraintStart_toEndOf="@id/tvCoated"
         app:layout_constraintEnd_toEndOf="parent"/>
 
 </android.support.constraint.ConstraintLayout>

@@ -53,6 +53,15 @@ public class InstrumentAdapter extends RecyclerView.Adapter<InstrumentAdapter.In
         }
         instrumentHolder.tvAge.setText(strAge);
         instrumentHolder.tvCoated.setText("Coated: " + instrument.isCoated());
+        String strStatus;
+        if(age < 15){
+            strStatus = "Status: Good";
+        }else if(age < 30){
+            strStatus = "Status: Dull";
+        }else{
+            strStatus = "Status: Rusty";
+        }
+        instrumentHolder.tvStatus.setText(strStatus);
     }
 
     @Override
@@ -74,12 +83,14 @@ public class InstrumentAdapter extends RecyclerView.Adapter<InstrumentAdapter.In
         private TextView tvName;
         private TextView tvAge;
         private TextView tvCoated;
+        private TextView tvStatus;
         InstrumentHolder(@NonNull View itemView) {
             super(itemView);
             imgInstrument = itemView.findViewById(R.id.imgInstrument);
             tvName = itemView.findViewById(R.id.tvName);
             tvAge = itemView.findViewById(R.id.tvAge);
             tvCoated = itemView.findViewById(R.id.tvCoated);
+            tvStatus = itemView.findViewById(R.id.tvStatus);
         }
     }
 }

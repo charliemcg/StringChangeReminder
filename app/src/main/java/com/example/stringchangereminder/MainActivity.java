@@ -1,7 +1,11 @@
 package com.example.stringchangereminder;
 
 import android.app.Dialog;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -58,9 +62,12 @@ public class MainActivity extends AppCompatActivity
         instrumentViewModel.getAllInstruments().observe(this, instruments -> {
             adapter.setInstruments(instruments);
             if (adapter.getItemCount() == 0) {
-                //TODO actions to occur when empty
+                drawer.openDrawer(GravityCompat.START);
             }
         });
+
+        //TODO check if this thing is running
+        scheduleStart();
 
     }
 
@@ -86,7 +93,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.miEdit) {
             showInstrumentPicker();
         } else if (id == R.id.miShare) {
-
+//            scheduleStart();
         } else if (id == R.id.miSend) {
 
         }
@@ -121,5 +128,22 @@ public class MainActivity extends AppCompatActivity
         btnBack.setOnClickListener(view -> dialog.cancel());
 
         dialog.show();
+    }
+
+    private void scheduleStart() {
+        JobScheduler jobScheduler =
+                (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
+        jobScheduler.schedule(new JobInfo.Builder(0,
+                new ComponentName(this, TheJobService.class))
+                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+                .setPersisted(true)
+                .setPeriodic(86400000L)
+                .build());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        adapter.notifyDataSetChanged();
     }
 }
