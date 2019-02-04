@@ -3,15 +3,11 @@ package com.example.stringchangereminder;
 import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -79,11 +75,11 @@ public class EditActivity extends AppCompatActivity {
 
     //setting radio button relative to instrument type
     private void setRadio() {
-        if(instrument.getType().matches(InstrumentTypeStrings.ELECTRIC)){
+        if(instrument.getType().matches(StringConstants.ELECTRIC)){
             rbUpdateElectric.toggle();
-        }else if(instrument.getType().matches(InstrumentTypeStrings.ACOUSTIC)){
+        }else if(instrument.getType().matches(StringConstants.ACOUSTIC)){
             rbUpdateAcoustic.toggle();
-        }else if(instrument.getType().matches(InstrumentTypeStrings.BASS)){
+        }else if(instrument.getType().matches(StringConstants.BASS)){
             rbUpdateBass.toggle();
         }
     }
@@ -138,11 +134,11 @@ public class EditActivity extends AppCompatActivity {
         View radioButton = rgUpdate.findViewById(radioButtonID);
         int index = rgUpdate.indexOfChild(radioButton);
         if(index == 0){
-            return InstrumentTypeStrings.ELECTRIC;
+            return StringConstants.ELECTRIC;
         }else if(index == 1){
-            return InstrumentTypeStrings.ACOUSTIC;
+            return StringConstants.ACOUSTIC;
         }else if(index == 2){
-            return InstrumentTypeStrings.BASS;
+            return StringConstants.BASS;
         }
         return null;
     }

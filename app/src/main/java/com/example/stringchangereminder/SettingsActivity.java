@@ -1,0 +1,59 @@
+package com.example.stringchangereminder;
+
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.Switch;
+import android.widget.Toast;
+
+public class SettingsActivity extends AppCompatActivity {
+
+    private String NOTIFICATIONS_KEY = "notifications_key";
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_settings);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        SharedPreferences sharedPreferences = this.getSharedPreferences("com.example.stringchangereminder", Context.MODE_PRIVATE);
+        Switch switchNotifications = findViewById(R.id.sNotifications);
+        Boolean showNotifications = sharedPreferences.getBoolean(NOTIFICATIONS_KEY, true);
+
+        switchNotifications.setChecked(showNotifications);
+
+        //actions to occur when user clicks the switch
+        switchNotifications.setOnClickListener(view -> {
+            if(switchNotifications.isChecked()){
+                //update preferences
+                sharedPreferences.edit().putBoolean(NOTIFICATIONS_KEY, true).apply();
+                //create a job for managing notifications
+                JobScheduler jobScheduler =
+                        (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
+                jobScheduler.schedule(new JobInfo.Builder(0,
+                        new ComponentName(this, TheJobService.class))
+                        .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+                        .setPersisted(true)
+                        .setPeriodic(86400000L)
+                        .build());
+            }else{
+                //update preferences
+                sharedPreferences.edit().putBoolean(NOTIFICATIONS_KEY, false).apply();
+                //cancel existing job that manages preferences
+                JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
+                scheduler.cancel(0);
+            }
+        });
+
+    }
+
+}

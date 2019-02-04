@@ -2,6 +2,7 @@ package com.example.stringchangereminder;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,11 +37,11 @@ public class InstrumentAdapter extends RecyclerView.Adapter<InstrumentAdapter.In
     public void onBindViewHolder(@NonNull InstrumentAdapter.InstrumentHolder instrumentHolder, int i) {
         final Instrument instrument = instruments.get(i);
         //showing correct image that represents the instrument type
-        if(instrument.getType().matches(InstrumentTypeStrings.ELECTRIC)){
+        if(instrument.getType().matches(StringConstants.ELECTRIC)){
             instrumentHolder.imgInstrument.setImageDrawable(context.getDrawable(R.drawable.electric_guitar));
-        }else if(instrument.getType().matches(InstrumentTypeStrings.BASS)){
+        }else if(instrument.getType().matches(StringConstants.BASS)){
             instrumentHolder.imgInstrument.setImageDrawable(context.getDrawable(R.drawable.bass_guitar));
-        }else if(instrument.getType().matches(InstrumentTypeStrings.ACOUSTIC)){
+        }else if(instrument.getType().matches(StringConstants.ACOUSTIC)){
             instrumentHolder.imgInstrument.setImageDrawable(context.getDrawable(R.drawable.acoustic_guitar));
         }
         instrumentHolder.tvName.setText(instrument.getName());
@@ -55,12 +56,18 @@ public class InstrumentAdapter extends RecyclerView.Adapter<InstrumentAdapter.In
             strAge = age + " days ago";
         }
         instrumentHolder.tvAge.setText(strAge);
-        instrumentHolder.tvCoated.setText("Coated: " + instrument.isCoated());
+        if(instrument.isCoated()){
+            instrumentHolder.imgCoated.setVisibility(View.VISIBLE);
+        }
         //indicates the quality of the strings
         String strStatus;
-        if(age < 15){
+        if(age < 15) {
             strStatus = "Status: Good";
-        }else if(age < 30){
+        }else if(age < 30 && instrument.isCoated()){
+            strStatus = "Status: Good";
+        }else if(age < 30 && !instrument.isCoated()){
+            strStatus = "Status: Dull";
+        }else if(age < 60 && instrument.isCoated()){
             strStatus = "Status: Dull";
         }else{
             strStatus = "Status: Rusty";
@@ -86,15 +93,17 @@ public class InstrumentAdapter extends RecyclerView.Adapter<InstrumentAdapter.In
         private ImageView imgInstrument;
         private TextView tvName;
         private TextView tvAge;
-        private TextView tvCoated;
+        private ImageView imgCoated;
         private TextView tvStatus;
+        private ConstraintLayout itemLayout;
         InstrumentHolder(@NonNull View itemView) {
             super(itemView);
             imgInstrument = itemView.findViewById(R.id.imgInstrument);
             tvName = itemView.findViewById(R.id.tvName);
             tvAge = itemView.findViewById(R.id.tvAge);
-            tvCoated = itemView.findViewById(R.id.tvCoated);
+            imgCoated = itemView.findViewById(R.id.imgCoated);
             tvStatus = itemView.findViewById(R.id.tvStatus);
+            itemLayout = itemView.findViewById(R.id.itemLayout);
         }
     }
 }

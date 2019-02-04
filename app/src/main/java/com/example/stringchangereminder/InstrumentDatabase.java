@@ -46,10 +46,10 @@ public abstract class InstrumentDatabase extends RoomDatabase {
 //        protected Void doInBackground(Void... voids) {
 //            Calendar calendar = Calendar.getInstance();
 //            long sampleTime = calendar.getTimeInMillis() - 86400000;
-//            instrumentDao.insert(new Instrument("Stratocaster", false, sampleTime, InstrumentTypeStrings.ELECTRIC));
-//            instrumentDao.insert(new Instrument("Les Paul", false, sampleTime, InstrumentTypeStrings.ELECTRIC));
-//            instrumentDao.insert(new Instrument("Maton", true, sampleTime, InstrumentTypeStrings.ACOUSTIC));
-//            instrumentDao.insert(new Instrument("Rickenbacker", false, sampleTime, InstrumentTypeStrings.BASS));
+//            instrumentDao.insert(new Instrument("Stratocaster", false, sampleTime, StringConstants.ELECTRIC));
+//            instrumentDao.insert(new Instrument("Les Paul", false, sampleTime, StringConstants.ELECTRIC));
+//            instrumentDao.insert(new Instrument("Maton", true, sampleTime, StringConstants.ACOUSTIC));
+//            instrumentDao.insert(new Instrument("Rickenbacker", false, sampleTime, StringConstants.BASS));
 //            return null;
 //        }
 //    }
