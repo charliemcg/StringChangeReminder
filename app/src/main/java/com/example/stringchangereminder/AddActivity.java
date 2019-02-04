@@ -24,7 +24,8 @@ public class AddActivity extends AppCompatActivity {
 
     public static final String TAG = "AddActivity";
     private EditText etAddName;
-    private RadioGroup rgAdd;
+    private RadioGroup rgType;
+    private RadioGroup rgUse;
     private Switch sAddCoating;
     private static TextView tvAddDateChanged;
     private static long stamp;
@@ -37,7 +38,8 @@ public class AddActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         etAddName = findViewById(R.id.etAddName);
-        rgAdd = findViewById(R.id.rgAdd);
+        rgType = findViewById(R.id.rgType);
+        rgUse = findViewById(R.id.rgUse);
         sAddCoating = findViewById(R.id.sAddCoating);
         tvAddDateChanged = findViewById(R.id.tvAddDateChanged);
 
@@ -58,14 +60,17 @@ public class AddActivity extends AppCompatActivity {
         //validating that there are no nulls
         if(etAddName.getText().toString().equals("")){
             Toast.makeText(this, "Your instrument needs a name", Toast.LENGTH_SHORT).show();
-        }else if(rgAdd.getCheckedRadioButtonId() == -1){
+        }else if(rgType.getCheckedRadioButtonId() == -1){
             Toast.makeText(this, "Specify your instrument type", Toast.LENGTH_SHORT).show();
+        }else if(rgUse.getCheckedRadioButtonId() == -1) {
+            Toast.makeText(this, "How often do you play this guitar?", Toast.LENGTH_SHORT).show();
         }else if(tvAddDateChanged.getText().equals("")){
             Toast.makeText(this, "When were the strings last changed?", Toast.LENGTH_SHORT).show();
         }else{
             //creating the new instrument
             String instrumentType = getRadioValue();
-            Instrument instrument = new Instrument(etAddName.getText().toString(), sAddCoating.isChecked(), stamp, instrumentType);
+            String instrumentUse= getUseRadioValue();
+            Instrument instrument = new Instrument(etAddName.getText().toString(), sAddCoating.isChecked(), stamp, instrumentType, instrumentUse);
             InstrumentViewModel instrumentViewModel = new InstrumentViewModel(getApplication());
             instrumentViewModel.insert(instrument);
             //returning to the main activity
@@ -76,15 +81,30 @@ public class AddActivity extends AppCompatActivity {
 
     //getting the instrument type
     private String getRadioValue() {
-        int radioButtonID = rgAdd.getCheckedRadioButtonId();
-        View radioButton = rgAdd.findViewById(radioButtonID);
-        int index = rgAdd.indexOfChild(radioButton);
+        int radioButtonID = rgType.getCheckedRadioButtonId();
+        View radioButton = rgType.findViewById(radioButtonID);
+        int index = rgType.indexOfChild(radioButton);
         if(index == 0){
             return StringConstants.ELECTRIC;
         }else if(index == 1){
             return StringConstants.ACOUSTIC;
         }else if(index == 2){
             return StringConstants.BASS;
+        }
+        return null;
+    }
+
+    //getting the instrument use
+    private String getUseRadioValue() {
+        int radioButtonID = rgUse.getCheckedRadioButtonId();
+        View radioButton = rgUse.findViewById(radioButtonID);
+        int index = rgUse.indexOfChild(radioButton);
+        if(index == 0){
+            return StringConstants.DAILY;
+        }else if(index == 1){
+            return StringConstants.SOME_DAYS;
+        }else if(index == 2){
+            return StringConstants.WEEKLY;
         }
         return null;
     }

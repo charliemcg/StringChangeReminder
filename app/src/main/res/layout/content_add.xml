@@ -29,7 +29,7 @@
         app:layout_constraintStart_toEndOf="@id/tvAddName"/>
 
     <RadioGroup
-        android:id="@+id/rgAdd"
+        android:id="@+id/rgType"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -54,6 +54,32 @@
             android:text="Bass"/>
     </RadioGroup>
 
+    <RadioGroup
+        android:id="@+id/rgUse"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/rgType">
+        <RadioButton
+            android:id="@+id/rbAddDaily"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Daily"/>
+        <RadioButton
+            android:id="@+id/rbAddSomeDays"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Between"/>
+        <RadioButton
+            android:id="@+id/rbAddWeekly"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Weekly"/>
+    </RadioGroup>
+
     <TextView
         android:id="@+id/tvAddCoatingLabel"
         android:layout_width="wrap_content"
@@ -61,7 +87,7 @@
         android:layout_margin="10dp"
         android:text="Coated?"
         android:gravity="center_vertical"
-        app:layout_constraintTop_toBottomOf="@id/rgAdd"
+        app:layout_constraintTop_toBottomOf="@id/rgUse"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/sAddCoating"/>
 
@@ -71,7 +97,7 @@
         android:layout_height="50dp"
         android:layout_margin="10dp"
         android:gravity="center_vertical"
-        app:layout_constraintTop_toBottomOf="@+id/rgAdd"
+        app:layout_constraintTop_toBottomOf="@+id/rgUse"
         app:layout_constraintStart_toEndOf="@id/tvAddCoatingLabel"/>
 
     <TextView

@@ -6,6 +6,9 @@ public class StringConstants {
     public static String ELECTRIC = "electric";
     public static String BASS = "bass";
     public static String ACOUSTIC = "acoustic";
+    public static String DAILY = "daily";
+    public static String SOME_DAYS = "some_days";
+    public static String WEEKLY = "weekly";
     public static String YELLOW = "yellow";
     public static String ORANGE = "orange";
     public static String RED = "red";

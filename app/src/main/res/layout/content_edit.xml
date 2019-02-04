@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
     <RadioGroup
-        android:id="@+id/rgUpdate"
+        android:id="@+id/rgUpdateType"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -42,6 +42,32 @@
             android:text="Bass"/>
     </RadioGroup>
 
+    <RadioGroup
+        android:id="@+id/rgUpdateUse"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/rgUpdateType">
+        <RadioButton
+            android:id="@+id/rbUpdateDaily"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Daily"/>
+        <RadioButton
+            android:id="@+id/rbUpdateSomeDays"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Between"/>
+        <RadioButton
+            android:id="@+id/rbUpdateWeekly"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Weekly"/>
+    </RadioGroup>
+
     <TextView
         android:id="@+id/tvUpdateCoatingLabel"
         android:layout_width="wrap_content"
@@ -49,7 +75,7 @@
         android:layout_margin="10dp"
         android:text="Coated?"
         android:gravity="center_vertical"
-        app:layout_constraintTop_toBottomOf="@id/rgUpdate"
+        app:layout_constraintTop_toBottomOf="@id/rgUpdateUse"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/sUpdateCoating"/>
 
@@ -59,7 +85,7 @@
         android:layout_height="50dp"
         android:layout_margin="10dp"
         android:gravity="center_vertical"
-        app:layout_constraintTop_toBottomOf="@+id/rgUpdate"
+        app:layout_constraintTop_toBottomOf="@+id/rgUpdateUse"
         app:layout_constraintStart_toEndOf="@id/tvUpdateCoatingLabel"/>
 
     <TextView

@@ -20,10 +20,14 @@ public class EditActivity extends AppCompatActivity {
 
     public static final String TAG = "EditActivity";
     private EditText etUpdateName;
-    private RadioGroup rgUpdate;
+    private RadioGroup rgUpdateType;
+    private RadioGroup rgUpdateUse;
     private RadioButton rbUpdateElectric;
     private RadioButton rbUpdateAcoustic;
     private RadioButton rbUpdateBass;
+    private RadioButton rbUpdateDaily;
+    private RadioButton rbUpdateSomeDays;
+    private RadioButton rbUpdateWeekly;
     private Switch sUpdateCoating;
     private static TextView tvUpdateDateChanged;
     private static long stamp;
@@ -38,10 +42,14 @@ public class EditActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         etUpdateName = findViewById(R.id.etUpdateName);
-        rgUpdate = findViewById(R.id.rgUpdate);
+        rgUpdateType = findViewById(R.id.rgUpdateType);
+        rgUpdateUse = findViewById(R.id.rgUpdateUse);
         rbUpdateElectric = findViewById(R.id.rbUpdateElectric);
         rbUpdateAcoustic = findViewById(R.id.rbUpdateAcoustic);
         rbUpdateBass = findViewById(R.id.rbUpdateBass);
+        rbUpdateDaily = findViewById(R.id.rbUpdateDaily);
+        rbUpdateSomeDays = findViewById(R.id.rbUpdateSomeDays);
+        rbUpdateWeekly = findViewById(R.id.rbUpdateWeekly);
         sUpdateCoating = findViewById(R.id.sUpdateCoating);
         tvUpdateDateChanged = findViewById(R.id.tvUpdateDateChanged);
         int id = getIntent().getIntExtra("ID_KEY", 0);
@@ -57,6 +65,7 @@ public class EditActivity extends AppCompatActivity {
     private void populateFields() {
         etUpdateName.setText(instrument.getName());
         setRadio();
+        setUseRadio();
         sUpdateCoating.setChecked(instrument.isCoated());
         stamp = instrument.getLastChanged();
         tvUpdateDateChanged.setText(getAge());
@@ -81,6 +90,17 @@ public class EditActivity extends AppCompatActivity {
             rbUpdateAcoustic.toggle();
         }else if(instrument.getType().matches(StringConstants.BASS)){
             rbUpdateBass.toggle();
+        }
+    }
+
+    //setting radio button relative to how much instrument is used
+    private void setUseRadio() {
+        if(instrument.getUse().matches(StringConstants.DAILY)){
+            rbUpdateDaily.toggle();
+        }else if(instrument.getUse().matches(StringConstants.SOME_DAYS)){
+            rbUpdateSomeDays.toggle();
+        }else if(instrument.getUse().matches(StringConstants.WEEKLY)){
+            rbUpdateWeekly.toggle();
         }
     }
 
@@ -121,6 +141,7 @@ public class EditActivity extends AppCompatActivity {
         instrumentViewModel = new InstrumentViewModel(getApplication());
         instrument.setName(etUpdateName.getText().toString());
         instrument.setType(getRadioValue());
+        instrument.setUse(getUseRadioValue());
         instrument.setCoated(sUpdateCoating.isChecked());
         instrument.setLastChanged(stamp);
         instrumentViewModel.update(instrument);
@@ -130,15 +151,30 @@ public class EditActivity extends AppCompatActivity {
 
     //getting the instrument type as indicated view the radiogroup
     private String getRadioValue() {
-        int radioButtonID = rgUpdate.getCheckedRadioButtonId();
-        View radioButton = rgUpdate.findViewById(radioButtonID);
-        int index = rgUpdate.indexOfChild(radioButton);
+        int radioButtonID = rgUpdateType.getCheckedRadioButtonId();
+        View radioButton = rgUpdateType.findViewById(radioButtonID);
+        int index = rgUpdateType.indexOfChild(radioButton);
         if(index == 0){
             return StringConstants.ELECTRIC;
         }else if(index == 1){
             return StringConstants.ACOUSTIC;
         }else if(index == 2){
             return StringConstants.BASS;
+        }
+        return null;
+    }
+
+    //getting the instrument type as indicated view the radiogroup
+    private String getUseRadioValue() {
+        int radioButtonID = rgUpdateUse.getCheckedRadioButtonId();
+        View radioButton = rgUpdateUse.findViewById(radioButtonID);
+        int index = rgUpdateUse.indexOfChild(radioButton);
+        if(index == 0){
+            return StringConstants.DAILY;
+        }else if(index == 1){
+            return StringConstants.SOME_DAYS;
+        }else if(index == 2){
+            return StringConstants.WEEKLY;
         }
         return null;
     }

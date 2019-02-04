@@ -22,11 +22,15 @@ public class Instrument {
     @NonNull
     private String type;
 
-    public Instrument(String name, boolean coated, long lastChanged, String type) {
+    @NonNull
+    private String use;
+
+    public Instrument(String name, boolean coated, long lastChanged, String type, String use) {
         this.name = name;
         this.coated = coated;
         this.lastChanged = lastChanged;
         this.type = type;
+        this.use = use;
     }
 
     public int getId() {
@@ -64,4 +68,8 @@ public class Instrument {
     public String getType(){return type;}
 
     public void setType(String type){this.type = type;}
+
+    public String getUse() {return use;}
+
+    public void setUse(String use) {this.use = use;}
 }
