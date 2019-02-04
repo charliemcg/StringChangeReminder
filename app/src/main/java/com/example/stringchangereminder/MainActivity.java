@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity
             showInstrumentPicker();
         } else if (id == R.id.miShare) {
 
-        } else if (id == R.id.miSend) {
+        } else if (id == R.id.miReview) {
 
         }
 

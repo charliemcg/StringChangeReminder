@@ -1,6 +1,7 @@
 package com.example.stringchangereminder;
 
 import android.content.Context;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
@@ -8,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -34,7 +36,7 @@ public class InstrumentAdapter extends RecyclerView.Adapter<InstrumentAdapter.In
     }
 
     @Override
-    public void onBindViewHolder(@NonNull InstrumentAdapter.InstrumentHolder instrumentHolder, int i) {
+    public void onBindViewHolder(@NonNull InstrumentHolder instrumentHolder, int i) {
         final Instrument instrument = instruments.get(i);
         //showing correct image that represents the instrument type
         if(instrument.getType().matches(StringConstants.ELECTRIC)){
@@ -62,17 +64,31 @@ public class InstrumentAdapter extends RecyclerView.Adapter<InstrumentAdapter.In
         //indicates the quality of the strings
         String strStatus;
         if(age < 15) {
-            strStatus = "Status: Good";
+            strStatus = "Good";
         }else if(age < 30 && instrument.isCoated()){
-            strStatus = "Status: Good";
+            strStatus = "Good";
         }else if(age < 30 && !instrument.isCoated()){
-            strStatus = "Status: Dull";
+            strStatus = "Dull";
         }else if(age < 60 && instrument.isCoated()){
-            strStatus = "Status: Dull";
+            strStatus = "Dull";
         }else{
-            strStatus = "Status: Rusty";
+            strStatus = "Rusty";
         }
         instrumentHolder.tvStatus.setText(strStatus);
+        //getting age of string as a percentage of needing restringing
+        if(!instrument.isCoated()) {
+            age *= 3.3;
+        }else{
+            age *= 1.666;
+        }
+        //best to round up to nearest integer
+        age++;
+        //Setting the progress bar
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            instrumentHolder.progressBar.setProgress((int) age,true);
+        }else{
+            instrumentHolder.progressBar.setProgress((int) age);
+        }
     }
 
     @Override
@@ -95,7 +111,8 @@ public class InstrumentAdapter extends RecyclerView.Adapter<InstrumentAdapter.In
         private TextView tvAge;
         private ImageView imgCoated;
         private TextView tvStatus;
-        private ConstraintLayout itemLayout;
+        private ProgressBar progressBar;
+//        private ConstraintLayout itemLayout;
         InstrumentHolder(@NonNull View itemView) {
             super(itemView);
             imgInstrument = itemView.findViewById(R.id.imgInstrument);
@@ -103,7 +120,8 @@ public class InstrumentAdapter extends RecyclerView.Adapter<InstrumentAdapter.In
             tvAge = itemView.findViewById(R.id.tvAge);
             imgCoated = itemView.findViewById(R.id.imgCoated);
             tvStatus = itemView.findViewById(R.id.tvStatus);
-            itemLayout = itemView.findViewById(R.id.itemLayout);
+            progressBar = itemView.findViewById(R.id.progressBar);
+//            itemLayout = itemView.findViewById(R.id.itemLayout);
         }
     }
 }

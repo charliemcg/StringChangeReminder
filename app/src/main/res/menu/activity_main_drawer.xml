@@ -6,11 +6,11 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/miAdd"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_add"
             android:title="Add instrument" />
         <item
             android:id="@+id/miEdit"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/ic_edit"
             android:title="Edit instrument" />
     </group>
 
@@ -21,9 +21,9 @@
                 android:icon="@drawable/ic_menu_share"
                 android:title="Share" />
             <item
-                android:id="@+id/miSend"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
+                android:id="@+id/miReview"
+                android:icon="@drawable/ic_star"
+                android:title="Leave a review" />
         </menu>
     </item>
 

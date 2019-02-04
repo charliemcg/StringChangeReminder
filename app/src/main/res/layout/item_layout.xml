@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:padding="10dp"
     android:id="@+id/itemLayout">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imgInstrument"
         android:layout_width="95dp"
         android:layout_height="95dp"
-        android:layout_margin="10dp"
         app:layout_constraintEnd_toStartOf="@id/tvName"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -19,6 +19,8 @@
         android:id="@+id/tvName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/imgInstrument"
@@ -29,33 +31,44 @@
         android:id="@+id/tvAge"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
         android:textSize="20sp"
         app:layout_constraintEnd_toStartOf="@id/tvStatus"
         app:layout_constraintStart_toStartOf="@id/tvName"
         app:layout_constraintTop_toBottomOf="@id/tvName"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="95dp"
+        android:layout_height="95dp"
+        style="?android:progressBarStyleHorizontal"
+        android:progress="90"
+        app:layout_constraintBottom_toBottomOf="@id/imgInstrument"
+        app:layout_constraintStart_toStartOf="@id/imgInstrument"
+        app:layout_constraintEnd_toEndOf="@id/imgInstrument"
+        app:layout_constraintTop_toTopOf="@id/imgInstrument"
+        android:progressDrawable="@drawable/circle_progress_bar"/>
+
     <TextView
         android:id="@+id/tvStatus"
-        android:layout_width="0dp"
+        android:layout_width="70dp"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:gravity="center"
         android:textSize="20sp"
-        app:layout_constraintEnd_toStartOf="@id/imgCoated"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/tvAge"
-        app:layout_constraintTop_toBottomOf="@id/tvName"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvName"/>
 
     <ImageView
         android:id="@+id/imgCoated"
         android:layout_width="25dp"
         android:layout_height="25dp"
-        android:layout_margin="10dp"
         android:src="@drawable/coated_icon"
-        android:visibility="invisible"
-        app:layout_constraintTop_toBottomOf="@id/tvName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/tvStatus"/>
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@id/imgInstrument"
+        app:layout_constraintBottom_toBottomOf="@id/imgInstrument"/>
 
 </android.support.constraint.ConstraintLayout>
