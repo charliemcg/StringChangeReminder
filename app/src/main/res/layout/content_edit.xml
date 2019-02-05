@@ -47,114 +47,256 @@
         android:onClick="editName"
         app:layout_constraintBottom_toBottomOf="@id/editHeader"/>
 
-    <RadioGroup
+    <android.support.constraint.ConstraintLayout
         android:id="@+id/rgUpdateType"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
         android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@id/editHeader"
         app:layout_constraintBottom_toTopOf="@id/rgUpdateUse">
-        <RadioButton
+        <TextView
+            android:id="@+id/tvTypeLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="What type of guitar is this?"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/rbUpdateElectric"/>
+        <android.support.constraint.ConstraintLayout
             android:id="@+id/rbUpdateElectric"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="Electric"/>
-        <RadioButton
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="5dp"
+            android:onClick="electricClicked"
+            app:layout_constraintTop_toBottomOf="@id/tvTypeLabel"
+            app:layout_constraintEnd_toStartOf="@id/rbUpdateAcoustic"
+            app:layout_constraintStart_toStartOf="parent">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/imgUpdateElectric"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/electric_background"/>
+        </android.support.constraint.ConstraintLayout>
+        <android.support.constraint.ConstraintLayout
             android:id="@+id/rbUpdateAcoustic"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="Acoustic"/>
-        <RadioButton
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="5dp"
+            android:onClick="acousticClicked"
+            app:layout_constraintTop_toBottomOf="@id/tvTypeLabel"
+            app:layout_constraintEnd_toStartOf="@id/rbUpdateBass"
+            app:layout_constraintStart_toEndOf="@id/rbUpdateElectric">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/imgUpdateAcoustic"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/acoustic_background"/>
+        </android.support.constraint.ConstraintLayout>
+        <android.support.constraint.ConstraintLayout
             android:id="@+id/rbUpdateBass"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="Bass"/>
-    </RadioGroup>
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="5dp"
+            android:onClick="bassClicked"
+            app:layout_constraintTop_toBottomOf="@id/tvTypeLabel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/rbUpdateAcoustic">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/imgUpdateBass"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/bass_background"/>
+        </android.support.constraint.ConstraintLayout>
+    </android.support.constraint.ConstraintLayout>
 
-    <RadioGroup
+    <!--<RadioGroup-->
+        <!--android:id="@+id/rgUpdateType"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="horizontal"-->
+        <!--app:layout_constraintTop_toBottomOf="@id/editHeader"-->
+        <!--app:layout_constraintBottom_toTopOf="@id/rgUpdateUse">-->
+        <!--<RadioButton-->
+            <!--android:id="@+id/rbUpdateElectric"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_margin="10dp"-->
+            <!--android:text="Electric"/>-->
+        <!--<RadioButton-->
+            <!--android:id="@+id/rbUpdateAcoustic"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_margin="10dp"-->
+            <!--android:text="Acoustic"/>-->
+        <!--<RadioButton-->
+            <!--android:id="@+id/rbUpdateBass"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_margin="10dp"-->
+            <!--android:text="Bass"/>-->
+    <!--</RadioGroup>-->
+
+    <android.support.constraint.ConstraintLayout
         android:id="@+id/rgUpdateUse"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_marginBottom="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
         app:layout_constraintTop_toBottomOf="@id/rgUpdateType"
-        app:layout_constraintBottom_toTopOf="@id/sUpdateCoating">
-        <RadioButton
+        app:layout_constraintBottom_toTopOf="@id/tvUpdateDateChanged">
+        <TextView
+            android:id="@+id/tvUseLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="How often do you play this guitar?"
+            app:layout_constraintTop_toTopOf="parent"/>
+        <android.support.constraint.ConstraintLayout
             android:id="@+id/rbUpdateDaily"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="Daily"/>
-        <RadioButton
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="5dp"
+            android:onClick="dailyClicked"
+            app:layout_constraintTop_toBottomOf="@id/tvUseLabel"
+            app:layout_constraintEnd_toStartOf="@id/rbUpdateSomeDays"
+            app:layout_constraintStart_toStartOf="parent">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/imgUpdateDaily"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/calendar_daily"/>
+        </android.support.constraint.ConstraintLayout>
+        <android.support.constraint.ConstraintLayout
             android:id="@+id/rbUpdateSomeDays"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="Between"/>
-        <RadioButton
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="5dp"
+            android:onClick="someDaysClicked"
+            app:layout_constraintTop_toBottomOf="@id/tvUseLabel"
+            app:layout_constraintStart_toEndOf="@id/rbUpdateDaily"
+            app:layout_constraintEnd_toStartOf="@id/rbUpdateWeekly">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/imgUpdateSomeDays"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/calendar_somedays"/>
+        </android.support.constraint.ConstraintLayout>
+        <android.support.constraint.ConstraintLayout
             android:id="@+id/rbUpdateWeekly"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="Weekly"/>
-    </RadioGroup>
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="5dp"
+            android:onClick="weeklyClicked"
+            app:layout_constraintTop_toBottomOf="@id/tvUseLabel"
+            app:layout_constraintStart_toEndOf="@id/rbUpdateSomeDays"
+            app:layout_constraintEnd_toEndOf="parent">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/imgUpdateWeekly"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/calendar_weekly"/>
+        </android.support.constraint.ConstraintLayout>
+    </android.support.constraint.ConstraintLayout>
 
-    <TextView
-        android:id="@+id/tvUpdateCoatingLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_margin="10dp"
-        android:text="Coated?"
-        android:gravity="center_vertical"
-        app:layout_constraintTop_toBottomOf="@id/rgUpdateUse"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/sUpdateCoating"
-        app:layout_constraintBottom_toTopOf="@id/tvUpdateDateChanged"/>
-
-    <Switch
-        android:id="@+id/sUpdateCoating"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_margin="10dp"
-        android:gravity="center_vertical"
-        app:layout_constraintTop_toBottomOf="@+id/rgUpdateUse"
-        app:layout_constraintStart_toEndOf="@id/tvUpdateCoatingLabel"
-        app:layout_constraintBottom_toTopOf="@id/tvUpdateDateChanged"/>
+    <!--<RadioGroup-->
+        <!--android:id="@+id/rgUpdateUse"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="horizontal"-->
+        <!--app:layout_constraintTop_toBottomOf="@id/rgUpdateType"-->
+        <!--app:layout_constraintBottom_toTopOf="@id/sUpdateCoating">-->
+        <!--<RadioButton-->
+            <!--android:id="@+id/rbUpdateDaily"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_margin="10dp"-->
+            <!--android:text="Daily"/>-->
+        <!--<RadioButton-->
+            <!--android:id="@+id/rbUpdateSomeDays"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_margin="10dp"-->
+            <!--android:text="Between"/>-->
+        <!--<RadioButton-->
+            <!--android:id="@+id/rbUpdateWeekly"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_margin="10dp"-->
+            <!--android:text="Weekly"/>-->
+    <!--</RadioGroup>-->
 
     <TextView
         android:id="@+id/tvUpdateDateChangedLabel"
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         android:layout_margin="10dp"
-        android:text="Time Last Changed"
-        android:gravity="center_vertical"
-        app:layout_constraintTop_toBottomOf="@id/tvUpdateCoatingLabel"
+        android:text="Strings Last Changed"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/rgUpdateUse"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/tvUpdateDateChanged"
-        app:layout_constraintBottom_toTopOf="@id/btnUpdate"/>
+        app:layout_constraintBottom_toTopOf="@id/tvUpdateCoatingLabel"/>
 
     <TextView
         android:id="@+id/tvUpdateDateChanged"
-        android:layout_width="250dp"
-        android:layout_height="50dp"
-        android:layout_margin="10dp"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:hint="..."
         android:gravity="center"
         android:background="@drawable/text_view_background"
         android:onClick="showCalendarDialog"
-        app:layout_constraintTop_toBottomOf="@id/sUpdateCoating"
+        app:layout_constraintTop_toBottomOf="@id/rgUpdateUse"
         app:layout_constraintStart_toEndOf="@id/tvUpdateDateChangedLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/sUpdateCoating"/>
+
+    <TextView
+        android:id="@+id/tvUpdateCoatingLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginStart="10dp"
+        android:text="This guitar has coated strings."
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toBottomOf="@id/tvUpdateDateChanged"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/sUpdateCoating"
+        app:layout_constraintBottom_toTopOf="@id/btnUpdate"/>
+
+    <Switch
+        android:id="@+id/sUpdateCoating"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="10dp"
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toBottomOf="@+id/tvUpdateDateChanged"
+        app:layout_constraintStart_toEndOf="@id/tvUpdateCoatingLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btnUpdate"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@color/blue"
+        app:layout_constraintTop_toBottomOf="@id/sUpdateCoating"
         app:layout_constraintBottom_toTopOf="@id/btnUpdate"/>
 
     <Button
         android:id="@+id/btnUpdate"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_height="70dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
         android:text="Update"
         android:onClick="update"
-        app:layout_constraintTop_toBottomOf="@id/tvUpdateDateChanged"
+        app:layout_constraintTop_toBottomOf="@id/sUpdateCoating"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
 

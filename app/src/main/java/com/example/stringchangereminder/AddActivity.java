@@ -30,14 +30,6 @@ public class AddActivity extends AppCompatActivity {
     public static final String TAG = "AddActivity";
     private EditText etAddName;
     private TextView tvAddName;
-    private ConstraintLayout rgType;
-    private ConstraintLayout rbAddElectric;
-    private ConstraintLayout rbAddAcoustic;
-    private ConstraintLayout rbAddBass;
-    private ConstraintLayout rgUse;
-    private ConstraintLayout rbAddDaily;
-    private ConstraintLayout rbAddSomeDays;
-    private ConstraintLayout rbAddWeekly;
     private ImageView imgAddElectric;
     private ImageView imgAddAcoustic;
     private ImageView imgAddBass;
@@ -60,14 +52,6 @@ public class AddActivity extends AppCompatActivity {
 
         etAddName = findViewById(R.id.etAddName);
         tvAddName = findViewById(R.id.tvAddName);
-        rgType = findViewById(R.id.rgType);
-        rbAddElectric = findViewById(R.id.rbAddElectric);
-        rbAddAcoustic = findViewById(R.id.rbAddAcoustic);
-        rbAddBass = findViewById(R.id.rbAddBass);
-        rgUse = findViewById(R.id.rgUse);
-        rbAddDaily = findViewById(R.id.rbAddDaily);
-        rbAddSomeDays = findViewById(R.id.rbAddSomeDays);
-        rbAddWeekly = findViewById(R.id.rbAddWeekly);
         imgAddElectric = findViewById(R.id.imgAddElectric);
         imgAddAcoustic = findViewById(R.id.imgAddAcoustic);
         imgAddBass = findViewById(R.id.imgAddBass);
@@ -117,16 +101,14 @@ public class AddActivity extends AppCompatActivity {
         //validating that there are no nulls
         if (etAddName.getText().toString().equals("")) {
             Toast.makeText(this, "Your instrument needs a name", Toast.LENGTH_SHORT).show();
-        } else if (/*rgType.getCheckedRadioButtonId() == -1*/instrumentType == null) {
+        } else if (instrumentType == null) {
             Toast.makeText(this, "Specify your instrument type", Toast.LENGTH_SHORT).show();
-        } else if (/*rgUse.getCheckedRadioButtonId() == -1*/instrumentUse == null) {
+        } else if (instrumentUse == null) {
             Toast.makeText(this, "How often do you play this guitar?", Toast.LENGTH_SHORT).show();
         } else if (tvAddDateChanged.getText().equals("")) {
             Toast.makeText(this, "When were the strings last changed?", Toast.LENGTH_SHORT).show();
         } else {
             //creating the new instrument
-//            String instrumentType = getRadioValue();
-//            String instrumentUse= getUseRadioValue();
             Instrument instrument = new Instrument(etAddName.getText().toString(), sAddCoating.isChecked(), stamp, instrumentType, instrumentUse);
             InstrumentViewModel instrumentViewModel = new InstrumentViewModel(getApplication());
             instrumentViewModel.insert(instrument);
@@ -135,36 +117,6 @@ public class AddActivity extends AppCompatActivity {
             startActivity(intent);
         }
     }
-
-    //getting the instrument type
-//    private String getRadioValue() {
-//        int radioButtonID = rgType.getCheckedRadioButtonId();
-//        View radioButton = rgType.findViewById(radioButtonID);
-//        int index = rgType.indexOfChild(radioButton);
-//        if(index == 0){
-//            return StringConstants.ELECTRIC;
-//        }else if(index == 1){
-//            return StringConstants.ACOUSTIC;
-//        }else if(index == 2){
-//            return StringConstants.BASS;
-//        }
-//        return null;
-//    }
-
-    //getting the instrument use
-//    private String getUseRadioValue() {
-//        int radioButtonID = rgUse.getCheckedRadioButtonId();
-//        View radioButton = rgUse.findViewById(radioButtonID);
-//        int index = rgUse.indexOfChild(radioButton);
-//        if(index == 0){
-//            return StringConstants.DAILY;
-//        }else if(index == 1){
-//            return StringConstants.SOME_DAYS;
-//        }else if(index == 2){
-//            return StringConstants.WEEKLY;
-//        }
-//        return null;
-//    }
 
     public void editName(View view) {
         keyboard.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
