@@ -24,10 +24,16 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -125,7 +131,11 @@ public class MainActivity extends AppCompatActivity
             startActivity(intent);
         //prompt user to pick instrument to edit
         } else if (id == R.id.miEdit) {
-            showInstrumentPicker();
+            if(adapter.getItemCount() != 0) {
+                showInstrumentPicker();
+            }else{
+                Toast.makeText(this, "You have no guitars to edit", Toast.LENGTH_SHORT).show();
+            }
         } else if (id == R.id.miShare) {
 
         } else if (id == R.id.miReview) {

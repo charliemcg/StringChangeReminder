@@ -1,5 +1,8 @@
 package com.example.stringchangereminder;
 
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,11 +11,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Calendar;
 
@@ -20,6 +25,7 @@ public class EditActivity extends AppCompatActivity {
 
     public static final String TAG = "EditActivity";
     private EditText etUpdateName;
+    private TextView tvUpdateName;
     private RadioGroup rgUpdateType;
     private RadioGroup rgUpdateUse;
     private RadioButton rbUpdateElectric;
@@ -42,6 +48,7 @@ public class EditActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         etUpdateName = findViewById(R.id.etUpdateName);
+        tvUpdateName = findViewById(R.id.tvUpdateName);
         rgUpdateType = findViewById(R.id.rgUpdateType);
         rgUpdateUse = findViewById(R.id.rgUpdateUse);
         rbUpdateElectric = findViewById(R.id.rbUpdateElectric);
@@ -64,6 +71,7 @@ public class EditActivity extends AppCompatActivity {
     //setting existing values into the fields
     private void populateFields() {
         etUpdateName.setText(instrument.getName());
+        tvUpdateName.setText(instrument.getName());
         setRadio();
         setUseRadio();
         sUpdateCoating.setChecked(instrument.isCoated());
@@ -108,9 +116,59 @@ public class EditActivity extends AppCompatActivity {
     public void showCalendarDialog(View view) {
 
         //TODO deal with this deprecation
-        DialogFragment dialogfragment = new AddActivity.DatePickerDialogFrag();
+        DialogFragment dialogfragment = new EditActivity.DatePickerDialogFrag();
 
         dialogfragment.show(getFragmentManager(), "Date");
+
+    }
+
+    public static class DatePickerDialogFrag extends DialogFragment
+            implements DatePickerDialog.OnDateSetListener {
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+
+            //Set default values of date picker to current date
+            final Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(stamp);
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH);
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+            DatePickerDialog datePickerDialog;
+
+            //Initialise date picker
+            datePickerDialog = new DatePickerDialog(getActivity(),
+                    AlertDialog.THEME_DEVICE_DEFAULT_LIGHT, this, year, month, day);
+
+            //Make so all future dates are inactive
+            datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+
+            return datePickerDialog;
+        }
+
+        public void onDateSet(DatePicker view, int year, int month, int day) {
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.YEAR, year);
+            calendar.set(Calendar.MONTH, month);
+            calendar.set(Calendar.DAY_OF_MONTH, day);
+            stamp = calendar.getTimeInMillis();
+
+            //calculating age of string
+            long timeNow = Calendar.getInstance().getTimeInMillis();
+            long age = (timeNow - stamp) / 86400000;
+            String strAge;
+            if(age == 1){
+                strAge = age + " day ago";
+            }else{
+                strAge = age + " days ago";
+            }
+
+//            tvAddDateChanged.setText(strAge);
+            tvUpdateDateChanged.setText(strAge);
+
+        }
 
     }
 
@@ -177,5 +235,10 @@ public class EditActivity extends AppCompatActivity {
             return StringConstants.WEEKLY;
         }
         return null;
+    }
+
+    public void editName(View view) {
+        tvUpdateName.setVisibility(View.INVISIBLE);
+        etUpdateName.setVisibility(View.VISIBLE);
     }
 }

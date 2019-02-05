@@ -8,20 +8,52 @@
     tools:context=".EditActivity"
     tools:showIn="@layout/activity_edit">
 
+    <View
+        android:id="@+id/editHeader"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@color/purple"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imgEditInstrument"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginEnd="20dp"
+        android:src="@drawable/electric_guitar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editHeader"
+        app:layout_constraintBottom_toBottomOf="@id/editHeader"/>
+
     <EditText
         android:id="@+id/etUpdateName"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_margin="10dp"
-        android:hint="Add name"
-        app:layout_constraintTop_toTopOf="parent"/>
+        android:visibility="invisible"
+        app:layout_constraintTop_toTopOf="@id/editHeader"
+        app:layout_constraintBottom_toBottomOf="@id/editHeader"/>
+
+    <TextView
+        android:id="@+id/tvUpdateName"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="10dp"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:textSize="25sp"
+        android:textColor="#FFFFFF"
+        android:gravity="center_vertical"
+        android:onClick="editName"
+        app:layout_constraintBottom_toBottomOf="@id/editHeader"/>
 
     <RadioGroup
         android:id="@+id/rgUpdateType"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/etUpdateName">
+        app:layout_constraintTop_toBottomOf="@id/editHeader"
+        app:layout_constraintBottom_toTopOf="@id/rgUpdateUse">
         <RadioButton
             android:id="@+id/rbUpdateElectric"
             android:layout_width="wrap_content"
@@ -47,7 +79,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/rgUpdateType">
+        app:layout_constraintTop_toBottomOf="@id/rgUpdateType"
+        app:layout_constraintBottom_toTopOf="@id/sUpdateCoating">
         <RadioButton
             android:id="@+id/rbUpdateDaily"
             android:layout_width="wrap_content"
@@ -77,7 +110,8 @@
         android:gravity="center_vertical"
         app:layout_constraintTop_toBottomOf="@id/rgUpdateUse"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/sUpdateCoating"/>
+        app:layout_constraintEnd_toStartOf="@id/sUpdateCoating"
+        app:layout_constraintBottom_toTopOf="@id/tvUpdateDateChanged"/>
 
     <Switch
         android:id="@+id/sUpdateCoating"
@@ -86,7 +120,8 @@
         android:layout_margin="10dp"
         android:gravity="center_vertical"
         app:layout_constraintTop_toBottomOf="@+id/rgUpdateUse"
-        app:layout_constraintStart_toEndOf="@id/tvUpdateCoatingLabel"/>
+        app:layout_constraintStart_toEndOf="@id/tvUpdateCoatingLabel"
+        app:layout_constraintBottom_toTopOf="@id/tvUpdateDateChanged"/>
 
     <TextView
         android:id="@+id/tvUpdateDateChangedLabel"
@@ -97,7 +132,8 @@
         android:gravity="center_vertical"
         app:layout_constraintTop_toBottomOf="@id/tvUpdateCoatingLabel"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/tvUpdateDateChanged"/>
+        app:layout_constraintEnd_toStartOf="@id/tvUpdateDateChanged"
+        app:layout_constraintBottom_toTopOf="@id/btnUpdate"/>
 
     <TextView
         android:id="@+id/tvUpdateDateChanged"
@@ -108,7 +144,8 @@
         android:background="@drawable/text_view_background"
         android:onClick="showCalendarDialog"
         app:layout_constraintTop_toBottomOf="@id/sUpdateCoating"
-        app:layout_constraintStart_toEndOf="@id/tvUpdateDateChangedLabel"/>
+        app:layout_constraintStart_toEndOf="@id/tvUpdateDateChangedLabel"
+        app:layout_constraintBottom_toTopOf="@id/btnUpdate"/>
 
     <Button
         android:id="@+id/btnUpdate"
@@ -117,7 +154,8 @@
         android:layout_margin="10dp"
         android:text="Update"
         android:onClick="update"
-        app:layout_constraintTop_toBottomOf="@id/tvUpdateDateChanged"/>
+        app:layout_constraintTop_toBottomOf="@id/tvUpdateDateChanged"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 
 </android.support.constraint.ConstraintLayout>
