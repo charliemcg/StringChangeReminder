@@ -33,6 +33,7 @@ public class EditActivity extends AppCompatActivity {
     private ImageView imgUpdateDaily;
     private ImageView imgUpdateSomeDays;
     private ImageView imgUpdateWeekly;
+    private ImageView imgEditInstrument;
     private Switch sUpdateCoating;
     private static TextView tvUpdateDateChanged;
     private static long stamp;
@@ -56,6 +57,7 @@ public class EditActivity extends AppCompatActivity {
         imgUpdateDaily = findViewById(R.id.imgUpdateDaily);
         imgUpdateSomeDays = findViewById(R.id.imgUpdateSomeDays);
         imgUpdateWeekly = findViewById(R.id.imgUpdateWeekly);
+        imgEditInstrument = findViewById(R.id.imgEditInstrument);
         sUpdateCoating = findViewById(R.id.sUpdateCoating);
         tvUpdateDateChanged = findViewById(R.id.tvUpdateDateChanged);
         int id = getIntent().getIntExtra("ID_KEY", 0);
@@ -76,6 +78,17 @@ public class EditActivity extends AppCompatActivity {
         sUpdateCoating.setChecked(instrument.isCoated());
         stamp = instrument.getLastChanged();
         tvUpdateDateChanged.setText(getAge());
+        setImage();
+    }
+
+    private void setImage() {
+        if(instrumentType.matches(StringConstants.ELECTRIC)) {
+            imgEditInstrument.setImageDrawable(getDrawable(R.drawable.electric_guitar));
+        }else if(instrumentType.matches(StringConstants.ACOUSTIC)){
+            imgEditInstrument.setImageDrawable(getDrawable(R.drawable.acoustic_guitar));
+        }else if(instrumentType.matches(StringConstants.BASS)){
+            imgEditInstrument.setImageDrawable(getDrawable(R.drawable.bass_guitar));
+        }
     }
 
     //getting age of strings

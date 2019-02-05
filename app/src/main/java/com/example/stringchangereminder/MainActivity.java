@@ -131,10 +131,14 @@ public class MainActivity extends AppCompatActivity
             startActivity(intent);
         //prompt user to pick instrument to edit
         } else if (id == R.id.miEdit) {
-            if(adapter.getItemCount() != 0) {
-                showInstrumentPicker();
-            }else{
+            if(adapter.getItemCount() == 0) {
                 Toast.makeText(this, "You have no guitars to edit", Toast.LENGTH_SHORT).show();
+            }else if(adapter.getItemCount() == 1){
+                intent = new Intent(this, EditActivity.class);
+                intent.putExtra("ID_KEY", adapter.getInstrumentAt(0).getId());
+                startActivity(intent);
+            }else{
+                showInstrumentPicker();
             }
         } else if (id == R.id.miShare) {
 
@@ -156,11 +160,19 @@ public class MainActivity extends AppCompatActivity
 
         dialog.setContentView(R.layout.dialog_instrument_picker);
 
+        RadioGroup.LayoutParams params = new RadioGroup.LayoutParams(
+                RadioGroup.LayoutParams.WRAP_CONTENT,
+                RadioGroup.LayoutParams.WRAP_CONTENT
+        );
+        params.setMargins(15, 15, 15, 15);
+
         //creating a radio button for each instrument
         RadioGroup radioGroup = dialog.findViewById(R.id.rgInstrumentPicker);
         for(int i = 0; i < adapter.getItemCount(); i++){
             RadioButton rb = new RadioButton(this);
             rb.setText(adapter.getInstrumentAt(i).getName());
+            rb.setTextSize(20);
+            rb.setLayoutParams(params);
             radioGroup.addView(rb);
             int finalI = i;
             rb.setOnClickListener(view -> {
