@@ -10,6 +10,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -28,6 +30,7 @@ import android.widget.Toast;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Calendar;
 
 public class EditActivity extends AppCompatActivity {
@@ -240,6 +243,13 @@ public class EditActivity extends AppCompatActivity {
 
         dialog.setContentView(R.layout.dialog_image_options);
 
+        Button btnTakePhoto = dialog.findViewById(R.id.btnTakePhoto);
+        btnTakePhoto.setOnClickListener(view14 -> {
+            Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+            startActivityForResult(intent, 2);
+            dialog.cancel();
+        });
+
         Button btnChoose = dialog.findViewById(R.id.btnImageChoose);
         btnChoose.setOnClickListener(view1 -> {
             Intent intent = new Intent();
@@ -285,6 +295,7 @@ public class EditActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         try {
+            //chosen from gallery
             if (requestCode == 1 && resultCode == RESULT_OK
                     && null != data) {
                 Uri selectedImage = data.getData();
@@ -293,13 +304,18 @@ public class EditActivity extends AppCompatActivity {
 
                 //don't remove image when 'update' is clicked
                 removeImage = false;
+                //mark that image was changed
                 imageChanged = true;
-
-//                saveImage(getApplicationContext(), bitmap, fileName);
-
+            //picture taken from camera
+            }else if(requestCode == 2 && resultCode == RESULT_OK){
+                bitmap = (Bitmap) data.getExtras().get("data");
+                imgEditInstrument.setImageBitmap(bitmap);
+                //don't remove image when 'update' is clicked
+                removeImage = false;
+                //mark that image was changed
+                imageChanged = true;
             }
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -440,6 +456,7 @@ public class EditActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed(){
+        //Prompt user to discard changes if they try to exit activity after having made changes
         if(!name.equals(etUpdateName.getText().toString())
                 || !type.equals(instrumentType)
                 || !use.equals(instrumentUse)

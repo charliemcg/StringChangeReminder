@@ -6,11 +6,19 @@
     android:gravity="center">
 
     <Button
+        android:id="@+id/btnTakePhoto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Take photo"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btnImageChoose"/>
+
+    <Button
         android:id="@+id/btnImageChoose"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Choose image"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnTakePhoto"
         app:layout_constraintBottom_toTopOf="@+id/btnRemoveImage"/>
 
     <Button
