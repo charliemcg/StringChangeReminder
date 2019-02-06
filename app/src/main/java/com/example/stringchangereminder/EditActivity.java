@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,10 +21,9 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -51,6 +51,13 @@ public class EditActivity extends AppCompatActivity {
     private String instrumentType;
     private String fileName;
     private Bitmap bitmap;
+    private boolean removeImage;
+    private String name;
+    private String type;
+    private String use;
+    private boolean coated;
+    private long originalStamp;
+    private boolean imageChanged;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,12 +77,20 @@ public class EditActivity extends AppCompatActivity {
         imgEditInstrument = findViewById(R.id.imgEditInstrument);
         sUpdateCoating = findViewById(R.id.sUpdateCoating);
         tvUpdateDateChanged = findViewById(R.id.tvUpdateDateChanged);
+        removeImage = false;
         int id = getIntent().getIntExtra("ID_KEY", 0);
         InstrumentViewModel instrumentViewModel = new InstrumentViewModel(getApplication());
         //getting the instrument that's being edited
         instrument = instrumentViewModel.getInstrument(id);
 
         fileName = "image_" + instrument.getId() + ".bmp";
+
+        name = instrument.getName();
+        type = instrument.getType();
+        use = instrument.getUse();
+        coated = instrument.isCoated();
+        originalStamp = instrument.getLastChanged();
+        imageChanged = false;
 
         populateFields();
 
@@ -95,14 +110,14 @@ public class EditActivity extends AppCompatActivity {
 
     private void setImage() {
         //get image from internal storage
-        Bitmap bitmap = loadImageBitmap(getApplicationContext(), fileName);
+        bitmap = loadImageBitmap(getApplicationContext(), fileName);
         //if no file exists use a default image
         if(bitmap == null) {
-            if (instrumentType.matches(StringConstants.ELECTRIC)) {
+            if (instrumentType.equals(StringConstants.ELECTRIC)) {
                 imgEditInstrument.setImageDrawable(getDrawable(R.drawable.electric_guitar));
-            } else if (instrumentType.matches(StringConstants.ACOUSTIC)) {
+            } else if (instrumentType.equals(StringConstants.ACOUSTIC)) {
                 imgEditInstrument.setImageDrawable(getDrawable(R.drawable.acoustic_guitar));
-            } else if (instrumentType.matches(StringConstants.BASS)) {
+            } else if (instrumentType.equals(StringConstants.BASS)) {
                 imgEditInstrument.setImageDrawable(getDrawable(R.drawable.bass_guitar));
             }
         }else{
@@ -123,13 +138,13 @@ public class EditActivity extends AppCompatActivity {
 
     //setting selected type image relative to instrument type
     private void setInstrumentType() {
-        if (instrument.getType().matches(StringConstants.ELECTRIC)) {
+        if (instrument.getType().equals(StringConstants.ELECTRIC)) {
             imgUpdateElectric.setImageDrawable(getDrawable(R.drawable.electric_background_selected));
             instrumentType = StringConstants.ELECTRIC;
-        } else if (instrument.getType().matches(StringConstants.ACOUSTIC)) {
+        } else if (instrument.getType().equals(StringConstants.ACOUSTIC)) {
             imgUpdateAcoustic.setImageDrawable(getDrawable(R.drawable.acoustic_background_selected));
             instrumentType = StringConstants.ACOUSTIC;
-        } else if (instrument.getType().matches(StringConstants.BASS)) {
+        } else if (instrument.getType().equals(StringConstants.BASS)) {
             imgUpdateBass.setImageDrawable(getDrawable(R.drawable.bass_background_selected));
             instrumentType = StringConstants.BASS;
         }
@@ -137,13 +152,13 @@ public class EditActivity extends AppCompatActivity {
 
     //setting use image relative to how much instrument is used
     private void setInstrumentUse() {
-        if (instrument.getUse().matches(StringConstants.DAILY)) {
+        if (instrument.getUse().equals(StringConstants.DAILY)) {
             imgUpdateDaily.setImageDrawable(getDrawable(R.drawable.calendar_daily_selected));
             instrumentUse = StringConstants.DAILY;
-        } else if (instrument.getUse().matches(StringConstants.SOME_DAYS)) {
+        } else if (instrument.getUse().equals(StringConstants.SOME_DAYS)) {
             imgUpdateSomeDays.setImageDrawable(getDrawable(R.drawable.calendar_somedays_selected));
             instrumentUse = StringConstants.SOME_DAYS;
-        } else if (instrument.getUse().matches(StringConstants.WEEKLY)) {
+        } else if (instrument.getUse().equals(StringConstants.WEEKLY)) {
             imgUpdateWeekly.setImageDrawable(getDrawable(R.drawable.calendar_weekly_selected));
             instrumentUse = StringConstants.WEEKLY;
         }
@@ -157,9 +172,9 @@ public class EditActivity extends AppCompatActivity {
     }
 
     public void electricClicked(View view) {
-        if (instrumentType.matches(StringConstants.ACOUSTIC)) {
+        if (instrumentType.equals(StringConstants.ACOUSTIC)) {
             imgUpdateAcoustic.setImageDrawable(getDrawable(R.drawable.acoustic_background));
-        } else if (instrumentType.matches(StringConstants.BASS)) {
+        } else if (instrumentType.equals(StringConstants.BASS)) {
             imgUpdateBass.setImageDrawable(getDrawable(R.drawable.bass_background));
         }
         instrumentType = StringConstants.ELECTRIC;
@@ -167,9 +182,9 @@ public class EditActivity extends AppCompatActivity {
     }
 
     public void acousticClicked(View view) {
-        if (instrumentType.matches(StringConstants.ELECTRIC)) {
+        if (instrumentType.equals(StringConstants.ELECTRIC)) {
             imgUpdateElectric.setImageDrawable(getDrawable(R.drawable.electric_background));
-        } else if (instrumentType.matches(StringConstants.BASS)) {
+        } else if (instrumentType.equals(StringConstants.BASS)) {
             imgUpdateBass.setImageDrawable(getDrawable(R.drawable.bass_background));
         }
         instrumentType = StringConstants.ACOUSTIC;
@@ -177,9 +192,9 @@ public class EditActivity extends AppCompatActivity {
     }
 
     public void bassClicked(View view) {
-        if (instrumentType.matches(StringConstants.ELECTRIC)) {
+        if (instrumentType.equals(StringConstants.ELECTRIC)) {
             imgUpdateElectric.setImageDrawable(getDrawable(R.drawable.electric_background));
-        } else if (instrumentType.matches(StringConstants.ACOUSTIC)) {
+        } else if (instrumentType.equals(StringConstants.ACOUSTIC)) {
             imgUpdateAcoustic.setImageDrawable(getDrawable(R.drawable.acoustic_background));
         }
         instrumentType = StringConstants.BASS;
@@ -187,9 +202,9 @@ public class EditActivity extends AppCompatActivity {
     }
 
     public void dailyClicked(View view) {
-        if (instrumentUse.matches(StringConstants.SOME_DAYS)) {
+        if (instrumentUse.equals(StringConstants.SOME_DAYS)) {
             imgUpdateSomeDays.setImageDrawable(getDrawable(R.drawable.calendar_somedays));
-        } else if (instrumentUse.matches(StringConstants.WEEKLY)) {
+        } else if (instrumentUse.equals(StringConstants.WEEKLY)) {
             imgUpdateWeekly.setImageDrawable(getDrawable(R.drawable.calendar_weekly));
         }
         instrumentUse = StringConstants.DAILY;
@@ -197,9 +212,9 @@ public class EditActivity extends AppCompatActivity {
     }
 
     public void someDaysClicked(View view) {
-        if (instrumentUse.matches(StringConstants.DAILY)) {
+        if (instrumentUse.equals(StringConstants.DAILY)) {
             imgUpdateDaily.setImageDrawable(getDrawable(R.drawable.calendar_daily));
-        } else if (instrumentUse.matches(StringConstants.WEEKLY)) {
+        } else if (instrumentUse.equals(StringConstants.WEEKLY)) {
             imgUpdateWeekly.setImageDrawable(getDrawable(R.drawable.calendar_weekly));
         }
         instrumentUse = StringConstants.SOME_DAYS;
@@ -207,9 +222,9 @@ public class EditActivity extends AppCompatActivity {
     }
 
     public void weeklyClicked(View view) {
-        if (instrumentUse.matches(StringConstants.DAILY)) {
+        if (instrumentUse.equals(StringConstants.DAILY)) {
             imgUpdateDaily.setImageDrawable(getDrawable(R.drawable.calendar_daily));
-        } else if (instrumentUse.matches(StringConstants.SOME_DAYS)) {
+        } else if (instrumentUse.equals(StringConstants.SOME_DAYS)) {
             imgUpdateSomeDays.setImageDrawable(getDrawable(R.drawable.calendar_somedays));
         }
         instrumentUse = StringConstants.WEEKLY;
@@ -235,13 +250,28 @@ public class EditActivity extends AppCompatActivity {
         });
 
         Button btnRemove = dialog.findViewById(R.id.btnRemoveImage);
-        btnRemove.setOnClickListener(view13 -> {
-            //removing saved image
-            File file = new File(getFilesDir(), fileName);
-            file.delete();
-            setImage();
-            dialog.cancel();
-        });
+
+        if(bitmap == null){
+
+            btnRemove.setVisibility(View.INVISIBLE);
+
+        }else {
+
+            btnRemove.setOnClickListener(view13 -> {
+                dialog.cancel();
+                if (instrumentType.equals(StringConstants.ELECTRIC)) {
+                    imgEditInstrument.setImageDrawable(getDrawable(R.drawable.electric_guitar));
+                } else if (instrumentType.equals(StringConstants.ACOUSTIC)) {
+                    imgEditInstrument.setImageDrawable(getDrawable(R.drawable.acoustic_guitar));
+                } else if (instrumentType.equals(StringConstants.BASS)) {
+                    imgEditInstrument.setImageDrawable(getDrawable(R.drawable.bass_guitar));
+                }
+                //don't remove image here. Do it when 'update' clicked
+                removeImage = true;
+                imageChanged = true;
+            });
+
+        }
 
         //creating a back button
         Button btnBack = dialog.findViewById(R.id.btnImageBack);
@@ -260,6 +290,10 @@ public class EditActivity extends AppCompatActivity {
                 Uri selectedImage = data.getData();
                 bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(selectedImage));
                 imgEditInstrument.setImageBitmap(bitmap);
+
+                //don't remove image when 'update' is clicked
+                removeImage = false;
+                imageChanged = true;
 
 //                saveImage(getApplicationContext(), bitmap, fileName);
 
@@ -372,14 +406,29 @@ public class EditActivity extends AppCompatActivity {
 
     //updating the instrument in the database when 'update' clicked
     public void update(View view) {
-        instrumentViewModel = new InstrumentViewModel(getApplication());
-        instrument.setName(etUpdateName.getText().toString());
-        instrument.setType(instrumentType);
-        instrument.setUse(instrumentUse);
-        instrument.setCoated(sUpdateCoating.isChecked());
-        instrument.setLastChanged(stamp);
-        instrumentViewModel.update(instrument);
-        saveImage(getApplicationContext(), bitmap, fileName);
+        if(name.equals(etUpdateName.getText().toString())
+                && type.equals(instrumentType)
+                && use.equals(instrumentUse)
+                && coated == sUpdateCoating.isChecked()
+                && originalStamp == stamp
+                && !imageChanged){
+            Toast.makeText(this, "You made no changes", Toast.LENGTH_LONG).show();
+        }else {
+            instrumentViewModel = new InstrumentViewModel(getApplication());
+            instrument.setName(etUpdateName.getText().toString());
+            instrument.setType(instrumentType);
+            instrument.setUse(instrumentUse);
+            instrument.setCoated(sUpdateCoating.isChecked());
+            instrument.setLastChanged(stamp);
+            instrumentViewModel.update(instrument);
+        }
+        if(removeImage){
+                File file = new File(getFilesDir(), fileName);
+                file.delete();
+                setImage();
+        }else {
+            saveImage(getApplicationContext(), bitmap, fileName);
+        }
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
@@ -387,5 +436,35 @@ public class EditActivity extends AppCompatActivity {
     public void editName(View view) {
         tvUpdateName.setVisibility(View.INVISIBLE);
         etUpdateName.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onBackPressed(){
+        if(!name.equals(etUpdateName.getText().toString())
+                || !type.equals(instrumentType)
+                || !use.equals(instrumentUse)
+                || !coated == sUpdateCoating.isChecked()
+                || originalStamp != stamp
+                || imageChanged) {
+            confirmBackDialog();
+        }else {
+            super.onBackPressed();
+        }
+    }
+
+    private void confirmBackDialog() {
+        final Dialog dialog = new Dialog(EditActivity.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+
+        dialog.setContentView(R.layout.dialog_confirm_back);
+
+        Button btnYes = dialog.findViewById(R.id.btnBackYes);
+        btnYes.setOnClickListener(view -> EditActivity.super.onBackPressed());
+
+        Button btnNo = dialog.findViewById(R.id.btnBackNo);
+        btnNo.setOnClickListener(view -> dialog.cancel());
+
+        dialog.show();
     }
 }

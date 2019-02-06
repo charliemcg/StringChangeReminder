@@ -47,11 +47,11 @@ public class InstrumentAdapter extends RecyclerView.Adapter<InstrumentAdapter.In
         String type = instrument.getType();
         //if no file exists use a default image
         if(bitmap == null) {
-            if (type.matches(StringConstants.ELECTRIC)) {
+            if (type.equals(StringConstants.ELECTRIC)) {
                 instrumentHolder.imgInstrument.setImageDrawable(context.getDrawable(R.drawable.electric_guitar));
-            } else if (type.matches(StringConstants.ACOUSTIC)) {
+            } else if (type.equals(StringConstants.ACOUSTIC)) {
                 instrumentHolder.imgInstrument.setImageDrawable(context.getDrawable(R.drawable.acoustic_guitar));
-            } else if (type.matches(StringConstants.BASS)) {
+            } else if (type.equals(StringConstants.BASS)) {
                 instrumentHolder.imgInstrument.setImageDrawable(context.getDrawable(R.drawable.bass_guitar));
             }
         }else{
@@ -76,36 +76,36 @@ public class InstrumentAdapter extends RecyclerView.Adapter<InstrumentAdapter.In
         //setting string quality to good as default
         String strStatus = "Good";
         //conditions for strings being dull
-        if((15 < age && age < 30 && !instrument.isCoated() && instrument.getUse().matches(StringConstants.DAILY))
-                || (37 < age && age < 75 && !instrument.isCoated() && instrument.getUse().matches(StringConstants.SOME_DAYS))
-                || (60 < age && age < 120 && !instrument.isCoated() && instrument.getUse().matches(StringConstants.WEEKLY))
-                || (37 < age && age < 75 && instrument.isCoated() && instrument.getUse().matches(StringConstants.DAILY))
-                || (94 < age && age < 187 && instrument.isCoated() && instrument.getUse().matches(StringConstants.SOME_DAYS))
-                || (150 < age && age < 300 && instrument.isCoated() && instrument.getUse().matches(StringConstants.WEEKLY))){
+        if((15 < age && age < 30 && !instrument.isCoated() && instrument.getUse().equals(StringConstants.DAILY))
+                || (37 < age && age < 75 && !instrument.isCoated() && instrument.getUse().equals(StringConstants.SOME_DAYS))
+                || (60 < age && age < 120 && !instrument.isCoated() && instrument.getUse().equals(StringConstants.WEEKLY))
+                || (37 < age && age < 75 && instrument.isCoated() && instrument.getUse().equals(StringConstants.DAILY))
+                || (94 < age && age < 187 && instrument.isCoated() && instrument.getUse().equals(StringConstants.SOME_DAYS))
+                || (150 < age && age < 300 && instrument.isCoated() && instrument.getUse().equals(StringConstants.WEEKLY))){
             strStatus = "Dull";
         }
         //conditions for strings being rusty
-        if((age >= 30 && !instrument.isCoated() && instrument.getUse().matches(StringConstants.DAILY))
-                || (age >= 75 && !instrument.isCoated() && instrument.getUse().matches(StringConstants.SOME_DAYS))
-                || (age >= 120 && !instrument.isCoated() && instrument.getUse().matches(StringConstants.WEEKLY))
-                || (age >= 75 && instrument.isCoated() && instrument.getUse().matches(StringConstants.DAILY))
-                || (age >= 187 && instrument.isCoated() && instrument.getUse().matches(StringConstants.SOME_DAYS))
-                || (age >= 300 && instrument.isCoated() && instrument.getUse().matches(StringConstants.WEEKLY))){
+        if((age >= 30 && !instrument.isCoated() && instrument.getUse().equals(StringConstants.DAILY))
+                || (age >= 75 && !instrument.isCoated() && instrument.getUse().equals(StringConstants.SOME_DAYS))
+                || (age >= 120 && !instrument.isCoated() && instrument.getUse().equals(StringConstants.WEEKLY))
+                || (age >= 75 && instrument.isCoated() && instrument.getUse().equals(StringConstants.DAILY))
+                || (age >= 187 && instrument.isCoated() && instrument.getUse().equals(StringConstants.SOME_DAYS))
+                || (age >= 300 && instrument.isCoated() && instrument.getUse().equals(StringConstants.WEEKLY))){
             strStatus = "Rusty";
         }
         instrumentHolder.tvStatus.setText(strStatus);
         //getting age of string as a percentage of needing restringing
-        if(!instrument.isCoated() && instrument.getUse().matches(StringConstants.DAILY)){
+        if(!instrument.isCoated() && instrument.getUse().equals(StringConstants.DAILY)){
             age *= 3.3;
-        }else if(!instrument.isCoated() && instrument.getUse().matches(StringConstants.SOME_DAYS)){
+        }else if(!instrument.isCoated() && instrument.getUse().equals(StringConstants.SOME_DAYS)){
             age *= 1.333;
-        }else if(!instrument.isCoated() && instrument.getUse().matches(StringConstants.WEEKLY)){
+        }else if(!instrument.isCoated() && instrument.getUse().equals(StringConstants.WEEKLY)){
             age *= 0.833;
-        }else if(instrument.isCoated() && instrument.getUse().matches(StringConstants.DAILY)){
+        }else if(instrument.isCoated() && instrument.getUse().equals(StringConstants.DAILY)){
             age *= 1.333;
-        }else if(instrument.isCoated() && instrument.getUse().matches(StringConstants.SOME_DAYS)){
+        }else if(instrument.isCoated() && instrument.getUse().equals(StringConstants.SOME_DAYS)){
             age *= 0.535;
-        }else if(instrument.isCoated() && instrument.getUse().matches(StringConstants.WEEKLY)){
+        }else if(instrument.isCoated() && instrument.getUse().equals(StringConstants.WEEKLY)){
             age *= 0.333;
         }
         //best to round up to nearest integer

@@ -31,12 +31,13 @@
         android:layout_height="50dp"
         android:layout_margin="10dp"
         android:visibility="invisible"
-        app:layout_constraintTop_toTopOf="@id/editHeader"
-        app:layout_constraintBottom_toBottomOf="@id/editHeader"/>
+        app:layout_constraintBottom_toBottomOf="@id/editHeader"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/imgEditInstrument"/>
 
     <TextView
         android:id="@+id/tvUpdateName"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_margin="10dp"
         android:paddingStart="20dp"
@@ -45,7 +46,9 @@
         android:textColor="#FFFFFF"
         android:gravity="center_vertical"
         android:onClick="editName"
-        app:layout_constraintBottom_toBottomOf="@id/editHeader"/>
+        app:layout_constraintBottom_toBottomOf="@id/editHeader"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/imgEditInstrument"/>
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/rgUpdateType"

@@ -126,9 +126,9 @@ public class AddActivity extends AppCompatActivity {
 
     public void electricClicked(View view) {
         if (instrumentType != null) {
-            if (instrumentType.matches(StringConstants.ACOUSTIC)) {
+            if (instrumentType.equals(StringConstants.ACOUSTIC)) {
                 imgAddAcoustic.setImageDrawable(getDrawable(R.drawable.acoustic_background));
-            } else if (instrumentType.matches(StringConstants.BASS)) {
+            } else if (instrumentType.equals(StringConstants.BASS)) {
                 imgAddBass.setImageDrawable(getDrawable(R.drawable.bass_background));
             }
         }
@@ -138,9 +138,9 @@ public class AddActivity extends AppCompatActivity {
 
     public void acousticClicked(View view) {
         if (instrumentType != null) {
-            if (instrumentType.matches(StringConstants.ELECTRIC)) {
+            if (instrumentType.equals(StringConstants.ELECTRIC)) {
                 imgAddElectric.setImageDrawable(getDrawable(R.drawable.electric_background));
-            } else if (instrumentType.matches(StringConstants.BASS)) {
+            } else if (instrumentType.equals(StringConstants.BASS)) {
                 imgAddBass.setImageDrawable(getDrawable(R.drawable.bass_background));
             }
         }
@@ -150,9 +150,9 @@ public class AddActivity extends AppCompatActivity {
 
     public void bassClicked(View view) {
         if (instrumentType != null) {
-            if (instrumentType.matches(StringConstants.ELECTRIC)) {
+            if (instrumentType.equals(StringConstants.ELECTRIC)) {
                 imgAddElectric.setImageDrawable(getDrawable(R.drawable.electric_background));
-            } else if (instrumentType.matches(StringConstants.ACOUSTIC)) {
+            } else if (instrumentType.equals(StringConstants.ACOUSTIC)) {
                 imgAddAcoustic.setImageDrawable(getDrawable(R.drawable.acoustic_background));
             }
         }
@@ -162,9 +162,9 @@ public class AddActivity extends AppCompatActivity {
 
     public void dailyClicked(View view) {
         if (instrumentUse != null) {
-            if (instrumentUse.matches(StringConstants.SOME_DAYS)) {
+            if (instrumentUse.equals(StringConstants.SOME_DAYS)) {
                 imgAddSomeDays.setImageDrawable(getDrawable(R.drawable.calendar_somedays));
-            } else if (instrumentUse.matches(StringConstants.WEEKLY)) {
+            } else if (instrumentUse.equals(StringConstants.WEEKLY)) {
                 imgAddWeekly.setImageDrawable(getDrawable(R.drawable.calendar_weekly));
             }
         }
@@ -174,9 +174,9 @@ public class AddActivity extends AppCompatActivity {
 
     public void someDaysClicked(View view) {
         if (instrumentUse != null) {
-            if (instrumentUse.matches(StringConstants.DAILY)) {
+            if (instrumentUse.equals(StringConstants.DAILY)) {
                 imgAddDaily.setImageDrawable(getDrawable(R.drawable.calendar_daily));
-            } else if (instrumentUse.matches(StringConstants.WEEKLY)) {
+            } else if (instrumentUse.equals(StringConstants.WEEKLY)) {
                 imgAddWeekly.setImageDrawable(getDrawable(R.drawable.calendar_weekly));
             }
         }
@@ -186,9 +186,9 @@ public class AddActivity extends AppCompatActivity {
 
     public void weeklyClicked(View view) {
         if (instrumentUse != null) {
-            if (instrumentUse.matches(StringConstants.DAILY)) {
+            if (instrumentUse.equals(StringConstants.DAILY)) {
                 imgAddDaily.setImageDrawable(getDrawable(R.drawable.calendar_daily));
-            } else if (instrumentUse.matches(StringConstants.SOME_DAYS)) {
+            } else if (instrumentUse.equals(StringConstants.SOME_DAYS)) {
                 imgAddSomeDays.setImageDrawable(getDrawable(R.drawable.calendar_somedays));
             }
         }
