@@ -7,6 +7,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -30,6 +31,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.ShareActionProvider;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +41,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     InstrumentAdapter adapter;
+    private ShareActionProvider shareActionProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,10 +143,22 @@ public class MainActivity extends AppCompatActivity
             }else{
                 showInstrumentPicker();
             }
+        //allow user to share this app
         } else if (id == R.id.miShare) {
-
+            Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+            sharingIntent.setType("text/plain");
+            //url of the app on Play Store
+            String shareBodyText = "https://play.google.com/store/apps/details?id=com.violenthoboenterprises.russianroulette";//TODO get actual URL
+            sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT,"Subject here");//TODO get actual app name (ToneTracker?)
+            sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBodyText);
+            startActivity(Intent.createChooser(sharingIntent, "Share Via:"));
+            return true;
+        //directing user to Play Store so they can leave a review
         } else if (id == R.id.miReview) {
-
+            String URL = "https://play.google.com/store/apps/details?id=com.violenthoboenterprises.blistful";//TODO get actual URL
+            intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse(URL));
+            startActivity(intent);
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
