@@ -4,13 +4,19 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -18,8 +24,10 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.Calendar;
 
 public class EditActivity extends AppCompatActivity {
@@ -41,6 +49,8 @@ public class EditActivity extends AppCompatActivity {
     private InstrumentViewModel instrumentViewModel;
     private String instrumentUse;
     private String instrumentType;
+    private String fileName;
+    private Bitmap bitmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +75,8 @@ public class EditActivity extends AppCompatActivity {
         //getting the instrument that's being edited
         instrument = instrumentViewModel.getInstrument(id);
 
+        fileName = "image_" + instrument.getId() + ".bmp";
+
         populateFields();
 
     }
@@ -82,12 +94,19 @@ public class EditActivity extends AppCompatActivity {
     }
 
     private void setImage() {
-        if(instrumentType.matches(StringConstants.ELECTRIC)) {
-            imgEditInstrument.setImageDrawable(getDrawable(R.drawable.electric_guitar));
-        }else if(instrumentType.matches(StringConstants.ACOUSTIC)){
-            imgEditInstrument.setImageDrawable(getDrawable(R.drawable.acoustic_guitar));
-        }else if(instrumentType.matches(StringConstants.BASS)){
-            imgEditInstrument.setImageDrawable(getDrawable(R.drawable.bass_guitar));
+        //get image from internal storage
+        Bitmap bitmap = loadImageBitmap(getApplicationContext(), fileName);
+        //if no file exists use a default image
+        if(bitmap == null) {
+            if (instrumentType.matches(StringConstants.ELECTRIC)) {
+                imgEditInstrument.setImageDrawable(getDrawable(R.drawable.electric_guitar));
+            } else if (instrumentType.matches(StringConstants.ACOUSTIC)) {
+                imgEditInstrument.setImageDrawable(getDrawable(R.drawable.acoustic_guitar));
+            } else if (instrumentType.matches(StringConstants.BASS)) {
+                imgEditInstrument.setImageDrawable(getDrawable(R.drawable.bass_guitar));
+            }
+        }else{
+            imgEditInstrument.setImageBitmap(bitmap);
         }
     }
 
@@ -102,7 +121,7 @@ public class EditActivity extends AppCompatActivity {
         }
     }
 
-    //setting radio button relative to instrument type
+    //setting selected type image relative to instrument type
     private void setInstrumentType() {
         if (instrument.getType().matches(StringConstants.ELECTRIC)) {
             imgUpdateElectric.setImageDrawable(getDrawable(R.drawable.electric_background_selected));
@@ -116,7 +135,7 @@ public class EditActivity extends AppCompatActivity {
         }
     }
 
-    //setting radio button relative to how much instrument is used
+    //setting use image relative to how much instrument is used
     private void setInstrumentUse() {
         if (instrument.getUse().matches(StringConstants.DAILY)) {
             imgUpdateDaily.setImageDrawable(getDrawable(R.drawable.calendar_daily_selected));
@@ -197,6 +216,86 @@ public class EditActivity extends AppCompatActivity {
         imgUpdateWeekly.setImageDrawable(getDrawable(R.drawable.calendar_weekly_selected));
     }
 
+    //actions to occur when user selects to edit image
+    public void changeImage(View view) {
+        //creating a dialog
+        final Dialog dialog = new Dialog(EditActivity.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+
+        dialog.setContentView(R.layout.dialog_image_options);
+
+        Button btnChoose = dialog.findViewById(R.id.btnImageChoose);
+        btnChoose.setOnClickListener(view1 -> {
+            Intent intent = new Intent();
+            intent.setType("image/*");
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+            startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1);
+            dialog.cancel();
+        });
+
+        Button btnRemove = dialog.findViewById(R.id.btnRemoveImage);
+        btnRemove.setOnClickListener(view13 -> {
+            //removing saved image
+            File file = new File(getFilesDir(), fileName);
+            file.delete();
+            setImage();
+            dialog.cancel();
+        });
+
+        //creating a back button
+        Button btnBack = dialog.findViewById(R.id.btnImageBack);
+        btnBack.setOnClickListener(view12 -> dialog.cancel());
+
+        dialog.show();
+    }
+
+    //setting display image when chosen from image picker
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        try {
+            if (requestCode == 1 && resultCode == RESULT_OK
+                    && null != data) {
+                Uri selectedImage = data.getData();
+                bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(selectedImage));
+                imgEditInstrument.setImageBitmap(bitmap);
+
+//                saveImage(getApplicationContext(), bitmap, fileName);
+
+            }
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    //saving image to internal storage
+    public void saveImage(Context context, Bitmap bitmap, String name){
+        FileOutputStream fileOutputStream;
+        try {
+            fileOutputStream = context.openFileOutput(name, Context.MODE_PRIVATE);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 90, fileOutputStream);
+            fileOutputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    //loading image from internal storage
+    public Bitmap loadImageBitmap(Context context, String name){
+        FileInputStream fileInputStream;
+        Bitmap bitmap = null;
+        try{
+            fileInputStream = context.openFileInput(name);
+            bitmap = BitmapFactory.decodeStream(fileInputStream);
+            fileInputStream.close();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        return bitmap;
+    }
+
     public static class DatePickerDialogFrag extends DialogFragment
             implements DatePickerDialog.OnDateSetListener {
 
@@ -260,6 +359,9 @@ public class EditActivity extends AppCompatActivity {
         if (id == R.id.miDelete) {
             instrumentViewModel = new InstrumentViewModel(getApplication());
             instrumentViewModel.delete(instrument);
+            //removing saved image
+            File file = new File(getFilesDir(), fileName);
+            file.delete();
             //return to main activity after deleting instrument
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
@@ -277,39 +379,10 @@ public class EditActivity extends AppCompatActivity {
         instrument.setCoated(sUpdateCoating.isChecked());
         instrument.setLastChanged(stamp);
         instrumentViewModel.update(instrument);
+        saveImage(getApplicationContext(), bitmap, fileName);
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
-
-    //getting the instrument type as indicated view the radiogroup
-//    private String getRadioValue() {
-//        int radioButtonID = rgUpdateType.getCheckedRadioButtonId();
-//        View radioButton = rgUpdateType.findViewById(radioButtonID);
-//        int index = rgUpdateType.indexOfChild(radioButton);
-//        if (index == 0) {
-//            return StringConstants.ELECTRIC;
-//        } else if (index == 1) {
-//            return StringConstants.ACOUSTIC;
-//        } else if (index == 2) {
-//            return StringConstants.BASS;
-//        }
-//        return null;
-//    }
-
-    //getting the instrument type as indicated view the radiogroup
-//    private String getUseRadioValue() {
-//        int radioButtonID = rgUpdateUse.getCheckedRadioButtonId();
-//        View radioButton = rgUpdateUse.findViewById(radioButtonID);
-//        int index = rgUpdateUse.indexOfChild(radioButton);
-//        if (index == 0) {
-//            return StringConstants.DAILY;
-//        } else if (index == 1) {
-//            return StringConstants.SOME_DAYS;
-//        } else if (index == 2) {
-//            return StringConstants.WEEKLY;
-//        }
-//        return null;
-//    }
 
     public void editName(View view) {
         tvUpdateName.setVisibility(View.INVISIBLE);

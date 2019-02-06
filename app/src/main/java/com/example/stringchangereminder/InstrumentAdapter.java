@@ -1,6 +1,8 @@
 package com.example.stringchangereminder;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
@@ -12,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -38,13 +41,21 @@ public class InstrumentAdapter extends RecyclerView.Adapter<InstrumentAdapter.In
     @Override
     public void onBindViewHolder(@NonNull InstrumentHolder instrumentHolder, int i) {
         final Instrument instrument = instruments.get(i);
-        //showing correct image that represents the instrument type
-        if(instrument.getType().matches(StringConstants.ELECTRIC)){
-            instrumentHolder.imgInstrument.setImageDrawable(context.getDrawable(R.drawable.electric_guitar));
-        }else if(instrument.getType().matches(StringConstants.BASS)){
-            instrumentHolder.imgInstrument.setImageDrawable(context.getDrawable(R.drawable.bass_guitar));
-        }else if(instrument.getType().matches(StringConstants.ACOUSTIC)){
-            instrumentHolder.imgInstrument.setImageDrawable(context.getDrawable(R.drawable.acoustic_guitar));
+        //get image from internal storage
+        String fileName = "image_" + instrument.getId() + ".bmp";
+        Bitmap bitmap = loadImageBitmap(context, fileName);
+        String type = instrument.getType();
+        //if no file exists use a default image
+        if(bitmap == null) {
+            if (type.matches(StringConstants.ELECTRIC)) {
+                instrumentHolder.imgInstrument.setImageDrawable(context.getDrawable(R.drawable.electric_guitar));
+            } else if (type.matches(StringConstants.ACOUSTIC)) {
+                instrumentHolder.imgInstrument.setImageDrawable(context.getDrawable(R.drawable.acoustic_guitar));
+            } else if (type.matches(StringConstants.BASS)) {
+                instrumentHolder.imgInstrument.setImageDrawable(context.getDrawable(R.drawable.bass_guitar));
+            }
+        }else{
+            instrumentHolder.imgInstrument.setImageBitmap(bitmap);
         }
         instrumentHolder.tvName.setText(instrument.getName());
         //calculating age of strings
@@ -84,11 +95,6 @@ public class InstrumentAdapter extends RecyclerView.Adapter<InstrumentAdapter.In
         }
         instrumentHolder.tvStatus.setText(strStatus);
         //getting age of string as a percentage of needing restringing
-//        if(!instrument.isCoated()) {
-//            age *= 3.3;
-//        }else{
-//            age *= 1.666;
-//        }
         if(!instrument.isCoated() && instrument.getUse().matches(StringConstants.DAILY)){
             age *= 3.3;
         }else if(!instrument.isCoated() && instrument.getUse().matches(StringConstants.SOME_DAYS)){
@@ -112,6 +118,20 @@ public class InstrumentAdapter extends RecyclerView.Adapter<InstrumentAdapter.In
         }
     }
 
+    //loading image from internal storage
+    public Bitmap loadImageBitmap(Context context, String name){
+        FileInputStream fileInputStream;
+        Bitmap bitmap = null;
+        try{
+            fileInputStream = context.openFileInput(name);
+            bitmap = BitmapFactory.decodeStream(fileInputStream);
+            fileInputStream.close();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        return bitmap;
+    }
+
     @Override
     public int getItemCount() {
         return instruments.size();
@@ -133,7 +153,6 @@ public class InstrumentAdapter extends RecyclerView.Adapter<InstrumentAdapter.In
         private ImageView imgCoated;
         private TextView tvStatus;
         private ProgressBar progressBar;
-//        private ConstraintLayout itemLayout;
         InstrumentHolder(@NonNull View itemView) {
             super(itemView);
             imgInstrument = itemView.findViewById(R.id.imgInstrument);
@@ -142,7 +161,6 @@ public class InstrumentAdapter extends RecyclerView.Adapter<InstrumentAdapter.In
             imgCoated = itemView.findViewById(R.id.imgCoated);
             tvStatus = itemView.findViewById(R.id.tvStatus);
             progressBar = itemView.findViewById(R.id.progressBar);
-//            itemLayout = itemView.findViewById(R.id.itemLayout);
         }
     }
 }
