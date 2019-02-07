@@ -90,25 +90,25 @@ public class TheJobService extends JobService {
             notificationManager.createNotificationChannel(notificationChannel);
         }
 
-        String strContent;
-        if(count == 0){
-            strContent = "Consider restringing " + instrument.getName() + ".";
-        }else{
-            strContent = "You have instruments which need restringing.";
-        }
+//        String strContent;
+//        if(count == 0){
+//            strContent = "Consider restringing " + instrument.getName() + ".";
+//        }else{
+//            strContent = "You have instruments which need restringing.";
+//        }
 
         //Building the notification
         builder = new NotificationCompat.Builder(getApplicationContext(), notificChannelId)
                 .setSmallIcon(R.mipmap.ic_launcher)//TODO get real image
-                .setLargeIcon(BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.ic_launcher))//TODO get real image
-                .setContentTitle(strContent)
-//                .setTicker("Ticker")
-                .setWhen(0)
-//                .setContentText("Content text")
+                .setLargeIcon(BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.ic_launcher_round))//TODO get real image
+                .setContentTitle("Your strings are getting old")
+                .setTicker("Your strings are getting old")
+                .setWhen(0)//TODO set this to 10am
+                .setContentText("Consider a restring")
                 .setStyle(new NotificationCompat.BigTextStyle())
                 .setColorized(true)
-                .setColor(getApplicationContext().getResources().getColor(R.color.colorAccent))
-                .setLights(66666666, 500, 2000)
+                .setColor(getApplicationContext().getResources().getColor(R.color.colorAccent))//TODO decide on color
+                .setLights(66666666, 500, 2000)//TODO decide on color
                 .setDefaults(NotificationCompat.DEFAULT_SOUND)
                 .setContentIntent(notificIntent)
                 .setAutoCancel(true);

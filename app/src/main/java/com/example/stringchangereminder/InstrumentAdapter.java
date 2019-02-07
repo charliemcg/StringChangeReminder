@@ -1,6 +1,7 @@
 package com.example.stringchangereminder;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
@@ -73,7 +74,49 @@ public class InstrumentAdapter extends RecyclerView.Adapter<InstrumentAdapter.In
         if(instrument.isCoated()){
             instrumentHolder.imgCoated.setVisibility(View.VISIBLE);
         }
-        //setting string quality to good as default
+        instrumentHolder.tvStatus.setText(conditionAlgorithm(age, instrument));
+        //update indications of string quality
+        if(instrumentHolder.tvStatus.getText().equals("Good")){
+            instrumentHolder.tvStatus.setTextColor(context.getResources().getColor(R.color.green));
+            instrumentHolder.progressBar.setProgressTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.green)));
+        }else if(instrumentHolder.tvStatus.getText().equals("Dull")){
+            instrumentHolder.tvStatus.setTextColor(context.getResources().getColor(R.color.yellow));
+            instrumentHolder.progressBar.setProgressTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.yellow)));
+        }else if(instrumentHolder.tvStatus.getText().equals("Rusty")){
+            instrumentHolder.tvStatus.setTextColor(context.getResources().getColor(R.color.red));
+            instrumentHolder.progressBar.setProgressTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.red)));
+        }
+        age = ageAlgorithm(age, instrument);
+        //best to round up to nearest integer
+        age++;
+        //Setting the progress bar
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            instrumentHolder.progressBar.setProgress((int) age,true);
+        }else{
+            instrumentHolder.progressBar.setProgress((int) age);
+        }
+    }
+
+    //getting age of string as a percentage of needing restringing
+    private long ageAlgorithm(long age, Instrument instrument) {
+        if(!instrument.isCoated() && instrument.getUse().equals(StringConstants.DAILY)){
+            age *= 3.3;
+        }else if(!instrument.isCoated() && instrument.getUse().equals(StringConstants.SOME_DAYS)){
+            age *= 1.333;
+        }else if(!instrument.isCoated() && instrument.getUse().equals(StringConstants.WEEKLY)){
+            age *= 0.833;
+        }else if(instrument.isCoated() && instrument.getUse().equals(StringConstants.DAILY)){
+            age *= 1.333;
+        }else if(instrument.isCoated() && instrument.getUse().equals(StringConstants.SOME_DAYS)){
+            age *= 0.535;
+        }else if(instrument.isCoated() && instrument.getUse().equals(StringConstants.WEEKLY)){
+            age *= 0.333;
+        }
+        return age;
+    }
+
+    //setting string quality to good as default
+    private String conditionAlgorithm(long age, Instrument instrument) {
         String strStatus = "Good";
         //conditions for strings being dull
         if((15 < age && age < 30 && !instrument.isCoated() && instrument.getUse().equals(StringConstants.DAILY))
@@ -93,29 +136,7 @@ public class InstrumentAdapter extends RecyclerView.Adapter<InstrumentAdapter.In
                 || (age >= 300 && instrument.isCoated() && instrument.getUse().equals(StringConstants.WEEKLY))){
             strStatus = "Rusty";
         }
-        instrumentHolder.tvStatus.setText(strStatus);
-        //getting age of string as a percentage of needing restringing
-        if(!instrument.isCoated() && instrument.getUse().equals(StringConstants.DAILY)){
-            age *= 3.3;
-        }else if(!instrument.isCoated() && instrument.getUse().equals(StringConstants.SOME_DAYS)){
-            age *= 1.333;
-        }else if(!instrument.isCoated() && instrument.getUse().equals(StringConstants.WEEKLY)){
-            age *= 0.833;
-        }else if(instrument.isCoated() && instrument.getUse().equals(StringConstants.DAILY)){
-            age *= 1.333;
-        }else if(instrument.isCoated() && instrument.getUse().equals(StringConstants.SOME_DAYS)){
-            age *= 0.535;
-        }else if(instrument.isCoated() && instrument.getUse().equals(StringConstants.WEEKLY)){
-            age *= 0.333;
-        }
-        //best to round up to nearest integer
-        age++;
-        //Setting the progress bar
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            instrumentHolder.progressBar.setProgress((int) age,true);
-        }else{
-            instrumentHolder.progressBar.setProgress((int) age);
-        }
+        return strStatus;
     }
 
     //loading image from internal storage
