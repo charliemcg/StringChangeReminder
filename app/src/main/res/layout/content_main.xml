@@ -15,23 +15,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="100dp"
-        android:visibility="gone"
         ads:adSize="SMART_BANNER"
-        ads:adUnitId="ca-app-pub-2378583121223638/7561576546"
-        app:layout_constraintBottom_toTopOf="@+id/recyclerView"
+        ads:adUnitId="ca-app-pub-3940256099942544/6300978111"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/recyclerView"/>
     <!--TODO change this ID-->
+    <!--android:layout_marginTop="?attr/actionBarSize"-->
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         tools:listitem="@layout/item_layout"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/adView" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/adView"/>
 
 </android.support.constraint.ConstraintLayout>

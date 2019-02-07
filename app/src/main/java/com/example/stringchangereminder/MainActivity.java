@@ -48,6 +48,7 @@ import android.widget.Toast;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 
 import java.util.Calendar;
 
@@ -64,6 +65,9 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        MobileAds.initialize(this,
+                "ca-app-pub-3940256099942544~3347511713");//TODO get real id
 
         //setting up the navigation drawer
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -114,8 +118,9 @@ public class MainActivity extends AppCompatActivity
         }
 
         if (networkAvailable) {
-            adView.setVisibility(View.VISIBLE);
-            final AdRequest banRequest = new AdRequest.Builder().build();
+            final AdRequest banRequest = new AdRequest.Builder()
+                    .addTestDevice("ca-app-pub-3940256099942544/6300978111")//TODO remove this test line
+                    .build();
             adView.loadAd(banRequest);
         } else {
 
@@ -125,7 +130,18 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onAdFailedToLoad(int errorCode) {
+                Log.d(TAG, "Error: " + errorCode);
+            }
 
+            @Override
+            public void onAdLoaded() {
+                Log.d(TAG, "Ad loaded");
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onAdOpened() {
+                Log.d(TAG, "Ad Opened");
             }
 
         });
