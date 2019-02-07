@@ -10,11 +10,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,7 +28,6 @@ import android.widget.Toast;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.Calendar;
 
 public class EditActivity extends AppCompatActivity {
@@ -61,6 +58,7 @@ public class EditActivity extends AppCompatActivity {
     private boolean coated;
     private long originalStamp;
     private boolean imageChanged;
+    private boolean boolRemoveImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,7 +113,7 @@ public class EditActivity extends AppCompatActivity {
         //get image from internal storage
         bitmap = loadImageBitmap(getApplicationContext(), fileName);
         //if no file exists use a default image
-        if(bitmap == null) {
+        if (bitmap == null) {
             if (instrumentType.equals(StringConstants.ELECTRIC)) {
                 imgEditInstrument.setImageDrawable(getDrawable(R.drawable.electric_guitar));
             } else if (instrumentType.equals(StringConstants.ACOUSTIC)) {
@@ -123,8 +121,10 @@ public class EditActivity extends AppCompatActivity {
             } else if (instrumentType.equals(StringConstants.BASS)) {
                 imgEditInstrument.setImageDrawable(getDrawable(R.drawable.bass_guitar));
             }
-        }else{
+            boolRemoveImage = false;
+        } else {
             imgEditInstrument.setImageBitmap(bitmap);
+            boolRemoveImage = true;
         }
     }
 
@@ -241,16 +241,20 @@ public class EditActivity extends AppCompatActivity {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(false);
 
-        dialog.setContentView(R.layout.dialog_image_options);
+        if (boolRemoveImage) {
+            dialog.setContentView(R.layout.dialog_image_options);
+        } else {
+            dialog.setContentView(R.layout.dialog_image_options_no_remove);
+        }
 
-        Button btnTakePhoto = dialog.findViewById(R.id.btnTakePhoto);
+        ConstraintLayout btnTakePhoto = dialog.findViewById(R.id.btnTakePhoto);
         btnTakePhoto.setOnClickListener(view14 -> {
             Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
             startActivityForResult(intent, 2);
             dialog.cancel();
         });
 
-        Button btnChoose = dialog.findViewById(R.id.btnImageChoose);
+        ConstraintLayout btnChoose = dialog.findViewById(R.id.btnImageChoose);
         btnChoose.setOnClickListener(view1 -> {
             Intent intent = new Intent();
             intent.setType("image/*");
@@ -259,14 +263,9 @@ public class EditActivity extends AppCompatActivity {
             dialog.cancel();
         });
 
-        Button btnRemove = dialog.findViewById(R.id.btnRemoveImage);
+        ConstraintLayout btnRemove = dialog.findViewById(R.id.btnRemoveImage);
 
-        if(bitmap == null){
-
-            btnRemove.setVisibility(View.INVISIBLE);
-
-        }else {
-
+        if (boolRemoveImage) {
             btnRemove.setOnClickListener(view13 -> {
                 dialog.cancel();
                 if (instrumentType.equals(StringConstants.ELECTRIC)) {
@@ -279,8 +278,8 @@ public class EditActivity extends AppCompatActivity {
                 //don't remove image here. Do it when 'update' clicked
                 removeImage = true;
                 imageChanged = true;
+                boolRemoveImage = false;
             });
-
         }
 
         //creating a back button
@@ -306,8 +305,8 @@ public class EditActivity extends AppCompatActivity {
                 removeImage = false;
                 //mark that image was changed
                 imageChanged = true;
-            //picture taken from camera
-            }else if(requestCode == 2 && resultCode == RESULT_OK){
+                //picture taken from camera
+            } else if (requestCode == 2 && resultCode == RESULT_OK) {
                 bitmap = (Bitmap) data.getExtras().get("data");
                 imgEditInstrument.setImageBitmap(bitmap);
                 //don't remove image when 'update' is clicked
@@ -315,13 +314,14 @@ public class EditActivity extends AppCompatActivity {
                 //mark that image was changed
                 imageChanged = true;
             }
+            boolRemoveImage = true;
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     //saving image to internal storage
-    public void saveImage(Context context, Bitmap bitmap, String name){
+    public void saveImage(Context context, Bitmap bitmap, String name) {
         FileOutputStream fileOutputStream;
         try {
             fileOutputStream = context.openFileOutput(name, Context.MODE_PRIVATE);
@@ -333,14 +333,14 @@ public class EditActivity extends AppCompatActivity {
     }
 
     //loading image from internal storage
-    public Bitmap loadImageBitmap(Context context, String name){
+    public Bitmap loadImageBitmap(Context context, String name) {
         FileInputStream fileInputStream;
         Bitmap bitmap = null;
-        try{
+        try {
             fileInputStream = context.openFileInput(name);
             bitmap = BitmapFactory.decodeStream(fileInputStream);
             fileInputStream.close();
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return bitmap;
@@ -422,14 +422,14 @@ public class EditActivity extends AppCompatActivity {
 
     //updating the instrument in the database when 'update' clicked
     public void update(View view) {
-        if(name.equals(etUpdateName.getText().toString())
+        if (name.equals(etUpdateName.getText().toString())
                 && type.equals(instrumentType)
                 && use.equals(instrumentUse)
                 && coated == sUpdateCoating.isChecked()
                 && originalStamp == stamp
-                && !imageChanged){
-            Toast.makeText(this, "You made no changes", Toast.LENGTH_LONG).show();
-        }else {
+                && !imageChanged) {
+            Toast.makeText(this, "You made no changes.", Toast.LENGTH_LONG).show();
+        } else {
             instrumentViewModel = new InstrumentViewModel(getApplication());
             instrument.setName(etUpdateName.getText().toString());
             instrument.setType(instrumentType);
@@ -438,11 +438,11 @@ public class EditActivity extends AppCompatActivity {
             instrument.setLastChanged(stamp);
             instrumentViewModel.update(instrument);
         }
-        if(removeImage){
-                File file = new File(getFilesDir(), fileName);
-                file.delete();
-                setImage();
-        }else {
+        if (removeImage) {
+            File file = new File(getFilesDir(), fileName);
+            file.delete();
+            setImage();
+        } else {
             saveImage(getApplicationContext(), bitmap, fileName);
         }
         Intent intent = new Intent(this, MainActivity.class);
@@ -455,16 +455,16 @@ public class EditActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed(){
+    public void onBackPressed() {
         //Prompt user to discard changes if they try to exit activity after having made changes
-        if(!name.equals(etUpdateName.getText().toString())
+        if (!name.equals(etUpdateName.getText().toString())
                 || !type.equals(instrumentType)
                 || !use.equals(instrumentUse)
                 || !coated == sUpdateCoating.isChecked()
                 || originalStamp != stamp
                 || imageChanged) {
             confirmBackDialog();
-        }else {
+        } else {
             super.onBackPressed();
         }
     }

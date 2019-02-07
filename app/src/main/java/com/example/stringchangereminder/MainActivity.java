@@ -41,7 +41,6 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     InstrumentAdapter adapter;
-    private ShareActionProvider shareActionProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +66,6 @@ public class MainActivity extends AppCompatActivity
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
                 DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(dividerItemDecoration);
-//        dividerItemDecoration.setDrawable(ContextCompat.getDrawable(recyclerView.getContext(), R.drawable.item_decoration_subtasks));
 
         //setting up the adapter
         adapter = new InstrumentAdapter(this);
@@ -135,7 +133,7 @@ public class MainActivity extends AppCompatActivity
         //prompt user to pick instrument to edit
         } else if (id == R.id.miEdit) {
             if(adapter.getItemCount() == 0) {
-                Toast.makeText(this, "You have no guitars to edit", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "You have no guitars to edit.", Toast.LENGTH_SHORT).show();
             }else if(adapter.getItemCount() == 1){
                 intent = new Intent(this, EditActivity.class);
                 intent.putExtra("ID_KEY", adapter.getInstrumentAt(0).getId());

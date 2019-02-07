@@ -100,9 +100,9 @@ public class AddActivity extends AppCompatActivity {
     public void submit(View view) {
         //validating that there are no nulls
         if (etAddName.getText().toString().equals("")) {
-            Toast.makeText(this, "Your instrument needs a name", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Your instrument needs a name.", Toast.LENGTH_SHORT).show();
         } else if (instrumentType == null) {
-            Toast.makeText(this, "Specify your instrument type", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Specify your instrument type.", Toast.LENGTH_SHORT).show();
         } else if (instrumentUse == null) {
             Toast.makeText(this, "How often do you play this guitar?", Toast.LENGTH_SHORT).show();
         } else if (tvAddDateChanged.getText().equals("")) {
