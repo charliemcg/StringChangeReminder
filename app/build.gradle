@@ -45,4 +45,6 @@ dependencies {
     //circle imageview
     implementation 'de.hdodenhof:circleimageview:2.2.0'
 
+    //ads
+    implementation 'com.google.android.gms:play-services-ads:17.1.3'
 }

@@ -12,6 +12,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -43,6 +45,10 @@ import android.widget.ShareActionProvider;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity
@@ -50,6 +56,7 @@ public class MainActivity extends AppCompatActivity
 
     private static String TAG = "MainActivity";
     InstrumentAdapter adapter;
+    private AdView adView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +74,8 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        adView = findViewById(R.id.adView);
 
         //Setting up the recycler view
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
@@ -89,9 +98,37 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        //TODO check if this thing is running
         scheduleStart();
 
+        showAd();
+
+    }
+
+    private void showAd() {
+        boolean networkAvailable = false;
+        ConnectivityManager connectivityManager = (ConnectivityManager)
+                this.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        if (activeNetworkInfo != null && activeNetworkInfo.isConnected()) {
+            networkAvailable = true;
+        }
+
+        if (networkAvailable) {
+            adView.setVisibility(View.VISIBLE);
+            final AdRequest banRequest = new AdRequest.Builder().build();
+            adView.loadAd(banRequest);
+        } else {
+
+        }
+
+        adView.setAdListener(new AdListener() {
+
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+
+            }
+
+        });
     }
 
     @Override

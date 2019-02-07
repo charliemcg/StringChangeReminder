@@ -407,14 +407,7 @@ public class EditActivity extends AppCompatActivity {
 
         //remove record of this instrument from the database
         if (id == R.id.miDelete) {
-            instrumentViewModel = new InstrumentViewModel(getApplication());
-            instrumentViewModel.delete(instrument);
-            //removing saved image
-            File file = new File(getFilesDir(), fileName);
-            file.delete();
-            //return to main activity after deleting instrument
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
+            confirmDeleteDialog();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -484,4 +477,31 @@ public class EditActivity extends AppCompatActivity {
 
         dialog.show();
     }
+
+
+    private void confirmDeleteDialog() {
+        final Dialog dialog = new Dialog(EditActivity.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+
+        dialog.setContentView(R.layout.dialog_confirm_delete);
+
+        Button btnYes = dialog.findViewById(R.id.btnDeleteYes);
+        btnYes.setOnClickListener(view -> {
+            instrumentViewModel = new InstrumentViewModel(getApplication());
+            instrumentViewModel.delete(instrument);
+            //removing saved image
+            File file = new File(getFilesDir(), fileName);
+            file.delete();
+            //return to main activity after deleting instrument
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        });
+
+        Button btnNo = dialog.findViewById(R.id.btnDeleteNo);
+        btnNo.setOnClickListener(view -> dialog.cancel());
+
+        dialog.show();
+    }
+
 }
