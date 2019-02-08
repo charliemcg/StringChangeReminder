@@ -18,6 +18,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -60,6 +62,7 @@ public class EditActivity extends AppCompatActivity {
     private long originalStamp;
     private boolean imageChanged;
     private boolean boolRemoveImage;
+    public static InputMethodManager keyboard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +93,7 @@ public class EditActivity extends AppCompatActivity {
         InstrumentViewModel instrumentViewModel = new InstrumentViewModel(getApplication());
         //getting the instrument that's being edited
         instrument = instrumentViewModel.getInstrument(id);
+        keyboard = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
         fileName = "image_" + instrument.getId() + ".bmp";
 
@@ -101,6 +105,24 @@ public class EditActivity extends AppCompatActivity {
         imageChanged = false;
 
         populateFields();
+
+        //Actions to occur when user submits new task
+        etUpdateName.setOnEditorActionListener((v, actionId, event) -> {
+            //Actions to take when creating new task
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                keyboard.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+                String nametext = String.valueOf(etUpdateName.getText());
+                if(!nametext.equals("")) {
+                    tvUpdateName.setText(nametext);
+                }else{
+                    etUpdateName.setText(tvUpdateName.getText());
+                }
+                etUpdateName.setVisibility(View.INVISIBLE);
+                tvUpdateName.setVisibility(View.VISIBLE);
+                return true;
+            }
+            return false;
+        });
 
     }
 
@@ -132,6 +154,21 @@ public class EditActivity extends AppCompatActivity {
         } else {
             imgEditInstrument.setImageBitmap(bitmap);
             boolRemoveImage = true;
+        }
+    }
+
+    //if user clicks away from the name edit text then replace the edit text with a textview
+    //show any text that had been input into the edittext
+    private void showTextView() {
+        //don't carry out actions if name already set
+        if(etUpdateName.getVisibility() == View.VISIBLE) {
+            keyboard.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+            String nametext = String.valueOf(etUpdateName.getText());
+            if (!nametext.equals("")) {
+                tvUpdateName.setText(nametext);
+                etUpdateName.setVisibility(View.INVISIBLE);
+                tvUpdateName.setVisibility(View.VISIBLE);
+            }
         }
     }
 
@@ -182,6 +219,7 @@ public class EditActivity extends AppCompatActivity {
     }
 
     public void electricClicked(View view) {
+        showTextView();
         if (instrumentType.equals(StringConstants.ACOUSTIC)) {
             imgUpdateAcoustic.setImageDrawable(getDrawable(R.drawable.acoustic_background));
         } else if (instrumentType.equals(StringConstants.BASS)) {
@@ -192,6 +230,7 @@ public class EditActivity extends AppCompatActivity {
     }
 
     public void acousticClicked(View view) {
+        showTextView();
         if (instrumentType.equals(StringConstants.ELECTRIC)) {
             imgUpdateElectric.setImageDrawable(getDrawable(R.drawable.electric_background));
         } else if (instrumentType.equals(StringConstants.BASS)) {
@@ -202,6 +241,7 @@ public class EditActivity extends AppCompatActivity {
     }
 
     public void bassClicked(View view) {
+        showTextView();
         if (instrumentType.equals(StringConstants.ELECTRIC)) {
             imgUpdateElectric.setImageDrawable(getDrawable(R.drawable.electric_background));
         } else if (instrumentType.equals(StringConstants.ACOUSTIC)) {
@@ -212,6 +252,7 @@ public class EditActivity extends AppCompatActivity {
     }
 
     public void dailyClicked(View view) {
+        showTextView();
         if (instrumentUse.equals(StringConstants.SOME_DAYS)) {
             imgUpdateSomeDays.setImageDrawable(getDrawable(R.drawable.calendar_somedays));
         } else if (instrumentUse.equals(StringConstants.WEEKLY)) {
@@ -222,6 +263,7 @@ public class EditActivity extends AppCompatActivity {
     }
 
     public void someDaysClicked(View view) {
+        showTextView();
         if (instrumentUse.equals(StringConstants.DAILY)) {
             imgUpdateDaily.setImageDrawable(getDrawable(R.drawable.calendar_daily));
         } else if (instrumentUse.equals(StringConstants.WEEKLY)) {
@@ -232,6 +274,7 @@ public class EditActivity extends AppCompatActivity {
     }
 
     public void weeklyClicked(View view) {
+        showTextView();
         if (instrumentUse.equals(StringConstants.DAILY)) {
             imgUpdateDaily.setImageDrawable(getDrawable(R.drawable.calendar_daily));
         } else if (instrumentUse.equals(StringConstants.SOME_DAYS)) {
@@ -243,6 +286,7 @@ public class EditActivity extends AppCompatActivity {
 
     //actions to occur when user selects to edit image
     public void changeImage(View view) {
+        showTextView();
         //creating a dialog
         final Dialog dialog = new Dialog(EditActivity.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -452,6 +496,9 @@ public class EditActivity extends AppCompatActivity {
     public void editName(View view) {
         tvUpdateName.setVisibility(View.INVISIBLE);
         etUpdateName.setVisibility(View.VISIBLE);
+        //Show keyboard
+        keyboard.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+        etUpdateName.setSelection(etUpdateName.getText().length());
     }
 
     @Override

@@ -239,7 +239,7 @@
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_marginStart="10dp"
-        android:text="This guitar has coated strings."
+        android:text="This guitar has coated strings"
         android:gravity="center_vertical"
         app:layout_constraintTop_toBottomOf="@id/tvAddDateChanged"
         app:layout_constraintStart_toStartOf="parent"

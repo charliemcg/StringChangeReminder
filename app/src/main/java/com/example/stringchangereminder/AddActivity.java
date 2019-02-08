@@ -75,10 +75,8 @@ public class AddActivity extends AppCompatActivity {
 
         //Actions to occur when user submits new task
         etAddName.setOnEditorActionListener((v, actionId, event) -> {
-
             //Actions to take when creating new task
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-
                 keyboard.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
                 String nametext = String.valueOf(etAddName.getText());
                 if(!nametext.equals("")) {
@@ -86,15 +84,10 @@ public class AddActivity extends AppCompatActivity {
                     etAddName.setVisibility(View.INVISIBLE);
                     tvAddName.setVisibility(View.VISIBLE);
                 }
-
                 return true;
-
             }
-
             return false;
-
         });
-
     }
 
     //Show date picker when user clicks on the date changed field

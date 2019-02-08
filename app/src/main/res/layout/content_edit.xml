@@ -13,7 +13,7 @@
         android:id="@+id/editHeader"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:background="@color/purple"
+        android:background="@drawable/side_nav_bar"
         app:layout_constraintTop_toTopOf="parent"/>
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -29,9 +29,12 @@
     <EditText
         android:id="@+id/etUpdateName"
         android:layout_width="0dp"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         android:layout_margin="10dp"
         android:visibility="invisible"
+        android:inputType="textCapSentences"
+        android:maxLength="20"
+        android:textColor="@color/colorText"
         app:layout_constraintBottom_toBottomOf="@id/editHeader"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/imgEditInstrument"/>
@@ -39,13 +42,10 @@
     <TextView
         android:id="@+id/tvUpdateName"
         android:layout_width="0dp"
-        android:layout_height="70dp"
+        android:layout_height="80dp"
         android:layout_margin="10dp"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
         android:textSize="25sp"
-        android:textColor="#FFFFFF"
-        android:gravity="center_vertical"
+        android:gravity="bottom"
         android:onClick="editName"
         app:layout_constraintBottom_toBottomOf="@id/editHeader"
         app:layout_constraintStart_toStartOf="parent"
@@ -115,33 +115,6 @@
         </android.support.constraint.ConstraintLayout>
     </android.support.constraint.ConstraintLayout>
 
-    <!--<RadioGroup-->
-        <!--android:id="@+id/rgUpdateType"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:orientation="horizontal"-->
-        <!--app:layout_constraintTop_toBottomOf="@id/editHeader"-->
-        <!--app:layout_constraintBottom_toTopOf="@id/rgUpdateUse">-->
-        <!--<RadioButton-->
-            <!--android:id="@+id/rbUpdateElectric"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_margin="10dp"-->
-            <!--android:text="Electric"/>-->
-        <!--<RadioButton-->
-            <!--android:id="@+id/rbUpdateAcoustic"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_margin="10dp"-->
-            <!--android:text="Acoustic"/>-->
-        <!--<RadioButton-->
-            <!--android:id="@+id/rbUpdateBass"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_margin="10dp"-->
-            <!--android:text="Bass"/>-->
-    <!--</RadioGroup>-->
-
     <android.support.constraint.ConstraintLayout
         android:id="@+id/rgUpdateUse"
         android:layout_width="match_parent"
@@ -205,38 +178,12 @@
         </android.support.constraint.ConstraintLayout>
     </android.support.constraint.ConstraintLayout>
 
-    <!--<RadioGroup-->
-        <!--android:id="@+id/rgUpdateUse"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:orientation="horizontal"-->
-        <!--app:layout_constraintTop_toBottomOf="@id/rgUpdateType"-->
-        <!--app:layout_constraintBottom_toTopOf="@id/sUpdateCoating">-->
-        <!--<RadioButton-->
-            <!--android:id="@+id/rbUpdateDaily"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_margin="10dp"-->
-            <!--android:text="Daily"/>-->
-        <!--<RadioButton-->
-            <!--android:id="@+id/rbUpdateSomeDays"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_margin="10dp"-->
-            <!--android:text="Between"/>-->
-        <!--<RadioButton-->
-            <!--android:id="@+id/rbUpdateWeekly"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_margin="10dp"-->
-            <!--android:text="Weekly"/>-->
-    <!--</RadioGroup>-->
-
     <TextView
         android:id="@+id/tvUpdateDateChangedLabel"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:layout_margin="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
         android:text="Strings Last Changed"
         android:gravity="center"
         app:layout_constraintTop_toBottomOf="@id/rgUpdateUse"
@@ -250,7 +197,6 @@
         android:layout_height="40dp"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
-        android:hint="..."
         android:gravity="center"
         android:background="@drawable/text_view_background"
         android:onClick="showCalendarDialog"
@@ -264,12 +210,12 @@
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_marginStart="10dp"
-        android:text="This guitar has coated strings."
+        android:text="This guitar has coated strings"
         android:gravity="center_vertical"
         app:layout_constraintTop_toBottomOf="@id/tvUpdateDateChanged"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/sUpdateCoating"
-        app:layout_constraintBottom_toTopOf="@id/btnUpdate"/>
+        app:layout_constraintBottom_toTopOf="@id/div"/>
 
     <Switch
         android:id="@+id/sUpdateCoating"
@@ -280,25 +226,26 @@
         app:layout_constraintTop_toBottomOf="@+id/tvUpdateDateChanged"
         app:layout_constraintStart_toEndOf="@id/tvUpdateCoatingLabel"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/btnUpdate"/>
+        app:layout_constraintBottom_toTopOf="@id/div"/>
 
     <View
+        android:id="@+id/div"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        android:background="@color/blue"
+        android:background="@color/colorText"
         app:layout_constraintTop_toBottomOf="@id/sUpdateCoating"
         app:layout_constraintBottom_toTopOf="@id/btnUpdate"/>
 
     <Button
         android:id="@+id/btnUpdate"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
+        android:layout_height="60dp"
+        android:layout_margin="20dp"
+        android:background="@drawable/custom_button"
         android:text="Update"
+        android:textSize="20sp"
         android:onClick="update"
         app:layout_constraintTop_toBottomOf="@id/sUpdateCoating"
         app:layout_constraintBottom_toBottomOf="parent"/>
