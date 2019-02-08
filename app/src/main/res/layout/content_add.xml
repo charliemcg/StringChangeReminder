@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".AddActivity"
-    tools:showIn="@layout/activity_add">
+    tools:showIn="@layout/activity_add"
+    android:background="@color/colorPrimary">
 
     <EditText
         android:id="@+id/etAddName"
@@ -15,7 +16,9 @@
         android:layout_marginTop="10dp"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
+        android:textColor="@color/colorText"
         android:hint="Name (eg. Stratocaster)"
+        android:textColorHint="@color/colorText"
         android:inputType="textCapSentences"
         android:maxLength="20"
         app:layout_constraintTop_toTopOf="parent"
@@ -206,6 +209,7 @@
         android:id="@+id/tvAddDateChangedLabel"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
+        android:layout_marginTop="10dp"
         android:layout_marginStart="10dp"
         android:text="Strings Last Changed"
         android:gravity="center"
@@ -221,9 +225,10 @@
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:hint="..."
+        android:textColorHint="@color/colorText"
         android:gravity="center"
-        android:background="@drawable/text_view_background"
         android:onClick="showCalendarDialog"
+        android:background="@drawable/text_view_background"
         app:layout_constraintTop_toBottomOf="@id/rgUse"
         app:layout_constraintStart_toEndOf="@id/tvAddDateChangedLabel"
         app:layout_constraintEnd_toEndOf="parent"
@@ -239,7 +244,7 @@
         app:layout_constraintTop_toBottomOf="@id/tvAddDateChanged"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/sAddCoating"
-        app:layout_constraintBottom_toTopOf="@id/btnSubmit"/>
+        app:layout_constraintBottom_toTopOf="@id/div"/>
 
     <Switch
         android:id="@+id/sAddCoating"
@@ -250,25 +255,26 @@
         app:layout_constraintTop_toBottomOf="@+id/tvAddDateChanged"
         app:layout_constraintStart_toEndOf="@id/tvAddCoatingLabel"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/btnSubmit"/>
+        app:layout_constraintBottom_toTopOf="@id/div"/>
 
     <View
+        android:id="@+id/div"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        android:background="@color/blue"
+        android:background="@color/colorText"
         app:layout_constraintTop_toBottomOf="@id/sAddCoating"
         app:layout_constraintBottom_toTopOf="@id/btnSubmit"/>
 
     <Button
         android:id="@+id/btnSubmit"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
+        android:layout_height="60dp"
+        android:layout_margin="20dp"
+        android:background="@drawable/custom_button"
         android:text="Submit"
+        android:textSize="20sp"
         android:onClick="submit"
         app:layout_constraintTop_toBottomOf="@id/sAddCoating"
         app:layout_constraintBottom_toBottomOf="parent"/>

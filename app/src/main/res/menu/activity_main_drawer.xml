@@ -1,31 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/miAdd"
             android:icon="@drawable/ic_add"
-            android:title="Add instrument" />
+            android:title="ADD instrument+" />
         <item
             android:id="@+id/miEdit"
             android:icon="@drawable/ic_edit"
-            android:title="Edit instrument" />
+            android:title="EDIT instrument" />
     </group>
 
-    <item android:title="Communicate">
-        <menu>
-            <item
-                android:id="@+id/miShare"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share"/>
-            <item
-                android:id="@+id/miReview"
-                android:icon="@drawable/ic_star"
-                android:title="Leave a review" />
-        </menu>
-    </item>
+    <item
+        android:id="@+id/miShare"
+        android:icon="@drawable/ic_menu_share"
+        android:title="Share" />
+    <item
+        android:id="@+id/miReview"
+        android:icon="@drawable/ic_star"
+        android:title="Leave a review" />
 
 </menu>

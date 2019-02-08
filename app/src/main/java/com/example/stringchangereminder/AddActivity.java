@@ -13,6 +13,8 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
@@ -50,6 +52,12 @@ public class AddActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //Setting dark status bar
+        Window window = this.getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.setStatusBarColor(this.getResources().getColor(R.color.colorPrimaryDark));
+
         etAddName = findViewById(R.id.etAddName);
         tvAddName = findViewById(R.id.tvAddName);
         imgAddElectric = findViewById(R.id.imgAddElectric);
@@ -72,9 +80,12 @@ public class AddActivity extends AppCompatActivity {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
 
                 keyboard.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
-                tvAddName.setText(etAddName.getText());
-                etAddName.setVisibility(View.INVISIBLE);
-                tvAddName.setVisibility(View.VISIBLE);
+                String nametext = String.valueOf(etAddName.getText());
+                if(!nametext.equals("")) {
+                    tvAddName.setText(nametext);
+                    etAddName.setVisibility(View.INVISIBLE);
+                    tvAddName.setVisibility(View.VISIBLE);
+                }
 
                 return true;
 
@@ -88,12 +99,10 @@ public class AddActivity extends AppCompatActivity {
 
     //Show date picker when user clicks on the date changed field
     public void showCalendarDialog(View view) {
-
+        showTextView();
         //TODO deal with this deprecation
         DialogFragment dialogfragment = new DatePickerDialogFrag();
-
         dialogfragment.show(getFragmentManager(), "Date");
-
     }
 
     //actions to occur when user clicks 'submit'
@@ -124,7 +133,23 @@ public class AddActivity extends AppCompatActivity {
         tvAddName.setVisibility(View.INVISIBLE);
     }
 
+    //if user clicks away from the name edit text then replace the edit text with a textview
+    //show any text that had been input into the edittext
+    private void showTextView() {
+        //don't carry out actions if name already set
+        if(etAddName.getVisibility() == View.VISIBLE) {
+            keyboard.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+            String nametext = String.valueOf(etAddName.getText());
+            if (!nametext.equals("")) {
+                tvAddName.setText(nametext);
+                etAddName.setVisibility(View.INVISIBLE);
+                tvAddName.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
     public void electricClicked(View view) {
+        showTextView();
         if (instrumentType != null) {
             if (instrumentType.equals(StringConstants.ACOUSTIC)) {
                 imgAddAcoustic.setImageDrawable(getDrawable(R.drawable.acoustic_background));
@@ -137,6 +162,7 @@ public class AddActivity extends AppCompatActivity {
     }
 
     public void acousticClicked(View view) {
+        showTextView();
         if (instrumentType != null) {
             if (instrumentType.equals(StringConstants.ELECTRIC)) {
                 imgAddElectric.setImageDrawable(getDrawable(R.drawable.electric_background));
@@ -149,6 +175,7 @@ public class AddActivity extends AppCompatActivity {
     }
 
     public void bassClicked(View view) {
+        showTextView();
         if (instrumentType != null) {
             if (instrumentType.equals(StringConstants.ELECTRIC)) {
                 imgAddElectric.setImageDrawable(getDrawable(R.drawable.electric_background));
@@ -161,6 +188,7 @@ public class AddActivity extends AppCompatActivity {
     }
 
     public void dailyClicked(View view) {
+        showTextView();
         if (instrumentUse != null) {
             if (instrumentUse.equals(StringConstants.SOME_DAYS)) {
                 imgAddSomeDays.setImageDrawable(getDrawable(R.drawable.calendar_somedays));
@@ -173,6 +201,7 @@ public class AddActivity extends AppCompatActivity {
     }
 
     public void someDaysClicked(View view) {
+        showTextView();
         if (instrumentUse != null) {
             if (instrumentUse.equals(StringConstants.DAILY)) {
                 imgAddDaily.setImageDrawable(getDrawable(R.drawable.calendar_daily));
@@ -185,6 +214,7 @@ public class AddActivity extends AppCompatActivity {
     }
 
     public void weeklyClicked(View view) {
+        showTextView();
         if (instrumentUse != null) {
             if (instrumentUse.equals(StringConstants.DAILY)) {
                 imgAddDaily.setImageDrawable(getDrawable(R.drawable.calendar_daily));

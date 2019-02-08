@@ -5,5 +5,5 @@
         android:id="@+id/miSettings"
         android:orderInCategory="100"
         android:title="Settings"
-        app:showAsAction="never" />
+        app:showAsAction="never"/>
 </menu>
