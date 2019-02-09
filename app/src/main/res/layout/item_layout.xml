@@ -35,7 +35,7 @@
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
         android:textSize="15sp"
-        app:layout_constraintEnd_toStartOf="@id/tvStatus"
+        app:layout_constraintEnd_toStartOf="@id/btnRestring"
         app:layout_constraintStart_toStartOf="@id/tvName"
         app:layout_constraintTop_toBottomOf="@id/tvName"
         app:layout_constraintBottom_toBottomOf="parent"/>
@@ -52,15 +52,26 @@
         app:layout_constraintTop_toTopOf="@id/imgInstrument"
         android:progressDrawable="@drawable/circle_progress_bar"/>
 
-    <TextView
-        android:id="@+id/tvStatus"
+    <!--<TextView-->
+        <!--android:id="@+id/tvStatus"-->
+        <!--android:layout_width="60dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:gravity="center"-->
+        <!--android:textSize="20sp"-->
+        <!--android:textStyle="bold"-->
+        <!--app:layout_constraintEnd_toStartOf="@id/btnRestring"-->
+        <!--app:layout_constraintStart_toEndOf="@id/tvAge"-->
+        <!--app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--app:layout_constraintTop_toBottomOf="@id/tvName"/>-->
+
+    <Button
+        android:id="@+id/btnRestring"
+        android:background="@drawable/custom_button"
         android:layout_width="70dp"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_height="30dp"
+        android:text="Restring"
         app:layout_constraintStart_toEndOf="@id/tvAge"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvName"/>
 

@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity
         dividerItemDecoration.setDrawable(ContextCompat.getDrawable(recyclerView.getContext(), R.drawable.item_decoration));
 
         //setting up the adapter
-        adapter = new InstrumentAdapter(this);
+        adapter = new InstrumentAdapter(this, getApplication());
         recyclerView.setAdapter(adapter);
 
         //observing the recycler view items for changes

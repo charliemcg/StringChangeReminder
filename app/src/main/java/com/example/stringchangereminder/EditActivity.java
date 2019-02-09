@@ -59,6 +59,7 @@ public class EditActivity extends AppCompatActivity {
     private String type;
     private String use;
     private boolean coated;
+    private static boolean boolCalendar;
     private long originalStamp;
     private boolean imageChanged;
     private boolean boolRemoveImage;
@@ -106,7 +107,13 @@ public class EditActivity extends AppCompatActivity {
 
         populateFields();
 
-        //Actions to occur when user submits new task
+        boolCalendar = getIntent().getBooleanExtra("CALENDAR_KEY", false);
+
+        if(boolCalendar){
+            DialogFragment dialogfragment = new EditActivity.DatePickerDialogFrag();
+            dialogfragment.show(getFragmentManager(), "Date");
+        }
+
         etUpdateName.setOnEditorActionListener((v, actionId, event) -> {
             //Actions to take when creating new task
             if (actionId == EditorInfo.IME_ACTION_DONE) {

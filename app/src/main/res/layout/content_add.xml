@@ -75,6 +75,10 @@
                 android:layout_height="wrap_content"
                 android:text="Electric"
                 android:textStyle="bold"
+                android:shadowColor="#000000"
+                android:shadowDx="1"
+                android:shadowDy="1"
+                android:shadowRadius="2"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
         </android.support.constraint.ConstraintLayout>
@@ -97,6 +101,10 @@
                 android:layout_height="wrap_content"
                 android:text="Acoustic"
                 android:textStyle="bold"
+                android:shadowColor="#000000"
+                android:shadowDx="1"
+                android:shadowDy="1"
+                android:shadowRadius="2"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
         </android.support.constraint.ConstraintLayout>
@@ -119,6 +127,10 @@
                 android:layout_height="wrap_content"
                 android:text="Bass"
                 android:textStyle="bold"
+                android:shadowColor="#000000"
+                android:shadowDx="1"
+                android:shadowDy="1"
+                android:shadowRadius="2"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
         </android.support.constraint.ConstraintLayout>
@@ -154,13 +166,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@drawable/calendar_daily"/>
-            <!--<TextView-->
-                <!--android:layout_width="80dp"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="Every day"-->
-                <!--android:gravity="end"-->
-                <!--app:layout_constraintBottom_toBottomOf="parent"-->
-                <!--app:layout_constraintEnd_toEndOf="parent"/>-->
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:text="Daily"
+                android:textStyle="bold"
+                android:gravity="end"
+                android:shadowColor="#000000"
+                android:shadowDx="1"
+                android:shadowDy="1"
+                android:shadowRadius="2"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
         </android.support.constraint.ConstraintLayout>
         <android.support.constraint.ConstraintLayout
             android:id="@+id/rbAddSomeDays"
@@ -176,13 +193,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@drawable/calendar_somedays"/>
-            <!--<TextView-->
-                <!--android:layout_width="80dp"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="A few times per week"-->
-                <!--android:gravity="end"-->
-                <!--app:layout_constraintBottom_toBottomOf="parent"-->
-                <!--app:layout_constraintEnd_toEndOf="parent"/>-->
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:text="Regularly"
+                android:gravity="end"
+                android:textStyle="bold"
+                android:shadowColor="#000000"
+                android:shadowDx="1"
+                android:shadowDy="1"
+                android:shadowRadius="2"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
         </android.support.constraint.ConstraintLayout>
         <android.support.constraint.ConstraintLayout
             android:id="@+id/rbAddWeekly"
@@ -198,13 +220,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@drawable/calendar_weekly"/>
-            <!--<TextView-->
-                <!--android:layout_width="80dp"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="Once a week or less"-->
-                <!--android:gravity="end"-->
-                <!--app:layout_constraintBottom_toBottomOf="parent"-->
-                <!--app:layout_constraintEnd_toEndOf="parent"/>-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Occasionally"
+                android:gravity="end"
+                android:textStyle="bold"
+                android:shadowColor="#000000"
+                android:shadowDx="1"
+                android:shadowDy="1"
+                android:shadowRadius="2"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
         </android.support.constraint.ConstraintLayout>
     </android.support.constraint.ConstraintLayout>
 

@@ -46,7 +46,7 @@ public class TheJobService extends JobService {
 //                diff = (tomorrowMillis - todayMillis);
 //            }
             //setting up the adapter
-            InstrumentAdapter adapter = new InstrumentAdapter(this);
+            InstrumentAdapter adapter = new InstrumentAdapter(this, getApplication());
             Instrument instrument = null;
             //checking all strings for string age to see if a restring reminder needs to be fired
             for(int i = 0; i < adapter.getItemCount(); i++) {
