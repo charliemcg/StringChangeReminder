@@ -9,13 +9,14 @@
         android:id="@+id/btnTakePhoto"
         android:layout_width="match_parent"
         android:layout_height="110dp"
+        android:background="#eeeeee"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/btnImageChoose">
+        app:layout_constraintBottom_toTopOf="@id/divOne">
         <ImageView
             android:id="@+id/ivOne"
             android:layout_width="110dp"
             android:layout_height="110dp"
-            android:padding="15dp"
+            android:padding="30dp"
             android:src="@drawable/ic_photo_camera"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -24,24 +25,36 @@
             android:id="@+id/tvOne"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:gravity="center"
+            android:gravity="center_vertical"
             android:textSize="25sp"
+            android:textColor="@color/darkGray"
             android:text="Take photo"
             app:layout_constraintStart_toEndOf="@id/ivOne"
             app:layout_constraintEnd_toEndOf="parent"/>
     </android.support.constraint.ConstraintLayout>
 
+    <View
+        android:id="@+id/divOne"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#ffffff"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnTakePhoto"
+        app:layout_constraintBottom_toTopOf="@id/btnImageChoose"/>
+
     <android.support.constraint.ConstraintLayout
         android:id="@+id/btnImageChoose"
         android:layout_width="match_parent"
         android:layout_height="110dp"
-        app:layout_constraintTop_toBottomOf="@id/btnTakePhoto"
-        app:layout_constraintBottom_toTopOf="@+id/btnRemoveImage">
+        android:background="#eeeeee"
+        app:layout_constraintTop_toBottomOf="@id/divOne"
+        app:layout_constraintBottom_toTopOf="@+id/divTwo">
         <ImageView
             android:id="@+id/ivTwo"
             android:layout_width="110dp"
             android:layout_height="110dp"
-            android:padding="15dp"
+            android:padding="30dp"
             android:src="@drawable/ic_photo_library"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -50,24 +63,36 @@
             android:id="@+id/tvTwo"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:gravity="center"
+            android:gravity="center_vertical"
             android:textSize="25sp"
+            android:textColor="@color/darkGray"
             android:text="Choose image"
             app:layout_constraintStart_toEndOf="@id/ivTwo"
             app:layout_constraintEnd_toEndOf="parent"/>
     </android.support.constraint.ConstraintLayout>
 
+    <View
+        android:id="@+id/divTwo"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#ffffff"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnImageChoose"
+        app:layout_constraintBottom_toTopOf="@id/btnRemoveImage"/>
+
     <android.support.constraint.ConstraintLayout
         android:id="@+id/btnRemoveImage"
         android:layout_width="match_parent"
         android:layout_height="110dp"
-        app:layout_constraintTop_toBottomOf="@id/btnImageChoose"
-        app:layout_constraintBottom_toTopOf="@id/btnImageBack">
+        android:background="#eeeeee"
+        app:layout_constraintTop_toBottomOf="@id/divTwo"
+        app:layout_constraintBottom_toTopOf="@id/divThree">
         <ImageView
             android:id="@+id/ivThree"
             android:layout_width="110dp"
             android:layout_height="110dp"
-            android:padding="15dp"
+            android:padding="30dp"
             android:src="@drawable/ic_delete"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -76,19 +101,32 @@
             android:id="@+id/tvThree"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:gravity="center"
+            android:gravity="center_vertical"
             android:textSize="25sp"
+            android:textColor="@color/darkGray"
             android:text="Remove image"
             app:layout_constraintStart_toEndOf="@id/ivThree"
             app:layout_constraintEnd_toEndOf="parent"/>
     </android.support.constraint.ConstraintLayout>
 
+    <View
+        android:id="@+id/divThree"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#ffffff"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnRemoveImage"
+        app:layout_constraintBottom_toTopOf="@id/btnImageBack"/>
+
     <Button
         android:id="@+id/btnImageBack"
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         android:layout_margin="10dp"
+        android:background="@drawable/custom_button"
         android:text="Close"
+        app:layout_constraintTop_toBottomOf="@id/divThree"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 

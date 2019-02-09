@@ -356,7 +356,8 @@ public class EditActivity extends AppCompatActivity {
                 removeImage = false;
                 //mark that image was changed
                 imageChanged = true;
-                //picture taken from camera
+                boolRemoveImage = true;
+            //picture taken from camera
             } else if (requestCode == 2 && resultCode == RESULT_OK) {
                 bitmap = (Bitmap) data.getExtras().get("data");
                 imgEditInstrument.setImageBitmap(bitmap);
@@ -364,13 +365,12 @@ public class EditActivity extends AppCompatActivity {
                 removeImage = false;
                 //mark that image was changed
                 imageChanged = true;
+                boolRemoveImage = true;
             }
-            boolRemoveImage = true;
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
     //saving image to internal storage
     public void saveImage(Context context, Bitmap bitmap, String name) {
         FileOutputStream fileOutputStream;

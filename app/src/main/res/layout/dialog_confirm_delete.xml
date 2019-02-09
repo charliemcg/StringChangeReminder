@@ -9,8 +9,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Delete instrument?"
-        android:textSize="20sp"
+        android:textSize="25sp"
         android:gravity="center"
+        android:textColor="@color/darkGray"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -19,8 +20,10 @@
     <Button
         android:id="@+id/btnDeleteYes"
         android:layout_width="0dp"
-        android:layout_height="80dp"
+        android:layout_height="60dp"
+        android:layout_margin="10dp"
         android:text="Yes"
+        android:background="@drawable/custom_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/btnDeleteNo"
         app:layout_constraintBottom_toBottomOf="parent" />
@@ -28,8 +31,12 @@
     <Button
         android:id="@+id/btnDeleteNo"
         android:layout_width="0dp"
-        android:layout_height="80dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
         android:text="No"
+        android:background="@drawable/custom_button"
         app:layout_constraintStart_toEndOf="@id/btnDeleteYes"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />

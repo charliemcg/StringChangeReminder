@@ -94,6 +94,7 @@ public class MainActivity extends AppCompatActivity
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
                 DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(dividerItemDecoration);
+        dividerItemDecoration.setDrawable(ContextCompat.getDrawable(recyclerView.getContext(), R.drawable.item_decoration));
 
         //setting up the adapter
         adapter = new InstrumentAdapter(this);
@@ -110,7 +111,7 @@ public class MainActivity extends AppCompatActivity
 
         scheduleStart();
 
-        showAd();
+//        showAd();
 
     }
 
@@ -128,29 +129,16 @@ public class MainActivity extends AppCompatActivity
                     .addTestDevice("ca-app-pub-3940256099942544/6300978111")//TODO remove this test line
                     .build();
             adView.loadAd(banRequest);
-        } else {
-
         }
 
-        adView.setAdListener(new AdListener() {
-
-            @Override
-            public void onAdFailedToLoad(int errorCode) {
-                Log.d(TAG, "Error: " + errorCode);
-            }
-
-            @Override
-            public void onAdLoaded() {
-                Log.d(TAG, "Ad loaded");
-                adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onAdOpened() {
-                Log.d(TAG, "Ad Opened");
-            }
-
-        });
+//        adView.setAdListener(new AdListener() {
+//
+//            @Override
+//            public void onAdLoaded() {
+////                adapter.notifyDataSetChanged();
+//            }
+//
+//        });
     }
 
     @Override

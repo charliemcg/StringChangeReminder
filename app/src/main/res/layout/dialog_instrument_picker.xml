@@ -11,7 +11,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:text="Select a guitar to edit..."
-        android:textSize="20sp"
+        android:textSize="25sp"
+        android:textColor="@color/darkGray"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/scrollView"/>
 
@@ -36,6 +37,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
+        android:background="@drawable/custom_button"
         android:text="Back"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
