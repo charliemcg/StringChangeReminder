@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="290dp"
-    android:layout_height="400dp"
+    android:layout_width="400dp"
+    android:layout_height="550dp"
     android:gravity="center">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/btnTakePhoto"
         android:layout_width="match_parent"
-        android:layout_height="110dp"
+        android:layout_height="0dp"
         android:background="#eeeeee"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/divOne">
@@ -16,11 +16,12 @@
             android:id="@+id/ivOne"
             android:layout_width="110dp"
             android:layout_height="110dp"
-            android:padding="30dp"
+            android:padding="20dp"
             android:src="@drawable/ic_photo_camera"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/tvOne"/>
+            app:layout_constraintEnd_toStartOf="@id/tvOne"
+            app:layout_constraintBottom_toBottomOf="parent"/>
         <TextView
             android:id="@+id/tvOne"
             android:layout_width="0dp"
@@ -46,7 +47,7 @@
     <android.support.constraint.ConstraintLayout
         android:id="@+id/btnImageChoose"
         android:layout_width="match_parent"
-        android:layout_height="110dp"
+        android:layout_height="0dp"
         android:background="#eeeeee"
         app:layout_constraintTop_toBottomOf="@id/divOne"
         app:layout_constraintBottom_toTopOf="@+id/divTwo">
@@ -54,11 +55,12 @@
             android:id="@+id/ivTwo"
             android:layout_width="110dp"
             android:layout_height="110dp"
-            android:padding="30dp"
+            android:padding="20dp"
             android:src="@drawable/ic_photo_library"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/tvTwo"/>
+            app:layout_constraintEnd_toStartOf="@id/tvTwo"
+            app:layout_constraintBottom_toBottomOf="parent"/>
         <TextView
             android:id="@+id/tvTwo"
             android:layout_width="0dp"
@@ -84,7 +86,7 @@
     <android.support.constraint.ConstraintLayout
         android:id="@+id/btnRemoveImage"
         android:layout_width="match_parent"
-        android:layout_height="110dp"
+        android:layout_height="0dp"
         android:background="#eeeeee"
         app:layout_constraintTop_toBottomOf="@id/divTwo"
         app:layout_constraintBottom_toTopOf="@id/divThree">
@@ -92,11 +94,12 @@
             android:id="@+id/ivThree"
             android:layout_width="110dp"
             android:layout_height="110dp"
-            android:padding="30dp"
+            android:padding="20dp"
             android:src="@drawable/ic_delete"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/tvThree"/>
+            app:layout_constraintEnd_toStartOf="@id/tvThree"
+            app:layout_constraintBottom_toBottomOf="parent"/>
         <TextView
             android:id="@+id/tvThree"
             android:layout_width="0dp"

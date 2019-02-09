@@ -1,35 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="290dp"
-    android:layout_height="200dp">
+    android:layout_width="400dp"
+    android:layout_height="300dp">
 
     <TextView
-        android:id="@+id/dialogDeleteTitle"
+        android:id="@+id/dialogYesTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Delete instrument?"
+        android:text="Discard changes?"
         android:textSize="25sp"
         android:gravity="center"
         android:textColor="@color/darkGray"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/btnDeleteYes"/>
+        app:layout_constraintBottom_toTopOf="@id/btnBackYes"/>
 
     <Button
-        android:id="@+id/btnDeleteYes"
+        android:id="@+id/btnBackYes"
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:layout_margin="10dp"
         android:text="Yes"
         android:background="@drawable/custom_button"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/btnDeleteNo"
+        app:layout_constraintEnd_toStartOf="@id/btnBackNo"
         app:layout_constraintBottom_toBottomOf="parent" />
 
     <Button
-        android:id="@+id/btnDeleteNo"
+        android:id="@+id/btnBackNo"
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:layout_marginTop="10dp"
@@ -37,7 +37,7 @@
         android:layout_marginBottom="10dp"
         android:text="No"
         android:background="@drawable/custom_button"
-        app:layout_constraintStart_toEndOf="@id/btnDeleteYes"
+        app:layout_constraintStart_toEndOf="@id/btnBackYes"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
 

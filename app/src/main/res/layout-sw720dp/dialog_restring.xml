@@ -1,43 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="290dp"
-    android:layout_height="200dp">
+    android:layout_width="400dp"
+    android:layout_height="300dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
-        android:id="@+id/dialogDeleteTitle"
+        android:id="@+id/dialogRestringTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Delete instrument?"
+        android:text="When did you restring this guitar?"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
         android:textSize="25sp"
         android:gravity="center"
         android:textColor="@color/darkGray"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/btnDeleteYes"/>
+        app:layout_constraintBottom_toTopOf="@id/btnRestringToday"/>
 
     <Button
-        android:id="@+id/btnDeleteYes"
+        android:id="@+id/btnRestringToday"
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:layout_margin="10dp"
-        android:text="Yes"
+        android:text="Today"
         android:background="@drawable/custom_button"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/btnDeleteNo"
+        app:layout_constraintEnd_toStartOf="@id/btnRestringOtherDay"
         app:layout_constraintBottom_toBottomOf="parent" />
 
     <Button
-        android:id="@+id/btnDeleteNo"
+        android:id="@+id/btnRestringOtherDay"
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
-        android:text="No"
+        android:padding="5dp"
+        android:text="Some other day"
         android:background="@drawable/custom_button"
-        app:layout_constraintStart_toEndOf="@id/btnDeleteYes"
+        app:layout_constraintStart_toEndOf="@id/btnRestringToday"
+        app:layout_constraintEnd_toStartOf="@id/btnRestringCancel"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <Button
+        android:id="@+id/btnRestringCancel"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_margin="10dp"
+        android:text="Cancel"
+        android:background="@drawable/custom_button"
+        app:layout_constraintStart_toEndOf="@id/btnRestringOtherDay"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
 

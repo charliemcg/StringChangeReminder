@@ -89,17 +89,25 @@ public class InstrumentAdapter extends RecyclerView.Adapter<InstrumentAdapter.In
             instrumentHolder.imgCoated.setVisibility(View.VISIBLE);
         }
 //        instrumentHolder.tvStatus.setText(conditionAlgorithm(age, instrument));
+        //bass strings last twice as long
+        if(instrument.getType().equals(StringConstants.BASS)) {
+            age /= 2;
+        }
         String condition = conditionAlgorithm(age, instrument);
         //update indications of string quality
-        if (condition.equals("Good")) {
+        switch (condition) {
+            case "Good":
 //            instrumentHolder.tvStatus.setTextColor(context.getResources().getColor(R.color.green));
-            instrumentHolder.progressBar.setProgressTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.green)));
-        } else if (condition.equals("Dull")) {
+                instrumentHolder.progressBar.setProgressTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.green)));
+                break;
+            case "Dull":
 //            instrumentHolder.tvStatus.setTextColor(context.getResources().getColor(R.color.yellow));
-            instrumentHolder.progressBar.setProgressTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.yellow)));
-        } else if (condition.equals("Rusty")) {
+                instrumentHolder.progressBar.setProgressTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.yellow)));
+                break;
+            case "Rusty":
 //            instrumentHolder.tvStatus.setTextColor(context.getResources().getColor(R.color.red));
-            instrumentHolder.progressBar.setProgressTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.red)));
+                instrumentHolder.progressBar.setProgressTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.red)));
+                break;
         }
         age = ageAlgorithm(age, instrument);
         //best to round up to nearest integer
@@ -235,7 +243,8 @@ public class InstrumentAdapter extends RecyclerView.Adapter<InstrumentAdapter.In
 
 
         //creating a back button
-        Button btnBack = dialog.findViewById(R.id.btnImageBack);//TODO implement a back button
+        Button btnCancel = dialog.findViewById(R.id.btnRestringCancel);
+        btnCancel.setOnClickListener(view -> dialog.cancel());
 
         dialog.show();
     }

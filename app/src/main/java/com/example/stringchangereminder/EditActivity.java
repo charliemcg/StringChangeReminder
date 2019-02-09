@@ -421,7 +421,7 @@ public class EditActivity extends AppCompatActivity {
 
             //Initialise date picker
             datePickerDialog = new DatePickerDialog(getActivity(),
-                    AlertDialog.THEME_DEVICE_DEFAULT_LIGHT, this, year, month, day);
+                    AlertDialog.THEME_DEVICE_DEFAULT_DARK, this, year, month, day);
 
             //Make so all future dates are inactive
             datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());

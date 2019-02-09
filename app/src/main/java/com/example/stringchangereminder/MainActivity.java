@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity
         //coloring drawer icon colors
         navigationView.setItemIconTintList(ColorStateList.valueOf(this.getResources().getColor(R.color.colorText)));
 
-        adView = findViewById(R.id.adView);
+//        adView = findViewById(R.id.adView);
 
         //Setting up the recycler view
         RecyclerView recyclerView = findViewById(R.id.recyclerView);

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="20dp"
+    android:background="@color/colorPrimary"
+    android:id="@+id/itemLayout">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imgInstrument"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        app:layout_constraintEnd_toStartOf="@id/tvName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:textSize="40sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/imgInstrument"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/tvAge"/>
+
+    <TextView
+        android:id="@+id/tvAge"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:textSize="25sp"
+        app:layout_constraintEnd_toStartOf="@id/btnRestring"
+        app:layout_constraintStart_toStartOf="@id/tvName"
+        app:layout_constraintTop_toBottomOf="@id/tvName"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        style="?android:progressBarStyleHorizontal"
+        app:layout_constraintBottom_toBottomOf="@id/imgInstrument"
+        app:layout_constraintStart_toStartOf="@id/imgInstrument"
+        app:layout_constraintEnd_toEndOf="@id/imgInstrument"
+        app:layout_constraintTop_toTopOf="@id/imgInstrument"
+        android:progressDrawable="@drawable/circle_progress_bar"/>
+
+    <!--<TextView-->
+        <!--android:id="@+id/tvStatus"-->
+        <!--android:layout_width="60dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:gravity="center"-->
+        <!--android:textSize="20sp"-->
+        <!--android:textStyle="bold"-->
+        <!--app:layout_constraintEnd_toStartOf="@id/btnRestring"-->
+        <!--app:layout_constraintStart_toEndOf="@id/tvAge"-->
+        <!--app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--app:layout_constraintTop_toBottomOf="@id/tvName"/>-->
+
+    <Button
+        android:id="@+id/btnRestring"
+        android:background="@drawable/custom_button"
+        android:layout_width="90dp"
+        android:layout_height="45dp"
+        android:text="Restring"
+        app:layout_constraintStart_toEndOf="@id/tvAge"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvName"/>
+
+    <ImageView
+        android:id="@+id/imgCoated"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:src="@drawable/coated_icon"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@id/imgInstrument"
+        app:layout_constraintBottom_toBottomOf="@id/imgInstrument"/>
+
+</android.support.constraint.ConstraintLayout>
