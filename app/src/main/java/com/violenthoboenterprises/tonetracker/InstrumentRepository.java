@@ -1,4 +1,4 @@
-package com.example.stringchangereminder;
+package com.violenthoboenterprises.tonetracker;
 
 import android.app.Application;
 import android.arch.lifecycle.LiveData;
@@ -7,7 +7,7 @@ import android.os.AsyncTask;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-public class InstrumentRepository {
+class InstrumentRepository {
 
     private static String TAG = "InstrumentRepository";
     private InstrumentDao instrumentDao;
@@ -25,7 +25,7 @@ public class InstrumentRepository {
 
     LiveData<List<Instrument>> getAllInstruments(){return allInstruments;}
 
-    public Instrument getInstrument(int id) {
+    Instrument getInstrument(int id) {
         AsyncTask<Integer, Void, Instrument> result = new GetInstrumentAsyncTask(instrumentDao).execute(id);
         try{
             return result.get();

@@ -50,4 +50,6 @@
     <string name="trash_can_icon">Trash_can_icon</string>
     <string name="yellow_shield_icon_to_represent_coated_strings">Yellow shield icon to represent coated strings</string>
     <string name="picture_of_guitar_if_no_user_picture_available_then_default_image_of_cartoon_guitar_is_displayed">Picture of guitar. If no user picture available then default image of cartoon guitar is displayed.</string>
+    <string name="share_via">Share Via:</string>
+    <string name="store_listing">https://play.google.com/store/apps/details?id=com.violenthoboenterprises.tonetracker</string>
 </resources>

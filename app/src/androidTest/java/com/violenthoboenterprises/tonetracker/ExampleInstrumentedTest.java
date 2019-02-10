@@ -1,4 +1,4 @@
-package com.example.stringchangereminder;
+package com.violenthoboenterprises.tonetracker;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

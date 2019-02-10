@@ -1,19 +1,15 @@
-package com.example.stringchangereminder;
+package com.violenthoboenterprises.tonetracker;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.app.DialogFragment;
+import android.support.v4.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
-import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -64,7 +60,6 @@ public class EditActivity extends AppCompatActivity {
     private String type;
     private String use;
     private boolean coated;
-    private static boolean boolCalendar;
     private long originalStamp;
     private boolean imageChanged;
     private boolean boolRemoveImage;
@@ -112,11 +107,11 @@ public class EditActivity extends AppCompatActivity {
 
         populateFields();
 
-        boolCalendar = getIntent().getBooleanExtra("CALENDAR_KEY", false);
+        boolean boolCalendar = getIntent().getBooleanExtra("CALENDAR_KEY", false);
 
         if(boolCalendar){
             DialogFragment dialogfragment = new EditActivity.DatePickerDialogFrag();
-            dialogfragment.show(getFragmentManager(), "Date");
+            dialogfragment.show(getSupportFragmentManager(), "Date");
         }
 
         etUpdateName.setOnEditorActionListener((v, actionId, event) -> {
@@ -189,9 +184,9 @@ public class EditActivity extends AppCompatActivity {
         long timeNow = Calendar.getInstance().getTimeInMillis();
         long age = (timeNow - stamp) / 86400000;
         if (age == 1) {
-            return age + getString(R.string.day_ago);
+            return age + " " + getString(R.string.day_ago);
         } else {
-            return age + getString(R.string.days_ago);
+            return age + " " + getString(R.string.days_ago);
         }
     }
 
@@ -225,9 +220,8 @@ public class EditActivity extends AppCompatActivity {
 
     //show date picker if user selects to edit string age
     public void showCalendarDialog(View view) {
-        //TODO deal with this deprecation
         DialogFragment dialogfragment = new EditActivity.DatePickerDialogFrag();
-        dialogfragment.show(getFragmentManager(), "Date");
+        dialogfragment.show(getSupportFragmentManager(), "Date");
     }
 
     public void electricClicked(View view) {
@@ -322,7 +316,6 @@ public class EditActivity extends AppCompatActivity {
             Intent intent = new Intent();
             intent.setType("image/*");
             intent.setAction(Intent.ACTION_GET_CONTENT);
-//            startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1);
             startActivityForResult(Intent.createChooser(intent, getString(R.string.select_image)), 1);
             dialog.cancel();
         });
@@ -362,34 +355,16 @@ public class EditActivity extends AppCompatActivity {
             if (requestCode == 1 && resultCode == RESULT_OK
                     && null != data) {
                 Uri selectedImage = data.getData();
-                bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(selectedImage));
-                ///////////////////////////////////////
-//                String path = getPath(selectedImage);
+                bitmap = BitmapFactory.decodeStream(getContentResolver()
+                        .openInputStream(selectedImage));
+                //scaling image down to save on memory
+                bitmap = Bitmap.createScaledBitmap(bitmap, (bitmap.getWidth() / 2),
+                        (bitmap.getHeight() / 2), false);
 
-//                Cursor cursor = this.getContentResolver().query(selectedImage,
-//                        new String[] { MediaStore.Images.ImageColumns.ORIENTATION }, null, null, null);
-
-//                int blah;
-//                if (cursor.getCount() != 1) {
-//                    blah =  -1;
-//                }else {
-
-//                    cursor.moveToFirst();
-//                    blah = cursor.getInt(0);
-//                }
-//                ExifInterface exif = new ExifInterface(selectedImage.getPath());
-//                int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 1);
-//                Log.d(TAG, "path: " + selectedImage.getPath());
-//                Log.d(TAG, "orientation: " + orientation);
-//                Log.d(TAG, "blah: " + blah);
-                String imagePath = selectedImage.getPath();
-//                Bitmap myBitmap  = BitmapFactory.decodeFile(imagePath);
-
+                //rotating image if needed
+//                String imagePath = selectedImage.getPath();
 //                bitmap = ExifUtil.rotateBitmap(imagePath, bitmap);
 
-
-
-                ///////////////////////////////////////
                 imgEditInstrument.setImageBitmap(bitmap);
 
                 //don't remove image when 'update' is clicked
@@ -400,6 +375,9 @@ public class EditActivity extends AppCompatActivity {
             //picture taken from camera
             } else if (requestCode == 2 && resultCode == RESULT_OK) {
                 bitmap = (Bitmap) data.getExtras().get("data");
+                //scaling image down to save on memory
+                bitmap = Bitmap.createScaledBitmap(bitmap, (bitmap.getWidth() / 2),
+                        (bitmap.getHeight() / 2), false);
                 imgEditInstrument.setImageBitmap(bitmap);
                 //don't remove image when 'update' is clicked
                 removeImage = false;
@@ -409,17 +387,6 @@ public class EditActivity extends AppCompatActivity {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }
-    }
-
-    private String getPath( Uri uri) {
-        Cursor cursor = getContentResolver().query(uri, null, null, null, null);
-        if (cursor == null) { // Source is Dropbox or other similar local file path
-            return uri.getPath();
-        } else {
-            cursor.moveToFirst();
-            int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
-            return cursor.getString(idx);
         }
     }
 
@@ -487,9 +454,9 @@ public class EditActivity extends AppCompatActivity {
             long age = (timeNow - stamp) / 86400000;
             String strAge;
             if (age == 1) {
-                strAge = age + getString(R.string.day_ago);
+                strAge = age + " " + getString(R.string.day_ago);
             } else {
-                strAge = age + getString(R.string.days_ago);
+                strAge = age + " " + getString(R.string.days_ago);
             }
 
             tvUpdateDateChanged.setText(strAge);
@@ -597,8 +564,8 @@ public class EditActivity extends AppCompatActivity {
             instrumentViewModel = new InstrumentViewModel(getApplication());
             instrumentViewModel.delete(instrument);
             //removing saved image
-            File file = new File(getFilesDir(), fileName);
-            file.delete();
+//            File file = new File(getFilesDir(), fileName);
+//            file.delete();
             //return to main activity after deleting instrument
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);

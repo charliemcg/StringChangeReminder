@@ -1,9 +1,6 @@
-package com.example.stringchangereminder;
+package com.violenthoboenterprises.tonetracker;
 
 import android.app.Dialog;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.arch.lifecycle.ViewModelProviders;
@@ -11,24 +8,15 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -38,28 +26,20 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.ShareActionProvider;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
-
-import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private static String TAG = "MainActivity";
-    InstrumentAdapter adapter;
+    public static InstrumentAdapter adapter;
     private AdView adView;
 
     @Override
@@ -83,7 +63,8 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         //coloring drawer icon colors
-        navigationView.setItemIconTintList(ColorStateList.valueOf(this.getResources().getColor(R.color.colorText)));
+        navigationView.setItemIconTintList(ColorStateList.valueOf(this
+                .getResources().getColor(R.color.colorText)));
 
 //        adView = findViewById(R.id.adView);
 
@@ -91,17 +72,20 @@ public class MainActivity extends AppCompatActivity
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
+        DividerItemDecoration dividerItemDecoration =
+                new DividerItemDecoration(recyclerView.getContext(),
                 DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(dividerItemDecoration);
-        dividerItemDecoration.setDrawable(ContextCompat.getDrawable(recyclerView.getContext(), R.drawable.item_decoration));
+        dividerItemDecoration.setDrawable
+                (ContextCompat.getDrawable(recyclerView.getContext(), R.drawable.item_decoration));
 
         //setting up the adapter
         adapter = new InstrumentAdapter(this, getApplication());
         recyclerView.setAdapter(adapter);
 
         //observing the recycler view items for changes
-        InstrumentViewModel instrumentViewModel = ViewModelProviders.of(this).get(InstrumentViewModel.class);
+        InstrumentViewModel instrumentViewModel = ViewModelProviders
+                .of(this).get(InstrumentViewModel.class);
         instrumentViewModel.getAllInstruments().observe(this, instruments -> {
             adapter.setInstruments(instruments);
             if (adapter.getItemCount() == 0) {
@@ -189,7 +173,8 @@ public class MainActivity extends AppCompatActivity
         //prompt user to pick instrument to edit
         } else if (id == R.id.miEdit) {
             if(adapter.getItemCount() == 0) {
-                Toast.makeText(this, getString(R.string.you_have_no_guitars), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.you_have_no_guitars),
+                        Toast.LENGTH_SHORT).show();
             }else if(adapter.getItemCount() == 1){
                 intent = new Intent(this, EditActivity.class);
                 intent.putExtra("ID_KEY", adapter.getInstrumentAt(0).getId());
@@ -202,14 +187,15 @@ public class MainActivity extends AppCompatActivity
             Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
             sharingIntent.setType("text/plain");
             //url of the app on Play Store
-            String shareBodyText = "https://play.google.com/store/apps/details?id=com.violenthoboenterprises.russianroulette";//TODO get actual URL
-            sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT,"Subject here");//TODO get actual app name (ToneTracker?)
+            String shareBodyText = getString(R.string.store_listing);
+            sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT,
+                    "Tone Tracker - app for Android");
             sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBodyText);
-            startActivity(Intent.createChooser(sharingIntent, "Share Via:"));
+            startActivity(Intent.createChooser(sharingIntent, getString(R.string.share_via)));
             return true;
         //directing user to Play Store so they can leave a review
         } else if (id == R.id.miReview) {
-            String URL = "https://play.google.com/store/apps/details?id=com.violenthoboenterprises.blistful";//TODO get actual URL
+            String URL = getString(R.string.store_listing);
             intent = new Intent(Intent.ACTION_VIEW);
             intent.setData(Uri.parse(URL));
             startActivity(intent);

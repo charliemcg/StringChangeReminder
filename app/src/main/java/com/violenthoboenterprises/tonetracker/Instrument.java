@@ -1,9 +1,7 @@
-package com.example.stringchangereminder;
+package com.violenthoboenterprises.tonetracker;
 
-import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
-import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 
 @Entity(tableName = "instrument_table")
@@ -15,10 +13,8 @@ public class Instrument {
     @NonNull
     private String name;
 
-    @NonNull
     private boolean coated;
 
-    @NonNull
     private long lastChanged;
 
     @NonNull
@@ -27,7 +23,8 @@ public class Instrument {
     @NonNull
     private String use;
 
-    public Instrument(String name, boolean coated, long lastChanged, String type, String use) {
+    public Instrument(@NonNull String name, boolean coated, long lastChanged,
+                      @NonNull String type, @NonNull String use) {
         this.name = name;
         this.coated = coated;
         this.lastChanged = lastChanged;
@@ -43,35 +40,38 @@ public class Instrument {
         this.id = id;
     }
 
+    @NonNull
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(@NonNull String name) {
         this.name = name;
     }
 
-    public boolean isCoated() {
+    boolean isCoated() {
         return coated;
     }
 
-    public void setCoated(boolean coated) {
+    void setCoated(boolean coated) {
         this.coated = coated;
     }
 
-    public long getLastChanged() {
+    long getLastChanged() {
         return lastChanged;
     }
 
-    public void setLastChanged(long lastChanged) {
+    void setLastChanged(long lastChanged) {
         this.lastChanged = lastChanged;
     }
 
+    @NonNull
     public String getType(){return type;}
 
-    public void setType(String type){this.type = type;}
+    public void setType(@NonNull String type){this.type = type;}
 
-    public String getUse() {return use;}
+    @NonNull
+    String getUse() {return use;}
 
-    public void setUse(String use) {this.use = use;}
+    void setUse(@NonNull String use) {this.use = use;}
 }

@@ -1,9 +1,9 @@
-package com.example.stringchangereminder;
+package com.violenthoboenterprises.tonetracker;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.app.DialogFragment;
+import android.support.v4.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -89,9 +89,8 @@ public class AddActivity extends AppCompatActivity {
     //Show date picker when user clicks on the date changed field
     public void showCalendarDialog(View view) {
         showTextView();
-        //TODO deal with this deprecation
         DialogFragment dialogfragment = new DatePickerDialogFrag();
-        dialogfragment.show(getFragmentManager(), "Date");
+        dialogfragment.show(getSupportFragmentManager(), "Date");
     }
 
     //actions to occur when user clicks 'submit'
@@ -252,9 +251,9 @@ public class AddActivity extends AppCompatActivity {
             long age = (timeNow - stamp) / 86400000;
             String strAge;
             if (age == 1) {
-                strAge = age + getString(R.string.day_ago);
+                strAge = age + " " + getString(R.string.day_ago);
             } else {
-                strAge = age + getString(R.string.days_ago);
+                strAge = age + " " + getString(R.string.days_ago);
             }
 
             tvAddDateChanged.setText(strAge);

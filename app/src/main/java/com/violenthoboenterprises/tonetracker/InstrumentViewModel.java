@@ -1,4 +1,4 @@
-package com.example.stringchangereminder;
+package com.violenthoboenterprises.tonetracker;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
@@ -12,19 +12,19 @@ public class InstrumentViewModel extends AndroidViewModel {
     private InstrumentRepository repository;
     private LiveData<List<Instrument>> allInstruments;
 
-    public InstrumentViewModel(@NonNull Application application) {
+    InstrumentViewModel(@NonNull Application application) {
         super(application);
         repository = new InstrumentRepository(application);
         allInstruments = repository.getAllInstruments();
     }
 
-    public void insert(Instrument instrument){repository.insert(instrument);}
+    void insert(Instrument instrument){repository.insert(instrument);}
     public void update(Instrument instrument){repository.update(instrument);}
-    public void delete(Instrument instrument){repository.delete(instrument);}
+    void delete(Instrument instrument){repository.delete(instrument);}
 
-    public LiveData<List<Instrument>> getAllInstruments(){return allInstruments;}
+    LiveData<List<Instrument>> getAllInstruments(){return allInstruments;}
 
-    public Instrument getInstrument(int id) {
+    Instrument getInstrument(int id) {
         return repository.getInstrument(id);
     }
 }

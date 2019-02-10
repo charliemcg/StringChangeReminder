@@ -1,4 +1,4 @@
-package com.example.stringchangereminder;
+package com.violenthoboenterprises.tonetracker;
 
 import java.io.IOException;
 import java.lang.reflect.Constructor;
@@ -11,6 +11,7 @@ import android.graphics.Matrix;
 import android.os.Build;
 import android.util.Log;
 
+//This class is for rotating images which would otherwise appear sideways in view
 public class ExifUtil {
     /**
      * https://gist.github.com/9re/1990019

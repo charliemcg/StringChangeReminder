@@ -1,4 +1,4 @@
-package com.example.stringchangereminder;
+package com.violenthoboenterprises.tonetracker;
 
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
@@ -6,16 +6,11 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Switch;
-import android.widget.TextView;
-import android.widget.Toast;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -34,9 +29,10 @@ public class SettingsActivity extends AppCompatActivity {
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.setStatusBarColor(this.getResources().getColor(R.color.colorPrimaryDark));
 
-        SharedPreferences sharedPreferences = this.getSharedPreferences("com.example.stringchangereminder", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = this.getSharedPreferences
+                ("com.violenthoboenterprises.tonetracker", Context.MODE_PRIVATE);
         Switch switchNotifications = findViewById(R.id.sNotifications);
-        Boolean showNotifications = sharedPreferences.getBoolean(NOTIFICATIONS_KEY, true);
+        boolean showNotifications = sharedPreferences.getBoolean(NOTIFICATIONS_KEY, true);
 
         switchNotifications.setChecked(showNotifications);
 

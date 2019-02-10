@@ -1,4 +1,4 @@
-package com.example.stringchangereminder;
+package com.violenthoboenterprises.tonetracker;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
