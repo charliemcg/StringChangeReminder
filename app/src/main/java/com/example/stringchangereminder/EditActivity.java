@@ -6,13 +6,18 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -184,9 +189,9 @@ public class EditActivity extends AppCompatActivity {
         long timeNow = Calendar.getInstance().getTimeInMillis();
         long age = (timeNow - stamp) / 86400000;
         if (age == 1) {
-            return age + " day ago";
+            return age + getString(R.string.day_ago);
         } else {
-            return age + " days ago";
+            return age + getString(R.string.days_ago);
         }
     }
 
@@ -317,7 +322,8 @@ public class EditActivity extends AppCompatActivity {
             Intent intent = new Intent();
             intent.setType("image/*");
             intent.setAction(Intent.ACTION_GET_CONTENT);
-            startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1);
+//            startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1);
+            startActivityForResult(Intent.createChooser(intent, getString(R.string.select_image)), 1);
             dialog.cancel();
         });
 
@@ -357,6 +363,33 @@ public class EditActivity extends AppCompatActivity {
                     && null != data) {
                 Uri selectedImage = data.getData();
                 bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(selectedImage));
+                ///////////////////////////////////////
+//                String path = getPath(selectedImage);
+
+//                Cursor cursor = this.getContentResolver().query(selectedImage,
+//                        new String[] { MediaStore.Images.ImageColumns.ORIENTATION }, null, null, null);
+
+//                int blah;
+//                if (cursor.getCount() != 1) {
+//                    blah =  -1;
+//                }else {
+
+//                    cursor.moveToFirst();
+//                    blah = cursor.getInt(0);
+//                }
+//                ExifInterface exif = new ExifInterface(selectedImage.getPath());
+//                int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 1);
+//                Log.d(TAG, "path: " + selectedImage.getPath());
+//                Log.d(TAG, "orientation: " + orientation);
+//                Log.d(TAG, "blah: " + blah);
+                String imagePath = selectedImage.getPath();
+//                Bitmap myBitmap  = BitmapFactory.decodeFile(imagePath);
+
+//                bitmap = ExifUtil.rotateBitmap(imagePath, bitmap);
+
+
+
+                ///////////////////////////////////////
                 imgEditInstrument.setImageBitmap(bitmap);
 
                 //don't remove image when 'update' is clicked
@@ -378,6 +411,18 @@ public class EditActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
+    private String getPath( Uri uri) {
+        Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+        if (cursor == null) { // Source is Dropbox or other similar local file path
+            return uri.getPath();
+        } else {
+            cursor.moveToFirst();
+            int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+            return cursor.getString(idx);
+        }
+    }
+
     //saving image to internal storage
     public void saveImage(Context context, Bitmap bitmap, String name) {
         FileOutputStream fileOutputStream;
@@ -442,9 +487,9 @@ public class EditActivity extends AppCompatActivity {
             long age = (timeNow - stamp) / 86400000;
             String strAge;
             if (age == 1) {
-                strAge = age + " day ago";
+                strAge = age + getString(R.string.day_ago);
             } else {
-                strAge = age + " days ago";
+                strAge = age + getString(R.string.days_ago);
             }
 
             tvUpdateDateChanged.setText(strAge);
@@ -479,7 +524,7 @@ public class EditActivity extends AppCompatActivity {
                 && coated == sUpdateCoating.isChecked()
                 && originalStamp == stamp
                 && !imageChanged) {
-            Toast.makeText(this, "You made no changes.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.made_no_changes), Toast.LENGTH_LONG).show();
         } else {
             instrumentViewModel = new InstrumentViewModel(getApplication());
             instrument.setName(etUpdateName.getText().toString());

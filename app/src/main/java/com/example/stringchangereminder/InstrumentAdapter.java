@@ -79,9 +79,9 @@ public class InstrumentAdapter extends RecyclerView.Adapter<InstrumentAdapter.In
         long age = (timeNow - changedStamp) / 86400000;
         String strAge;
         if (age == 1) {
-            strAge = age + " day ago";
+            strAge = age + context.getString(R.string.day_ago);
         } else {
-            strAge = age + " days ago";
+            strAge = age + context.getString(R.string.days_ago);
         }
         instrumentHolder.tvAge.setText(strAge);
         instrumentHolder.imgCoated.setVisibility(View.GONE);

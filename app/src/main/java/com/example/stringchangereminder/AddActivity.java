@@ -6,10 +6,7 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -20,7 +17,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -102,13 +98,13 @@ public class AddActivity extends AppCompatActivity {
     public void submit(View view) {
         //validating that there are no nulls
         if (etAddName.getText().toString().equals("")) {
-            Toast.makeText(this, "Your instrument needs a name.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.instrument_needs_name), Toast.LENGTH_SHORT).show();
         } else if (instrumentType == null) {
-            Toast.makeText(this, "Specify your instrument type.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.instrument_needs_type), Toast.LENGTH_SHORT).show();
         } else if (instrumentUse == null) {
-            Toast.makeText(this, "How often do you play this guitar?", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.how_often_guitar_played), Toast.LENGTH_SHORT).show();
         } else if (tvAddDateChanged.getText().equals("")) {
-            Toast.makeText(this, "When were the strings last changed?", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.when_were_strings_changed), Toast.LENGTH_SHORT).show();
         } else {
             //creating the new instrument
             Instrument instrument = new Instrument(etAddName.getText().toString(), sAddCoating.isChecked(), stamp, instrumentType, instrumentUse);
@@ -256,9 +252,9 @@ public class AddActivity extends AppCompatActivity {
             long age = (timeNow - stamp) / 86400000;
             String strAge;
             if (age == 1) {
-                strAge = age + " day ago";
+                strAge = age + getString(R.string.day_ago);
             } else {
-                strAge = age + " days ago";
+                strAge = age + getString(R.string.days_ago);
             }
 
             tvAddDateChanged.setText(strAge);

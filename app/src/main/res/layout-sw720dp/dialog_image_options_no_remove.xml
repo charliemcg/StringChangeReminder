@@ -9,7 +9,7 @@
         android:id="@+id/btnTakePhoto"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:text="Take photo"
+        android:text="@string/take_photo"
         android:background="#eeeeee"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/divOne">
@@ -19,6 +19,7 @@
             android:layout_height="110dp"
             android:padding="20dp"
             android:src="@drawable/ic_photo_camera"
+            android:contentDescription="@string/camera_icon"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/tvOne"
@@ -31,7 +32,7 @@
             android:textSize="25sp"
             android:paddingStart="20dp"
             android:textColor="@color/darkGray"
-            android:text="Take photo"
+            android:text="@string/take_photo"
             app:layout_constraintStart_toEndOf="@id/ivOne"
             app:layout_constraintEnd_toEndOf="parent"/>
     </android.support.constraint.ConstraintLayout>
@@ -60,6 +61,7 @@
             android:layout_height="110dp"
             android:padding="20dp"
             android:src="@drawable/ic_photo_library"
+            android:contentDescription="@string/image_gallery_icon"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/tvTwo"
@@ -72,7 +74,7 @@
             android:textSize="25sp"
             android:paddingStart="20dp"
             android:textColor="@color/darkGray"
-            android:text="Choose image"
+            android:text="@string/choose_image"
             app:layout_constraintStart_toEndOf="@id/ivTwo"
             app:layout_constraintEnd_toEndOf="parent"/>
     </android.support.constraint.ConstraintLayout>
@@ -93,7 +95,7 @@
         android:layout_height="40dp"
         android:layout_margin="10dp"
         android:background="@drawable/custom_button"
-        android:text="Close"
+        android:text="@string/cancel"
         app:layout_constraintTop_toBottomOf="@id/divTwo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>

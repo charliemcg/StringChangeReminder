@@ -189,7 +189,7 @@ public class MainActivity extends AppCompatActivity
         //prompt user to pick instrument to edit
         } else if (id == R.id.miEdit) {
             if(adapter.getItemCount() == 0) {
-                Toast.makeText(this, "You have no guitars to edit.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.you_have_no_guitars), Toast.LENGTH_SHORT).show();
             }else if(adapter.getItemCount() == 1){
                 intent = new Intent(this, EditActivity.class);
                 intent.putExtra("ID_KEY", adapter.getInstrumentAt(0).getId());

@@ -15,7 +15,7 @@
         android:layout_height="50dp"
         android:layout_margin="10dp"
         android:textSize="20sp"
-        android:text="Remind me when my guitar needs new strings"
+        android:text="@string/remind_me_when_my_guitar_needs_new_strings"
         android:gravity="center_vertical"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -83,7 +83,7 @@ public class TheJobService extends JobService {
                     notificChannelId, "notifications",
                     NotificationManager.IMPORTANCE_DEFAULT);
 
-            notificationChannel.setDescription("Notifications about due being due");
+            notificationChannel.setDescription("Notifications about guitar needing a restring");
             notificationChannel.enableLights(true);
             notificationChannel.setLightColor(Color.MAGENTA);
             notificationChannel.enableVibration(true);
@@ -101,10 +101,10 @@ public class TheJobService extends JobService {
         builder = new NotificationCompat.Builder(getApplicationContext(), notificChannelId)
                 .setSmallIcon(R.mipmap.ic_launcher)//TODO get real image
                 .setLargeIcon(BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.ic_launcher_round))//TODO get real image
-                .setContentTitle("Your strings are getting old")
-                .setTicker("Your strings are getting old")
+                .setContentTitle(getApplicationContext().getString(R.string.strings_getting_old))
+                .setTicker(getApplicationContext().getString(R.string.strings_getting_old))
                 .setWhen(0)//TODO set this to 10am
-                .setContentText("Consider a restring")
+                .setContentText(getApplicationContext().getString(R.string.consider_restring))
                 .setStyle(new NotificationCompat.BigTextStyle())
                 .setColorized(true)
                 .setColor(getApplicationContext().getResources().getColor(R.color.colorAccent))//TODO decide on color

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="290dp"
     android:layout_height="450dp"
     android:gravity="center">
@@ -10,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="Select a guitar to edit..."
+        android:text="@string/select_a_guitar_to_edit"
         android:textSize="25sp"
         android:textColor="@color/darkGray"
         app:layout_constraintTop_toTopOf="parent"
@@ -28,7 +29,8 @@
             android:id="@+id/rgInstrumentPicker"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="10dp"/>
+            android:layout_margin="10dp"
+            tools:ignore="ScrollViewSize" />
 
     </ScrollView>
 
@@ -38,7 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:background="@drawable/custom_button"
-        android:text="Cancel"
+        android:text="@string/cancel"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/scrollView" />

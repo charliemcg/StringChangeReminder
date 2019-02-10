@@ -39,7 +39,9 @@
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@id/editHeader"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/imgEditInstrument"/>
+        app:layout_constraintEnd_toStartOf="@id/imgEditInstrument"
+        android:importantForAutofill="no"
+        tools:ignore="LabelFor,UnusedAttribute" />
 
     <TextView
         android:id="@+id/tvUpdateName"
@@ -68,7 +70,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:text="What type of guitar is this?"
+            android:text="@string/what_type_of_guitar_is_this"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@id/rbUpdateElectric"/>
         <android.support.constraint.ConstraintLayout
@@ -77,6 +79,7 @@
             android:layout_height="110dp"
             android:layout_marginTop="5dp"
             android:onClick="electricClicked"
+            android:contentDescription="@string/electric_guitar_icon"
             app:layout_constraintTop_toBottomOf="@id/tvTypeLabel"
             app:layout_constraintEnd_toStartOf="@id/rbUpdateAcoustic"
             app:layout_constraintStart_toStartOf="parent">
@@ -85,17 +88,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@drawable/electric_background"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Electric"
-                android:textStyle="bold"
-                android:shadowColor="#000000"
-                android:shadowDx="1"
-                android:shadowDy="1"
-                android:shadowRadius="2"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="Electric"-->
+                <!--android:textStyle="bold"-->
+                <!--android:shadowColor="#000000"-->
+                <!--android:shadowDx="1"-->
+                <!--android:shadowDy="1"-->
+                <!--android:shadowRadius="2"-->
+                <!--app:layout_constraintBottom_toBottomOf="parent"-->
+                <!--app:layout_constraintEnd_toEndOf="parent"/>-->
         </android.support.constraint.ConstraintLayout>
         <android.support.constraint.ConstraintLayout
             android:id="@+id/rbUpdateAcoustic"
@@ -103,6 +106,7 @@
             android:layout_height="110dp"
             android:layout_marginTop="5dp"
             android:onClick="acousticClicked"
+            android:contentDescription="@string/acoustic_guitar_icon"
             app:layout_constraintTop_toBottomOf="@id/tvTypeLabel"
             app:layout_constraintEnd_toStartOf="@id/rbUpdateBass"
             app:layout_constraintStart_toEndOf="@id/rbUpdateElectric">
@@ -111,17 +115,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@drawable/acoustic_background"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Acoustic"
-                android:textStyle="bold"
-                android:shadowColor="#000000"
-                android:shadowDx="1"
-                android:shadowDy="1"
-                android:shadowRadius="2"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="Acoustic"-->
+                <!--android:textStyle="bold"-->
+                <!--android:shadowColor="#000000"-->
+                <!--android:shadowDx="1"-->
+                <!--android:shadowDy="1"-->
+                <!--android:shadowRadius="2"-->
+                <!--app:layout_constraintBottom_toBottomOf="parent"-->
+                <!--app:layout_constraintEnd_toEndOf="parent"/>-->
         </android.support.constraint.ConstraintLayout>
         <android.support.constraint.ConstraintLayout
             android:id="@+id/rbUpdateBass"
@@ -129,6 +133,7 @@
             android:layout_height="110dp"
             android:layout_marginTop="5dp"
             android:onClick="bassClicked"
+            android:contentDescription="@string/bass_guitar_icon"
             app:layout_constraintTop_toBottomOf="@id/tvTypeLabel"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/rbUpdateAcoustic">
@@ -137,17 +142,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@drawable/bass_background"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Bass"
-                android:textStyle="bold"
-                android:shadowColor="#000000"
-                android:shadowDx="1"
-                android:shadowDy="1"
-                android:shadowRadius="2"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="Bass"-->
+                <!--android:textStyle="bold"-->
+                <!--android:shadowColor="#000000"-->
+                <!--android:shadowDx="1"-->
+                <!--android:shadowDy="1"-->
+                <!--android:shadowRadius="2"-->
+                <!--app:layout_constraintBottom_toBottomOf="parent"-->
+                <!--app:layout_constraintEnd_toEndOf="parent"/>-->
         </android.support.constraint.ConstraintLayout>
     </android.support.constraint.ConstraintLayout>
 
@@ -166,7 +171,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:textSize="20sp"
-            android:text="How often do you play this guitar?"
+            android:text="@string/how_often_do_you_play_this_guitar"
             app:layout_constraintTop_toTopOf="parent"/>
         <android.support.constraint.ConstraintLayout
             android:id="@+id/rbUpdateDaily"
@@ -174,6 +179,7 @@
             android:layout_height="110dp"
             android:layout_marginTop="5dp"
             android:onClick="dailyClicked"
+            android:contentDescription="@string/play_daily_icon"
             app:layout_constraintTop_toBottomOf="@id/tvUseLabel"
             app:layout_constraintEnd_toStartOf="@id/rbUpdateSomeDays"
             app:layout_constraintStart_toStartOf="parent">
@@ -182,18 +188,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@drawable/calendar_daily"/>
-            <TextView
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:text="Daily"
-                android:textStyle="bold"
-                android:gravity="end"
-                android:shadowColor="#000000"
-                android:shadowDx="1"
-                android:shadowDy="1"
-                android:shadowRadius="2"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+            <!--<TextView-->
+                <!--android:layout_width="80dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="Daily"-->
+                <!--android:textStyle="bold"-->
+                <!--android:gravity="end"-->
+                <!--android:shadowColor="#000000"-->
+                <!--android:shadowDx="1"-->
+                <!--android:shadowDy="1"-->
+                <!--android:shadowRadius="2"-->
+                <!--app:layout_constraintBottom_toBottomOf="parent"-->
+                <!--app:layout_constraintEnd_toEndOf="parent"/>-->
         </android.support.constraint.ConstraintLayout>
         <android.support.constraint.ConstraintLayout
             android:id="@+id/rbUpdateSomeDays"
@@ -201,6 +207,7 @@
             android:layout_height="110dp"
             android:layout_marginTop="5dp"
             android:onClick="someDaysClicked"
+            android:contentDescription="@string/play_a_few_times_a_week"
             app:layout_constraintTop_toBottomOf="@id/tvUseLabel"
             app:layout_constraintStart_toEndOf="@id/rbUpdateDaily"
             app:layout_constraintEnd_toStartOf="@id/rbUpdateWeekly">
@@ -209,18 +216,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@drawable/calendar_somedays"/>
-            <TextView
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:text="Regularly"
-                android:gravity="end"
-                android:textStyle="bold"
-                android:shadowColor="#000000"
-                android:shadowDx="1"
-                android:shadowDy="1"
-                android:shadowRadius="2"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+            <!--<TextView-->
+                <!--android:layout_width="80dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="Regularly"-->
+                <!--android:gravity="end"-->
+                <!--android:textStyle="bold"-->
+                <!--android:shadowColor="#000000"-->
+                <!--android:shadowDx="1"-->
+                <!--android:shadowDy="1"-->
+                <!--android:shadowRadius="2"-->
+                <!--app:layout_constraintBottom_toBottomOf="parent"-->
+                <!--app:layout_constraintEnd_toEndOf="parent"/>-->
         </android.support.constraint.ConstraintLayout>
         <android.support.constraint.ConstraintLayout
             android:id="@+id/rbUpdateWeekly"
@@ -228,6 +235,7 @@
             android:layout_height="110dp"
             android:layout_marginTop="5dp"
             android:onClick="weeklyClicked"
+            android:contentDescription="@string/play_once_per_week_or_less"
             app:layout_constraintTop_toBottomOf="@id/tvUseLabel"
             app:layout_constraintStart_toEndOf="@id/rbUpdateSomeDays"
             app:layout_constraintEnd_toEndOf="parent">
@@ -236,18 +244,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@drawable/calendar_weekly"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Occasionally"
-                android:gravity="end"
-                android:textStyle="bold"
-                android:shadowColor="#000000"
-                android:shadowDx="1"
-                android:shadowDy="1"
-                android:shadowRadius="2"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+            <!--<TextView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="Occasionally"-->
+                <!--android:gravity="end"-->
+                <!--android:textStyle="bold"-->
+                <!--android:shadowColor="#000000"-->
+                <!--android:shadowDx="1"-->
+                <!--android:shadowDy="1"-->
+                <!--android:shadowRadius="2"-->
+                <!--app:layout_constraintBottom_toBottomOf="parent"-->
+                <!--app:layout_constraintEnd_toEndOf="parent"/>-->
         </android.support.constraint.ConstraintLayout>
     </android.support.constraint.ConstraintLayout>
 
@@ -258,7 +266,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginStart="10dp"
         android:textSize="20sp"
-        android:text="Strings last changed"
+        android:text="@string/strings_last_changed"
         android:gravity="center"
         app:layout_constraintTop_toBottomOf="@id/rgUpdateUse"
         app:layout_constraintStart_toStartOf="parent"
@@ -285,7 +293,7 @@
         android:layout_height="50dp"
         android:layout_marginStart="10dp"
         android:textSize="20sp"
-        android:text="This guitar has coated strings"
+        android:text="@string/this_guitar_has_coated_strings"
         android:gravity="center_vertical"
         app:layout_constraintTop_toBottomOf="@id/tvUpdateDateChanged"
         app:layout_constraintStart_toStartOf="parent"
@@ -319,7 +327,7 @@
         android:layout_height="90dp"
         android:layout_margin="20dp"
         android:background="@drawable/custom_button"
-        android:text="Update"
+        android:text="@string/update"
         android:textSize="20sp"
         android:onClick="update"
         app:layout_constraintBottom_toBottomOf="parent"/>
