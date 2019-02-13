@@ -13,6 +13,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,6 +24,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
@@ -31,16 +33,18 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, MainActivityView {
 
     private static String TAG = "MainActivity";
-    public static InstrumentAdapter adapter;
+    public InstrumentAdapter adapter;
     private AdView adView;
+    private MainActivityPresenter mainActivityPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +53,10 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        mainActivityPresenter = new MainActivityPresenterImpl(MainActivity.this, getApplicationContext());
+
         MobileAds.initialize(this,
-                "ca-app-pub-3940256099942544~3347511713");//TODO get real id
+                "ca-app-pub-2378583121223638~3174233534");
 
         //setting up the navigation drawer
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -66,7 +72,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setItemIconTintList(ColorStateList.valueOf(this
                 .getResources().getColor(R.color.colorText)));
 
-//        adView = findViewById(R.id.adView);
+        adView = findViewById(R.id.adView);
 
         //Setting up the recycler view
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
@@ -93,36 +99,10 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        scheduleStart();
+        mainActivityPresenter.scheduleStart();
 
-//        showAd();
+        mainActivityPresenter.showAd();
 
-    }
-
-    private void showAd() {
-        boolean networkAvailable = false;
-        ConnectivityManager connectivityManager = (ConnectivityManager)
-                this.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        if (activeNetworkInfo != null && activeNetworkInfo.isConnected()) {
-            networkAvailable = true;
-        }
-
-        if (networkAvailable) {
-            final AdRequest banRequest = new AdRequest.Builder()
-                    .addTestDevice("ca-app-pub-3940256099942544/6300978111")//TODO remove this test line
-                    .build();
-            adView.loadAd(banRequest);
-        }
-
-//        adView.setAdListener(new AdListener() {
-//
-//            @Override
-//            public void onAdLoaded() {
-////                adapter.notifyDataSetChanged();
-//            }
-//
-//        });
     }
 
     @Override
@@ -247,28 +227,27 @@ public class MainActivity extends AppCompatActivity
         dialog.show();
     }
 
-    //building a job that runs everyday. it checks for any instruments that need to be restrung
-    private void scheduleStart() {
-        JobScheduler jobScheduler =
-                (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
-        //build job if it doesn't already exist
-        JobInfo job = null;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            job = jobScheduler.getPendingJob(0);
-        }
-        if(job == null) {
-            jobScheduler.schedule(new JobInfo.Builder(0,
-                    new ComponentName(this, TheJobService.class))
-                    .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
-                    .setPersisted(true)
-                    .setPeriodic(86400000L)
-                    .build());
-        }
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void loadAd(AdRequest banRequest) {
+        adView.loadAd(banRequest);
+        adView.setAdListener(new AdListener() {
+
+            @Override
+            public void onAdLoaded() {
+                Log.d(TAG, "Ad loaded");
+            }
+
+            @Override
+            public void onAdFailedToLoad(int i) {
+                super.onAdFailedToLoad(i);
+                Log.d(TAG, "Ad failed to load: " + i);
+            }
+        });
     }
 }

@@ -34,7 +34,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.Calendar;
 
-public class EditActivity extends AppCompatActivity {
+public class EditActivity extends AppCompatActivity implements EditActivityView{
 
     public static final String TAG = "EditActivity";
     private EditText etUpdateName;
@@ -64,6 +64,7 @@ public class EditActivity extends AppCompatActivity {
     private boolean imageChanged;
     private boolean boolRemoveImage;
     public static InputMethodManager keyboard;
+    private EditActivityPresenter editActivityPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +72,9 @@ public class EditActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        editActivityPresenter = new EditActivityPresenterImpl
+                (EditActivity.this, getApplicationContext(), this);
 
         //Setting dark status bar
         Window window = this.getWindow();
@@ -306,17 +310,13 @@ public class EditActivity extends AppCompatActivity {
 
         ConstraintLayout btnTakePhoto = dialog.findViewById(R.id.btnTakePhoto);
         btnTakePhoto.setOnClickListener(view14 -> {
-            Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-            startActivityForResult(intent, 2);
+            editActivityPresenter.takePhoto();
             dialog.cancel();
         });
 
         ConstraintLayout btnChoose = dialog.findViewById(R.id.btnImageChoose);
         btnChoose.setOnClickListener(view1 -> {
-            Intent intent = new Intent();
-            intent.setType("image/*");
-            intent.setAction(Intent.ACTION_GET_CONTENT);
-            startActivityForResult(Intent.createChooser(intent, getString(R.string.select_image)), 1);
+            editActivityPresenter.chooseImage();
             dialog.cancel();
         });
 
@@ -350,51 +350,14 @@ public class EditActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        try {
-            //chosen from gallery
-            if (requestCode == 1 && resultCode == RESULT_OK
-                    && null != data) {
-                Uri selectedImage = data.getData();
-                bitmap = BitmapFactory.decodeStream(getContentResolver()
-                        .openInputStream(selectedImage));
-                //scaling image down to save on memory
-                bitmap = Bitmap.createScaledBitmap(bitmap, (bitmap.getWidth() / 2),
-                        (bitmap.getHeight() / 2), false);
-
-                //rotating image if needed
-//                String imagePath = selectedImage.getPath();
-//                bitmap = ExifUtil.rotateBitmap(imagePath, bitmap);
-
-                imgEditInstrument.setImageBitmap(bitmap);
-
-                //don't remove image when 'update' is clicked
-                removeImage = false;
-                //mark that image was changed
-                imageChanged = true;
-                boolRemoveImage = true;
-            //picture taken from camera
-            } else if (requestCode == 2 && resultCode == RESULT_OK) {
-                bitmap = (Bitmap) data.getExtras().get("data");
-                //scaling image down to save on memory
-                bitmap = Bitmap.createScaledBitmap(bitmap, (bitmap.getWidth() / 2),
-                        (bitmap.getHeight() / 2), false);
-                imgEditInstrument.setImageBitmap(bitmap);
-                //don't remove image when 'update' is clicked
-                removeImage = false;
-                //mark that image was changed
-                imageChanged = true;
-                boolRemoveImage = true;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        editActivityPresenter.onActivityResult(requestCode, resultCode, data);
     }
 
     //saving image to internal storage
-    public void saveImage(Context context, Bitmap bitmap, String name) {
+    public void saveImage(/*Context context, */Bitmap bitmap, String name) {
         FileOutputStream fileOutputStream;
         try {
-            fileOutputStream = context.openFileOutput(name, Context.MODE_PRIVATE);
+            fileOutputStream = /*context*/this.openFileOutput(name, Context.MODE_PRIVATE);
             bitmap.compress(Bitmap.CompressFormat.JPEG, 90, fileOutputStream);
             fileOutputStream.close();
         } catch (Exception e) {
@@ -414,6 +377,19 @@ public class EditActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         return bitmap;
+    }
+
+    @Override
+    public void setInstrumentImage(Bitmap newBitmap) {
+        bitmap = newBitmap;
+        //setting image
+        imgEditInstrument.setImageBitmap(bitmap);
+
+        //don't remove image when 'update' is clicked
+        removeImage = false;
+        //mark that image was changed
+        imageChanged = true;
+        boolRemoveImage = true;
     }
 
     public static class DatePickerDialogFrag extends DialogFragment
@@ -506,7 +482,7 @@ public class EditActivity extends AppCompatActivity {
             file.delete();
             setImage();
         } else {
-            saveImage(getApplicationContext(), bitmap, fileName);
+            saveImage(bitmap, fileName);
         }
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
@@ -564,8 +540,8 @@ public class EditActivity extends AppCompatActivity {
             instrumentViewModel = new InstrumentViewModel(getApplication());
             instrumentViewModel.delete(instrument);
             //removing saved image
-//            File file = new File(getFilesDir(), fileName);
-//            file.delete();
+            File file = new File(getFilesDir(), fileName);
+            file.delete();
             //return to main activity after deleting instrument
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);

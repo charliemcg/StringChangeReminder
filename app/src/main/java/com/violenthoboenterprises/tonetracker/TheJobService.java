@@ -5,35 +5,62 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.job.JobParameters;
 import android.app.job.JobService;
+import android.arch.persistence.db.SupportSQLiteDatabase;
+import android.arch.persistence.room.Room;
+import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import java.util.Calendar;
+import java.util.List;
 
 public class TheJobService extends JobService {
 
     private static final String TAG = "TheJobService";
-    private boolean jobCancelled = false;
-    //counts how many instruments need a restring
-    int count = 0;
-    long diff;
+    private InstrumentDao instrumentDao;
+    private List<Instrument> allInstruments;
 
-    //The onStartJob is performed in the main thread, if you start
-    // asynchronous processing in this method, return true otherwise false.
     @Override
     public boolean onStartJob(JobParameters params) {
-        doBackgroundWork(params);
+        new Thread(() -> {
+            //need to create a db instance so that instruments can be accessed even if app closed
+            instrumentDao = getInstance(getApplicationContext()).instrumentDao();
+            allInstruments = getAllInstrumentsRaw();
+            doBackgroundWork(params);
+        }).start();
         return false;
     }
 
+    public static synchronized InstrumentDatabase getInstance(Context context) {
+        InstrumentDatabase instance = Room.databaseBuilder(context.getApplicationContext(),
+                InstrumentDatabase.class, "instrument_database")
+                .fallbackToDestructiveMigration()
+                .addCallback(roomCallback)
+                .build();
+        return instance;
+    }
+
+    private static RoomDatabase.Callback roomCallback = new RoomDatabase.Callback() {
+        @Override
+        public void onCreate(@NonNull SupportSQLiteDatabase db) {
+            super.onCreate(db);
+        }
+    };
+
+    //getting all instruments
+    List<Instrument> getAllInstrumentsRaw() {
+        return instrumentDao.getAllInstrumentsRaw();
+    }
+
     private void doBackgroundWork(final JobParameters params) {
-        new Thread(() -> {
-            //setting alarm to go off at 10am
+        ////////////////////////////////////////
+        //setting alarm to go off at 10am
 //            Calendar tomorrowCal = Calendar.getInstance();
 //            tomorrowCal.set(Calendar.HOUR_OF_DAY, 10);
 //            tomorrowCal.set(Calendar.MINUTE, 0);
@@ -45,60 +72,56 @@ public class TheJobService extends JobService {
 //                tomorrowMillis += 86400000L;
 //                diff = (tomorrowMillis - todayMillis);
 //            }
-            ///////////////////////////////////////
-            //setting up the adapter
-//            InstrumentAdapter adapter = new InstrumentAdapter(this, getApplication());
-            Instrument instrument;
-//            instrumentStats = String.valueOf(MainActivity.adapter.getItemCount());
-            //checking all strings for string age to see if a restring reminder needs to be fired
-            for(int i = 0; i < MainActivity.adapter.getItemCount(); i++) {
-                instrument = MainActivity.adapter.getInstrumentAt(i);
-                long changedStamp = instrument.getLastChanged();
-                long timeNow = Calendar.getInstance().getTimeInMillis();
-                long age = (timeNow - changedStamp) / 86400000L;
-                //Determining if any instrument has reached restring age
-                if ((age == 30 && !instrument.isCoated() && instrument.getUse()
-                        .equals(StringConstants.DAILY) && !instrument.getType()
-                        .equals(StringConstants.BASS))
-                        || (age == 75 && !instrument.isCoated() && instrument.getUse()
-                        .equals(StringConstants.SOME_DAYS) && !instrument.getType()
-                        .equals(StringConstants.BASS))
-                        || (age == 120 && !instrument.isCoated() && instrument.getUse()
-                        .equals(StringConstants.WEEKLY) && !instrument.getType()
-                        .equals(StringConstants.BASS))
-                        || (age == 75 && instrument.isCoated() && instrument.getUse()
-                        .equals(StringConstants.DAILY) && !instrument.getType()
-                        .equals(StringConstants.BASS))
-                        || (age == 187 && instrument.isCoated() && instrument.getUse()
-                        .equals(StringConstants.SOME_DAYS) && !instrument.getType()
-                        .equals(StringConstants.BASS))
-                        || (age == 300 && instrument.isCoated() && instrument.getUse()
-                        .equals(StringConstants.WEEKLY) && !instrument.getType()
-                        .equals(StringConstants.BASS))
-                        || (age == 60 && !instrument.isCoated() && instrument.getUse()
-                        .equals(StringConstants.DAILY) && instrument.getType()
-                        .equals(StringConstants.BASS))
-                        || (age == 150 && !instrument.isCoated() && instrument.getUse()
-                        .equals(StringConstants.SOME_DAYS) && instrument.getType()
-                        .equals(StringConstants.BASS))
-                        || (age == 240 && !instrument.isCoated() && instrument.getUse()
-                        .equals(StringConstants.WEEKLY) && instrument.getType()
-                        .equals(StringConstants.BASS))
-                        || (age == 150 && instrument.isCoated() && instrument.getUse()
-                        .equals(StringConstants.DAILY) && instrument.getType()
-                        .equals(StringConstants.BASS))
-                        || (age == 374 && instrument.isCoated() && instrument.getUse()
-                        .equals(StringConstants.SOME_DAYS) && instrument.getType()
-                        .equals(StringConstants.BASS))
-                        || (age == 600 && instrument.isCoated() && instrument.getUse()
-                        .equals(StringConstants.WEEKLY) && instrument.getType()
-                        .equals(StringConstants.BASS))) {
-                    showNotification();
-                    break;
-                }
+        ///////////////////////////////////////
+        Instrument instrument;
+        //checking all strings for string age to see if a restring reminder needs to be fired
+        for (int i = 0; i < allInstruments.size(); i++) {
+            instrument = allInstruments.get(i);
+            long changedStamp = instrument.getLastChanged();
+            long timeNow = Calendar.getInstance().getTimeInMillis();
+            long age = (timeNow - changedStamp) / 86400000L;
+            //Determining if any instrument has reached restring age
+            if ((age == 30 && !instrument.isCoated() && instrument.getUse()
+                    .equals(StringConstants.DAILY) && !instrument.getType()
+                    .equals(StringConstants.BASS))
+                    || (age == 75 && !instrument.isCoated() && instrument.getUse()
+                    .equals(StringConstants.SOME_DAYS) && !instrument.getType()
+                    .equals(StringConstants.BASS))
+                    || (age == 120 && !instrument.isCoated() && instrument.getUse()
+                    .equals(StringConstants.WEEKLY) && !instrument.getType()
+                    .equals(StringConstants.BASS))
+                    || (age == 75 && instrument.isCoated() && instrument.getUse()
+                    .equals(StringConstants.DAILY) && !instrument.getType()
+                    .equals(StringConstants.BASS))
+                    || (age == 187 && instrument.isCoated() && instrument.getUse()
+                    .equals(StringConstants.SOME_DAYS) && !instrument.getType()
+                    .equals(StringConstants.BASS))
+                    || (age == 300 && instrument.isCoated() && instrument.getUse()
+                    .equals(StringConstants.WEEKLY) && !instrument.getType()
+                    .equals(StringConstants.BASS))
+                    || (age == 60 && !instrument.isCoated() && instrument.getUse()
+                    .equals(StringConstants.DAILY) && instrument.getType()
+                    .equals(StringConstants.BASS))
+                    || (age == 150 && !instrument.isCoated() && instrument.getUse()
+                    .equals(StringConstants.SOME_DAYS) && instrument.getType()
+                    .equals(StringConstants.BASS))
+                    || (age == 240 && !instrument.isCoated() && instrument.getUse()
+                    .equals(StringConstants.WEEKLY) && instrument.getType()
+                    .equals(StringConstants.BASS))
+                    || (age == 150 && instrument.isCoated() && instrument.getUse()
+                    .equals(StringConstants.DAILY) && instrument.getType()
+                    .equals(StringConstants.BASS))
+                    || (age == 374 && instrument.isCoated() && instrument.getUse()
+                    .equals(StringConstants.SOME_DAYS) && instrument.getType()
+                    .equals(StringConstants.BASS))
+                    || (age == 600 && instrument.isCoated() && instrument.getUse()
+                    .equals(StringConstants.WEEKLY) && instrument.getType()
+                    .equals(StringConstants.BASS))) {
+                showNotification();
+                break;
             }
-            jobFinished(params, false);
-        }).start();
+        }
+        jobFinished(params, false);
     }
 
     public void showNotification() {
@@ -150,7 +173,6 @@ public class TheJobService extends JobService {
     //If the job fails for some reason, return true from on the onStopJob to restart the job.
     @Override
     public boolean onStopJob(JobParameters params) {
-        jobCancelled = true;
         return true;
     }
 

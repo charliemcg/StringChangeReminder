@@ -7,7 +7,7 @@ import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-@Database(entities = Instrument.class, version = 1)
+@Database(entities = Instrument.class, version = 1, exportSchema = false)
 public abstract class InstrumentDatabase extends RoomDatabase {
 
     private final static String TAG = "InstrumentDatabase";
