@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity
 
         mainActivityPresenter.scheduleStart();
 
-        mainActivityPresenter.showAd();
+//        mainActivityPresenter.showAd();
 
     }
 
@@ -208,6 +208,22 @@ public class MainActivity extends AppCompatActivity
             rb.setText(adapter.getInstrumentAt(i).getName());
             rb.setTextSize(20);
             rb.setLayoutParams(params);
+            try {
+                //if a test is running don't bother with showing the dialog just go straight to
+                //'Edit' activity
+                Class.forName ("com.violenthoboenterprises.tonetracker.ExampleInstrumentedTest");
+//                rb.setId(R.id.test_guitar);
+                Log.d(TAG, "Running a test");
+                if(rb.getText().equals("Test Guitar")){
+                    //go to Edit activity
+                    Intent intent = new Intent(this, EditActivity.class);
+                    //pass the ID of the instrument to edit
+                    intent.putExtra("ID_KEY", adapter.getInstrumentAt(i).getId());
+                    startActivity(intent);
+                }
+            } catch (ClassNotFoundException e) {
+                Log.d(TAG, "Not running a test");
+            }
             radioGroup.addView(rb);
             int finalI = i;
             rb.setOnClickListener(view -> {
@@ -230,7 +246,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        adapter.notifyDataSetChanged();
+//        adapter.notifyDataSetChanged();
     }
 
     @Override
